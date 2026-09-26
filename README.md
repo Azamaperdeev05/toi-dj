@@ -1,86 +1,146 @@
-# Mixxx
+# 🎧 TOI DJ — Қазақ тойлары мен іс-шараларына арналған диджей бағдарламасы
+### Professional Event & Wedding DJ Software for macOS (Apple Silicon)
 
-[![GitHub latest tag](https://img.shields.io/github/tag/mixxxdj/mixxx.svg)](https://mixxx.org/download)
-[![Packaging status](https://repology.org/badge/tiny-repos/mixxx.svg)](https://repology.org/metapackage/mixxx/versions)
-[![Build status](https://github.com/mixxxdj/mixxx/actions/workflows/build.yml/badge.svg)](https://github.com/mixxxdj/mixxx/actions/workflows/build.yml)
-[![Coverage status](https://coveralls.io/repos/github/mixxxdj/mixxx/badge.svg)](https://coveralls.io/github/mixxxdj/mixxx)
-[![Zulip chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://mixxx.zulipchat.com)
-[![Donate](https://img.shields.io/opencollective/all/mixxx?label=Donate)](https://mixxx.org/donate)
+<p align="center">
+  <img src="docs/images/toi-dj-ui.png" alt="TOI DJ Interface" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.5);" />
+</p>
 
-[Mixxx] is Free DJ software that gives you everything you need to perform live
-DJ mixes. Mixxx works on GNU/Linux, Windows, and macOS.
+<p align="center">
+  <a href="https://github.com/Azamaperdeev05/toi-dj/releases/latest"><img src="https://img.shields.io/badge/Release-v1.0.0--MVP-blue?style=for-the-badge&logo=github" alt="Release" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Platform-macOS%20Apple%20Silicon-black?style=for-the-badge&logo=apple" alt="macOS Apple Silicon" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Arch-arm64%20(M1%2FM2%2FM3%2FM4)-orange?style=for-the-badge" alt="arm64" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Latency-5.3ms%20CoreAudio-brightgreen?style=for-the-badge&logo=apple" alt="Latency" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--2.0-red?style=for-the-badge" alt="License" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Made%20in-Kazakhstan%20%F0%9F%87%B0%F0%9F%87%BF-yellow?style=for-the-badge" alt="Kazakhstan" /></a>
+</p>
 
-## Quick Start
+---
 
-To get started with Mixxx:
+## 📥 Жүктеп алу (Download TOI DJ)
 
-1. For live use, [download the latest stable version][download-stable].
-2. For experimentation and testing, [download a development release][download-testing].
-3. To live on the bleeding edge, clone the repo: `git clone https://github.com/mixxxdj/mixxx.git`
+macOS Apple Silicon (M1 / M2 / M3 / M4) нұсқасын тікелей жүктеп алыңыз:
 
-## Bug tracker
+| Пішім | Жүктеу сілтемесі | Өлшемі | Архитектурасы |
+| :--- | :--- | :--- | :--- |
+| **🍏 macOS DMG (Орнатушы)** | [**TOI-DJ-MVP-1.0.0-macOS-arm64.dmg**](https://github.com/Azamaperdeev05/toi-dj/releases/latest/download/TOI-DJ-MVP-1.0.0-macOS-arm64.dmg) | ~126 MB | Apple Silicon (`arm64`) |
+| **📦 ZIP Мұрағат** | [**TOI-DJ-MVP-1.0.0-macOS-arm64.zip**](https://github.com/Azamaperdeev05/toi-dj/releases/latest/download/TOI-DJ-MVP-1.0.0-macOS-arm64.zip) | ~100 MB | Apple Silicon (`arm64`) |
 
-The Mixxx team uses [Github Issues][issues] to manage Mixxx development.
+> 💡 **Жүйелік талаптар:** macOS 11.0 (Big Sur), macOS 12 (Monterey), macOS 13 (Ventura), macOS 14 (Sonoma), macOS 15 (Sequoia) немесе одан жаңа Apple Silicon құрылғылары.
 
-Have a bug or feature request? [File a bug on Github][fileabug].
+---
 
-Want to get involved in Mixxx development? Assign yourself a bug from the [easy
-bug list][easybugs] and get started!
+## 🎯 TOI DJ деген не?
 
-## Building Mixxx
+**TOI DJ** — Қазақстандағы және ТМД елдеріндегі тойлар, мерейтойлар, құдалық, сүндет той және корпоративтік мерекелік кештерді басқаруға арналған мамандандырылған кәсіби диджей бағдарламасы.
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) for build instructions, code style
-guidelines, and how to open a pull request.
+Кәдімгі клубтық DJ бағдарламалары (VirtualDJ, Traktor, Serato) той форматына тым күрделі әрі бейімделмеген. Ал қарапайым плеерлерде (AIMP, iTunes) жедел ауыстыру, кезек, отбивкалар және екі декалы синхронды ойнату мүмкіндігі жоқ.
 
-## Documentation
+**TOI DJ** осы екі әлемнің ең үздік қасиеттерін біріктірді:
+1. **Той сценарийіне бейімделген 12 негізгі санат (Wedding Stages)**.
+2. **Асабамен (тамада) синхронды жұмыс істеуге арналған жедел отбивкалар мен CUE нүктелері**.
+3. **CoreAudio қозғалтқышы арқылы 5.3 миллисекундтық кідіріссіз (ultra-low latency) таза дыбыс**.
+4. **Қазақша, орысша және шетелдік әндерді лезде іздеу және саралау**.
 
-For help using Mixxx, there are a variety of options:
+---
 
-- [Mixxx manual][manual]
-- [Mixxx wiki][wiki]
-- [Hardware Compatibility]
-- [Creating Skins]
+## 🌟 Басты ерекшеліктері
 
-## Translation
+### 1. 12 Той Кезеңі (Wedding Stages Quick Filter)
+Интерфейсте әр кезең үшін арнайы сүзгіден өткен жедел плейлистер орналасқан:
 
-Help to spread Mixxx with translations into more languages, as well as to update and ensure the accuracy of existing translations.
+| № | Кезең атауы | Мақсаты мен сипаттамасы |
+| :---: | :--- | :--- |
+| **1** | 🤲 **Бата** | Ақсақалдар мен қонақтар бата бергенде қойылатын сабырлы күйлер мен қасиетті фондар. |
+| **2** | 👰 **Беташар** | Келін түсіру дәстүрі: дәстүрлі домбыра қағыстары, сәлем салу және заманауи беташар ырғақтары. |
+| **3** | 🚪 **Кіру** | Жас жұбайлардың, мерейтой иесінің немесе құдалардың залға салтанатты кіру әуендері мен марштары. |
+| **4** | 🥂 **Тост** | Құттықтау сөздердің астына жүретін нәзік, сөйлеуге кедергі келтірмейтін фондық әуендер. |
+| **5** | ☕ **Фон** | Ас ішу, қонақтардың әңгімелесуі мен үзіліс кезіндегі жайлы Lounge, Jazz, Instrumental тректер. |
+| **6** | 🎲 **Ойын** | Асабаның конкурстары, викториналары мен интерактивті ойындарына арналған күлкілі әрі драйвты отбивкалар. |
+| **7** | 💃 **Би** | Танцполды жаратын заманауи қазақша хиттер, орысша және шетелдік ремикстер, попурри. |
+| **8** | 🎂 **Торт** | Той торты кіргенде және жас жұбайлар торт кескенде ойналатын салтанатты саундтректер. |
+| **9** | 💐 **Гүл** | Қалыңдықтың құрбыларына гүл лақтыру сәтіндегі қызықты әрі динамикалық әуендер. |
+| **10**| 🚪 **Шығу** | Тойдың аяқталуы, қонақтармен қоштасу және естелік сәттерге арналған әндер. |
+| **11**| 🎺 **Фанфар** | Жеңімпаздарды марапаттау, сыйлық тапсыру, ерекше құрмет көрсету салтанатты сигналдары. |
+| **12**| 💖 **Лирика** | Жас жұбайлардың алғашқы вальсі, жұптардың баяу биі (медленный танец), махаббат лирикасы. |
 
-- [Help translate content]
-- [Mixxx i18n wiki]
-- [Mixxx localization forum]
-- [Mixxx glossary]
+---
 
-## Community
+### 2. Кәсіби екі декалы пульт
+- **Deck 1 & Deck 2**: толқын пішіні (waveform), BPM анықтау, Beatmatching, теңшелетін Pitch/Speed слайдерлері.
+- **Auto-DJ**: Той арасындағы үзілістерде әндерді автоматты түрде біркелкі ауыстырып отыру.
+- **Crossfader & 3-Band EQ**: Төменгі (Low), ортаңғы (Mid), жоғарғы (High) жиіліктерді реттеу және Kill-батырмалары.
 
-Mixxx is a vibrant community of hackers, DJs and artists. To keep track of
-development and community news:
+---
 
-- Chat with us on [Zulip][zulip].
-- Follow us on [Mastodon], [Bluesky] and [Facebook].
-- Subscribe to the [Mixxx Blog][blog].
-- Post on the [Mixxx forums][discourse].
+### 3. Apple Silicon (M1/M2/M3/M4) CoreAudio оңтайландыруы
+- Intel эмуляциясынсыз, тікелей ARM64 нұсқауымен жұмыс істейді.
+- Ноутбуктың батареясын үнемдейді, қызбайды, қатпайды.
+- Жүйелік CoreAudio интеграциясы: **5.3 ms кідіріс** (Latency) — пернені немесе CUE-ді басқан сәтте дыбыс лезде шығады.
 
-## License
+---
 
-Mixxx is released under the GPLv2. See the LICENSE file for a full copy of the
-license.
+## ⚡ Ыстық пернелер (Keyboard Shortcuts)
 
-[mixxx]: https://mixxx.org
-[download-stable]: https://mixxx.org/download/#stable
-[download-testing]: https://mixxx.org/download/#testing
-[issues]: https://github.com/mixxxdj/mixxx/issues
-[fileabug]: https://github.com/mixxxdj/mixxx/issues/new/choose
-[mastodon]: https://floss.social/@mixxx
-[Bluesky]: https://bsky.app/profile/mixxx.bsky.social
-[facebook]: https://www.facebook.com/pages/Mixxx-DJ-Software/21723485212
-[blog]: https://mixxx.org/news/
-[manual]: https://manual.mixxx.org/
-[wiki]: https://github.com/mixxxdj/mixxx/wiki
-[easybugs]: https://github.com/mixxxdj/mixxx/issues?q=is%3Aopen+is%3Aissue+label%3Aeasy
-[creating skins]: https://mixxx.org/wiki/doku.php/Creating-Skins
-[help translate content]: https://explore.transifex.com/mixxx-dj-software/
-[Mixxx i18n wiki]: https://github.com/mixxxdj/mixxx/wiki/Internationalization
-[Mixxx localization forum]: https://mixxx.discourse.group/c/translation/13
-[hardware compatibility]: https://manual.mixxx.org/2.3/en/hardware/manuals.html
-[zulip]: https://mixxx.zulipchat.com/
-[discourse]: https://mixxx.discourse.group/
+Той кезінде тінтуірді (мышка) іздеп жатпай, пернетақта арқылы бәрін бір сәтте басқарыңыз:
+
+| Батырма | Қызметі |
+| :--- | :--- |
+| **Space (Бос орын)** | Кітапхананы үлкейту / жинақтау режимі (Maximized Library View) |
+| **Shift + ←** | Таңдалған тректі **Deck 1**-ге лезде жүктеу |
+| **Shift + →** | Таңдалған тректі **Deck 2**-ге лезде жүктеу |
+| **D** | **Deck 1**: Play / Pause |
+| **L** | **Deck 2**: Play / Pause |
+| **F** | **Deck 1**: CUE нүктесіне оралу |
+| **; (нүктелі үтір)** | **Deck 2**: CUE нүктесіне оралу |
+| **1, 2, 3, 4** | **Deck 1**: 1-4 жедел Hotcue нүктелері |
+| **7, 8, 9, 0** | **Deck 2**: 1-4 жедел Hotcue нүктелері |
+| **F1 - F12** | Той кезеңдері мен отбивкаларды лезде іске қосу |
+
+---
+
+## 🚀 Орнату нұсқаулығы (Installation Guide)
+
+### 1-қадам: Жүктеп алу және орнату
+1. [`TOI-DJ-MVP-1.0.0-macOS-arm64.dmg`](https://github.com/Azamaperdeev05/toi-dj/releases/latest/download/TOI-DJ-MVP-1.0.0-macOS-arm64.dmg) файлын жүктеп алыңыз.
+2. DMG файлын екі рет басып ашыңыз.
+3. **TOI DJ** белгішесін **Applications** қалтасына сүйреп апарыңыз.
+
+### 2-қадам: Алғашқы рет іске қосу (macOS Gatekeeper)
+Бағдарлама Apple Developer сертификатымен нотаризацияланбаған ашық бастапқы кодты болғандықтан, алғашқы рет ашқанда macOS ескерту шығаруы мүмкін. Оны ашу өте оңай:
+
+1. **Applications (Программы)** қалтасын ашыңыз.
+2. **TOI DJ** қолданбасының үстінен **Control пернесін басып тұрып басыңыз** (немесе оң жақ батырмамен / екі саусақпен басыңыз).
+3. Шыққан мәзірден **Open (Открыть)** пәрменін таңдаңыз.
+4. Пайда болған терезеде **Open (Открыть)** батырмасын басыңыз.
+5. Бұл қадам тек **бір-ақ рет** жасалады. Одан кейін қолданба әдеттегідей екі рет басумен бірден ашылады!
+
+---
+
+## 🎵 Музыка қалтасын қосу
+
+1. TOI DJ іске қосылған соң: `Preferences` (Баптаулар) -> `Library` (Кітапхана) бөліміне өтіңіз.
+2. `Add` батырмасын басып, компьютеріңіздегі той музыкалары немесе Telegram арқылы жүктелген тректер қалтасын көрсетіңіз.
+3. TOI DJ файлдардың BPM-ін, тоналдылығын (Key) және толқын пішінін автоматты түрде анықтайды.
+
+---
+
+## 🇷🇺 Описание для пользователей из СНГ / О программе
+
+**TOI DJ** — специализированное программное обеспечение для свадебных, банкетных и ивент-диджеев, звукооператоров и ведущих. Разработано на базе движка Mixxx с глубокой адаптацией под динамику национальных и современных торжеств (бата, беташар, тосты, конкурсы, танцевальные блоки, вынос торта).
+
+- **Нативная производительность**: скомпилировано для Apple Silicon (M1/M2/M3/M4) под macOS.
+- **Минимальная задержка**: 5.3 мс CoreAudio для мгновенного запуска отбивок и эффектов.
+- **12 сценарных свадебных блоков**: быстрый доступ к тематическим плейлистам в один клик.
+
+---
+
+## 📜 Лицензия және алғыс (License & Attribution)
+
+- **TOI DJ** бастапқы коды [GNU General Public License v2.0 (GPLv2)](LICENSE) шартымен таратылады.
+- Жоба қуатты және танымал ашық бастапқы кодты [Mixxx DJ Software](https://mixxx.org) негізінде жасалған. Барлық құқықтар мен авторлық үлестер сақталған.
+
+---
+
+<p align="center">
+  Жасалған жері: 🇰🇿 Қазақстан | Автор: <a href="https://github.com/Azamaperdeev05">@Azamaperdeev05</a>
+</p>
