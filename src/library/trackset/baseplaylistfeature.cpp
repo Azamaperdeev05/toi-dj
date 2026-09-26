@@ -69,23 +69,23 @@ BasePlaylistFeature::BasePlaylistFeature(
 }
 
 void BasePlaylistFeature::initActions() {
-    m_pCreatePlaylistAction = make_parented<QAction>(tr("Create New Playlist"), this);
+    m_pCreatePlaylistAction = make_parented<QAction>(tr("Жаңа ойнату тізімі"), this);
     connect(m_pCreatePlaylistAction,
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotCreatePlaylist);
 
-    m_pRenamePlaylistAction = make_parented<QAction>(tr("Rename"), this);
+    m_pRenamePlaylistAction = make_parented<QAction>(tr("Атын өзгерту"), this);
     connect(m_pRenamePlaylistAction,
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotRenamePlaylist);
-    m_pDuplicatePlaylistAction = make_parented<QAction>(tr("Duplicate"), this);
+    m_pDuplicatePlaylistAction = make_parented<QAction>(tr("Көшірмесін жасау"), this);
     connect(m_pDuplicatePlaylistAction,
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotDuplicatePlaylist);
-    m_pDeletePlaylistAction = make_parented<QAction>(tr("Remove"), this);
+    m_pDeletePlaylistAction = make_parented<QAction>(tr("Өшіру"), this);
     const auto removeKeySequence =
             // TODO(XXX): Qt6 replace enum | with QKeyCombination
             QKeySequence(static_cast<int>(kHideRemoveShortcutModifier) |
@@ -95,24 +95,24 @@ void BasePlaylistFeature::initActions() {
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotDeletePlaylist);
-    m_pLockPlaylistAction = make_parented<QAction>(tr("Lock"), this);
+    m_pLockPlaylistAction = make_parented<QAction>(tr("Бұғаттау"), this);
     connect(m_pLockPlaylistAction,
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotTogglePlaylistLock);
 
-    m_pAddToAutoDJAction = make_parented<QAction>(tr("Add to Queue (bottom)"), this);
+    m_pAddToAutoDJAction = make_parented<QAction>(tr("Кезекке қосу (соңына)"), this);
     connect(m_pAddToAutoDJAction,
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotAddToAutoDJ);
-    m_pAddToAutoDJTopAction = make_parented<QAction>(tr("Add to Queue (top)"), this);
+    m_pAddToAutoDJTopAction = make_parented<QAction>(tr("Кезекке қосу (басына)"), this);
     connect(m_pAddToAutoDJTopAction,
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotAddToAutoDJTop);
     m_pAddToAutoDJReplaceAction =
-            make_parented<QAction>(tr("Add to Queue (replace)"), this);
+            make_parented<QAction>(tr("Кезекпен алмастыру"), this);
     connect(m_pAddToAutoDJReplaceAction,
             &QAction::triggered,
             this,
@@ -370,10 +370,10 @@ void BasePlaylistFeature::slotCreatePlaylist() {
     while (!validNameGiven) {
         bool ok = false;
         name = QInputDialog::getText(nullptr,
-                tr("Create New Playlist"),
-                tr("Enter name for new playlist:"),
+                tr("Жаңа ойнату тізімі"),
+                tr("Ойнату тізімінің атауы:"),
                 QLineEdit::Normal,
-                tr("New Playlist"),
+                tr("Жаңа тізім"),
                 &ok)
                        .trimmed();
         if (!ok) {

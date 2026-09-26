@@ -266,7 +266,7 @@ void Tooltips::addStandardTooltips() {
             << tr("Switches between showing 2 decks and 4 decks.");
 
     add("show_waveforms")
-            << tr("Show/hide the scrolling waveforms");
+            << tr("Толқындарды көрсету/жасыру");
 
     add("show_beatgrid_controls")
             << tr("Show/hide the beatgrid controls section");
@@ -275,7 +275,7 @@ void Tooltips::addStandardTooltips() {
             << tr("Show/hide the stem mixing controls section");
 
     add("show_library")
-            << tr("Show Library")
+            << tr("Кітапхананы көрсету")
             << tr("Show or hide the track library.");
 
     add("show_effects")
@@ -283,11 +283,11 @@ void Tooltips::addStandardTooltips() {
             << tr("Show or hide the effects.");
 
     add("maximize_library")
-            << tr("Maximize Library")
+            << tr("Кітапхананы үлкейту")
             << tr("Hide all skin sections except the decks to have more screen space for the track library.");
 
     add("show_mixer")
-            << tr("Toggle Mixer")
+            << tr("Микшерді көрсету/жасыру")
             << tr("Show or hide the mixer.");
 
     add("show_vumeters")

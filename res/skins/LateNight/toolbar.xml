@@ -123,27 +123,27 @@
           <Template src="skins:LateNight/controls/button_2state.xml">
             <SetVariable name="TooltipId">show_waveforms</SetVariable>
             <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-            <SetVariable name="Size">84f,20f</SetVariable>
-            <SetVariable name="state_0_text">WAVEFORMS</SetVariable>
-            <SetVariable name="state_1_text">WAVEFORMS</SetVariable>
+            <SetVariable name="Size">96f,20f</SetVariable>
+            <SetVariable name="state_0_text">ТОЛҚЫНДАР</SetVariable>
+            <SetVariable name="state_1_text">ТОЛҚЫНДАР</SetVariable>
             <SetVariable name="ConfigKey">[Skin],show_waveforms</SetVariable>
           </Template>
 
           <Template src="skins:LateNight/controls/button_2state_persist.xml">
             <SetVariable name="TooltipId">show_mixer</SetVariable>
             <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-            <SetVariable name="Size">52f,20f</SetVariable>
-            <SetVariable name="state_0_text">MIXER</SetVariable>
-            <SetVariable name="state_1_text">MIXER</SetVariable>
+            <SetVariable name="Size">64f,20f</SetVariable>
+            <SetVariable name="state_0_text">МИКШЕР</SetVariable>
+            <SetVariable name="state_1_text">МИКШЕР</SetVariable>
             <SetVariable name="ConfigKey">[Skin],show_mixer</SetVariable>
           </Template>
 
           <Template src="skins:LateNight/controls/button_2state.xml">
             <SetVariable name="TooltipId">maximize_library</SetVariable>
             <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-            <SetVariable name="Size">68f,20f</SetVariable>
-            <SetVariable name="state_0_text">LIBRARY</SetVariable>
-            <SetVariable name="state_1_text">LIBRARY</SetVariable>
+            <SetVariable name="Size">90f,20f</SetVariable>
+            <SetVariable name="state_0_text">КІТАПХАНА</SetVariable>
+            <SetVariable name="state_1_text">КІТАПХАНА</SetVariable>
             <SetVariable name="ConfigKey">[Skin],show_maximized_library</SetVariable>
           </Template>
 
@@ -164,18 +164,18 @@
           <Template src="skins:LateNight/controls/button_2state.xml">
             <SetVariable name="TooltipId">show_waveforms</SetVariable>
             <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-            <SetVariable name="Size">80f,20f</SetVariable>
-            <SetVariable name="state_0_text">DECKS</SetVariable>
-            <SetVariable name="state_1_text">DECKS</SetVariable>
+            <SetVariable name="Size">72f,20f</SetVariable>
+            <SetVariable name="state_0_text">ДЕКТЕР</SetVariable>
+            <SetVariable name="state_1_text">ДЕКТЕР</SetVariable>
             <SetVariable name="ConfigKey">[LateNight],max_lib_show_decks</SetVariable>
           </Template>
 
           <Template src="skins:LateNight/controls/button_2state.xml">
             <SetVariable name="TooltipId">maximize_library</SetVariable>
             <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-            <SetVariable name="Size">68f,20f</SetVariable>
-            <SetVariable name="state_0_text">LIBRARY</SetVariable>
-            <SetVariable name="state_1_text">LIBRARY</SetVariable>
+            <SetVariable name="Size">90f,20f</SetVariable>
+            <SetVariable name="state_0_text">КІТАПХАНА</SetVariable>
+            <SetVariable name="state_1_text">КІТАПХАНА</SetVariable>
             <SetVariable name="ConfigKey">[Skin],show_maximized_library</SetVariable>
           </Template>
 

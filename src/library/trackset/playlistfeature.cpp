@@ -353,6 +353,8 @@ void PlaylistFeature::slotDeleteAllUnlockedPlaylists() {
 
 void PlaylistFeature::ensureDefaultWeddingPlaylists() {
     static const QStringList defaultPlaylists = {
+        QString::fromUtf8("⭐ ТАҢДАУЛЫЛАР"),
+        QString::fromUtf8("👤 СҰРАНЫСТАР"),
         QString::fromUtf8("КЕЛГЕН ҚОНАҚТАР"),
         QString::fromUtf8("БАСТАЛУЫ"),
         QString::fromUtf8("БЕТАШАР"),
@@ -363,9 +365,7 @@ void PlaylistFeature::ensureDefaultWeddingPlaylists() {
         QString::fromUtf8("ҮЛКЕНДЕР"),
         QString::fromUtf8("ҚАЗІРГІ ХИТТЕР"),
         QString::fromUtf8("ҰЛТТЫҚ ӘНДЕР"),
-        QString::fromUtf8("СҰРАНЫСТАР"),
-        QString::fromUtf8("ФИНАЛ"),
-        QString::fromUtf8("⭐ ТАҢДАУЛЫЛАР")
+        QString::fromUtf8("ФИНАЛ")
     };
     for (const QString& name : defaultPlaylists) {
         if (m_playlistDao.getPlaylistIdFromName(name) < 0) {
@@ -412,8 +412,11 @@ void PlaylistFeature::slotNewEventRequested(double val) {
     // Clear AutoDJ Queue
     m_playlistDao.clearAutoDJQueue();
 
-    // Clear Requests playlist
-    int reqId = m_playlistDao.getPlaylistIdFromName(QString::fromUtf8("СҰРАНЫСТАР"));
+    // Clear Requests playlist (handles both 👤 СҰРАНЫСТАР and legacy СҰРАНЫСТАР)
+    int reqId = m_playlistDao.getPlaylistIdFromName(QString::fromUtf8("👤 СҰРАНЫСТАР"));
+    if (reqId == kInvalidPlaylistId) {
+        reqId = m_playlistDao.getPlaylistIdFromName(QString::fromUtf8("СҰРАНЫСТАР"));
+    }
     if (reqId != kInvalidPlaylistId) {
         m_playlistDao.removeTracksFromPlaylist(reqId, 1);
     }

@@ -32,7 +32,8 @@
                 <MinimumSize>100,</MinimumSize>
                 <Children>
 
-                  <Template src="skins:LateNight/decks/preview_deck.xml"/>
+                  <!-- Preview deck hidden for clean TOI DJ UI -->
+                  <!-- <Template src="skins:LateNight/decks/preview_deck.xml"/> -->
 
                   <WidgetGroup><!--SearchBox + Library expand toggle -->
                     <Layout>horizontal</Layout>

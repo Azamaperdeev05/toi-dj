@@ -1155,7 +1155,7 @@ void MixxxMainWindow::slotHelpAbout() {
 
 void MixxxMainWindow::slotLibraryScanSummaryDlg(const LibraryScanResultSummary& result) {
     if (!m_pCoreServices->getSettings()->getValue<bool>(
-                mixxx::library::prefs::kShowScanSummaryConfigKey, true)) {
+                mixxx::library::prefs::kShowScanSummaryConfigKey, false)) {
         return;
     }
 
@@ -1171,18 +1171,18 @@ void MixxxMainWindow::slotLibraryScanSummaryDlg(const LibraryScanResultSummary& 
     QMessageBox* pMsg = new QMessageBox();
     pMsg->setAttribute(Qt::WA_DeleteOnClose);
     pMsg->setTextFormat(Qt::RichText); // required to get bold text with <b> tags
-    pMsg->setWindowTitle(tr("Library scan finished"));
+    pMsg->setWindowTitle(QString::fromUtf8("Кітапхананы сканерлеу"));
 
     if (result.noDirectoriesConfigured) {
-        pMsg->setText(tr("No music directories configured for scanning.") +
+        pMsg->setText(QString::fromUtf8("Сканерлеу үшін музыкалық папкалар бапталмаған.") +
                 QStringLiteral("<br>") +
-                tr("Add directories in the library preferences."));
+                QString::fromUtf8("Баптаулардан папка қосыңыз."));
         pMsg->show();
         return;
     }
 
     QString summary =
-            tr("Scan took %1").arg(result.durationString) + QStringLiteral("<br><br>");
+            QString::fromUtf8("Сканерлеу уақыты: %1").arg(result.durationString) + QStringLiteral("<br><br>");
     if (result.numNewTracks == 0 &&
             result.numMovedTracks == 0 &&
             result.numNewMissingTracks == 0 &&

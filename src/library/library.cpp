@@ -117,7 +117,8 @@ Library::Library(
 #endif
 
     m_pCrateFeature = make_parented<CrateFeature>(this, m_pConfig);
-    addFeature(m_pCrateFeature);
+    // CrateFeature (Контейнеры) hidden from sidebar UI for TOI DJ
+    // addFeature(m_pCrateFeature);
 #ifdef __ENGINEPRIME__
     connect(m_pCrateFeature,
             &CrateFeature::exportAllCrates,
@@ -145,7 +146,8 @@ Library::Library(
             &TrackCollectionManager::libraryScanFinished,
             m_pBrowseFeature,
             &BrowseFeature::slotLibraryScanFinished);
-    addFeature(m_pBrowseFeature);
+    // BrowseFeature (Компьютер / Быстрый доступ / Устройства) hidden from sidebar UI for TOI DJ
+    // addFeature(m_pBrowseFeature);
 
     // RecordingFeature hidden for TOI DJ
     // addFeature(new RecordingFeature(this, m_pConfig, pRecordingManager));

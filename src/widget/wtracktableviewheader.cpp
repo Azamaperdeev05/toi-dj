@@ -287,7 +287,7 @@ void WTrackTableViewHeader::saveHeaderState() {
     }
     // Convert the QByteArray to a Base64 string and save it.
     HeaderViewState view_state(*this);
-    pTrackModel->setModelSetting("header_state_pb", view_state.saveState());
+    pTrackModel->setModelSetting("toi_header_state_v2", view_state.saveState());
     //qDebug() << "Saving old header state:" << result << headerState;
 }
 
@@ -298,7 +298,7 @@ void WTrackTableViewHeader::restoreHeaderState() {
         return;
     }
 
-    const QString headerStateString = pTrackModel->getModelSetting("header_state_pb");
+    const QString headerStateString = pTrackModel->getModelSetting("toi_header_state_v2");
     if (headerStateString.isEmpty()) {
         loadDefaultHeaderState();
     } else {
@@ -332,7 +332,7 @@ bool WTrackTableViewHeader::hasPersistedHeaderState() {
     if (!pTrackModel) {
         return false;
     }
-    const QString headerStateString = pTrackModel->getModelSetting("header_state_pb");
+    const QString headerStateString = pTrackModel->getModelSetting("toi_header_state_v2");
     return !headerStateString.isNull();
 }
 

@@ -335,24 +335,24 @@ void WTrackMenu::createActions() {
                     kHideRemoveShortcutKey);
 
     if (featureIsEnabled(Feature::AutoDJ)) {
-        m_pAutoDJBottomAct = make_parented<QAction>(tr("Add to Queue (bottom)"), this);
+        m_pAutoDJBottomAct = make_parented<QAction>(tr("Кезекке қосу (соңына)"), this);
         connect(m_pAutoDJBottomAct, &QAction::triggered, this, &WTrackMenu::slotAddToAutoDJBottom);
 
-        m_pAutoDJTopAct = make_parented<QAction>(tr("Add to Queue (top)"), this);
+        m_pAutoDJTopAct = make_parented<QAction>(tr("Кезекке қосу (басына)"), this);
         connect(m_pAutoDJTopAct, &QAction::triggered, this, &WTrackMenu::slotAddToAutoDJTop);
 
-        m_pAutoDJReplaceAct = make_parented<QAction>(tr("Add to Queue (replace)"), this);
+        m_pAutoDJReplaceAct = make_parented<QAction>(tr("Кезекпен алмастыру"), this);
         connect(m_pAutoDJReplaceAct, &QAction::triggered, this, &WTrackMenu::slotAddToAutoDJReplace);
     }
 
     if (featureIsEnabled(Feature::Remove)) {
         // Keyboard shortcuts are set here just to have them displayed in the menu.
         // Actual keypress is handled in WTrackTableView::keyPressEvent().
-        m_pRemoveAct = make_parented<QAction>(tr("Remove"), this);
+        m_pRemoveAct = make_parented<QAction>(tr("Тізімнен өшіру"), this);
         m_pRemoveAct->setShortcut(hideRemoveKeySequence);
         connect(m_pRemoveAct, &QAction::triggered, this, &WTrackMenu::slotRemove);
 
-        m_pRemovePlaylistAct = make_parented<QAction>(tr("Remove from Playlist"), this);
+        m_pRemovePlaylistAct = make_parented<QAction>(tr("Ойнату тізімінен өшіру"), this);
         m_pRemovePlaylistAct->setShortcut(hideRemoveKeySequence);
         connect(m_pRemovePlaylistAct, &QAction::triggered, this, &WTrackMenu::slotRemove);
 
@@ -362,7 +362,7 @@ void WTrackMenu::createActions() {
     }
 
     if (featureIsEnabled(Feature::HideUnhidePurge)) {
-        m_pHideAct = make_parented<QAction>(tr("Hide from Library"), this);
+        m_pHideAct = make_parented<QAction>(tr("Кітапханадан жасыру"), this);
         // This is just for having the shortcut displayed next to the action in the menu.
         // The actual keypress is handled in WTrackTableView::keyPressEvent().
         // Note: don't show the hotkey for more than one action
@@ -371,10 +371,10 @@ void WTrackMenu::createActions() {
         }
         connect(m_pHideAct, &QAction::triggered, this, &WTrackMenu::slotHide);
 
-        m_pUnhideAct = make_parented<QAction>(tr("Unhide from Library"), this);
+        m_pUnhideAct = make_parented<QAction>(tr("Қайта көрсету"), this);
         connect(m_pUnhideAct, &QAction::triggered, this, &WTrackMenu::slotUnhide);
 
-        m_pPurgeAct = make_parented<QAction>(tr("Purge from Library"), this);
+        m_pPurgeAct = make_parented<QAction>(tr("Кітапханадан біржола өшіру"), this);
         connect(m_pPurgeAct, &QAction::triggered, this, &WTrackMenu::slotPurge);
     }
 
@@ -2923,9 +2923,12 @@ void WTrackMenu::slotToiAddToRequests() {
         return;
     }
     PlaylistDAO& dao = m_pLibrary->trackCollectionManager()->internalCollection()->getPlaylistDAO();
-    int reqId = dao.getPlaylistIdFromName(QString::fromUtf8("СҰРАНЫСТАР"));
+    int reqId = dao.getPlaylistIdFromName(QString::fromUtf8("👤 СҰРАНЫСТАР"));
     if (reqId == kInvalidPlaylistId) {
-        reqId = dao.createPlaylist(QString::fromUtf8("СҰРАНЫСТАР"));
+        reqId = dao.getPlaylistIdFromName(QString::fromUtf8("СҰРАНЫСТАР"));
+    }
+    if (reqId == kInvalidPlaylistId) {
+        reqId = dao.createPlaylist(QString::fromUtf8("👤 СҰРАНЫСТАР"));
     }
     if (reqId != kInvalidPlaylistId) {
         addSelectionToPlaylist(reqId);

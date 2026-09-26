@@ -27,8 +27,8 @@
 MixxxLibraryFeature::MixxxLibraryFeature(Library* pLibrary,
         UserSettingsPointer pConfig)
         : LibraryFeature(pLibrary, pConfig, QStringLiteral("tracks")),
-          kMissingTitle(tr("Missing Tracks")),
-          kHiddenTitle(tr("Hidden Tracks")),
+          kMissingTitle(tr("Жоғалған әндер")),
+          kHiddenTitle(tr("Жасырылған әндер")),
           m_pTrackCollection(pLibrary->trackCollectionManager()->internalCollection()),
           m_pLibraryTableModel(nullptr),
           m_pSidebarModel(make_parented<TreeItemModel>(this)),

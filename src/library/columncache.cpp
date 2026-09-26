@@ -293,6 +293,30 @@ const QString& ColumnCache::columnName(Column column) const {
 
 QString ColumnCache::columnTitle(Column column) const {
     DEBUG_ASSERT(static_cast<std::size_t>(column) < std::size(kColumnPropertiesByEnum));
+    switch (column) {
+    case COLUMN_LIBRARYTABLE_ARTIST:
+        return QString::fromUtf8("Орындаушы");
+    case COLUMN_LIBRARYTABLE_TITLE:
+        return QString::fromUtf8("Ән атауы");
+    case COLUMN_LIBRARYTABLE_DURATION:
+        return QString::fromUtf8("Ұзақтығы");
+    case COLUMN_LIBRARYTABLE_BPM:
+        return QString::fromUtf8("BPM");
+    case COLUMN_LIBRARYTABLE_RATING:
+        return QString::fromUtf8("Рейтинг");
+    case COLUMN_LIBRARYTABLE_GENRE:
+        return QString::fromUtf8("Жанр");
+    case COLUMN_LIBRARYTABLE_KEY:
+        return QString::fromUtf8("Тональдік");
+    case COLUMN_LIBRARYTABLE_ALBUM:
+        return QString::fromUtf8("Альбом");
+    case COLUMN_LIBRARYTABLE_YEAR:
+        return QString::fromUtf8("Жыл");
+    case COLUMN_LIBRARYTABLE_COMMENT:
+        return QString::fromUtf8("Пікір");
+    default:
+        break;
+    }
     return QCoreApplication::translate(
             "BaseTrackTableModel", kColumnPropertiesByEnum[column].pTrTitle);
 }

@@ -68,14 +68,9 @@ AutoDJFeature::AutoDJFeature(Library* pLibrary,
 
     m_playlistDao.setAutoDJProcessor(m_pAutoDJProcessor);
 
-    // Create the "Crates" tree-item under the root item.
+    // In TOI DJ, Crates are omitted to keep the Queue clean and standalone
     std::unique_ptr<TreeItem> pRootItem = TreeItem::newRoot(this);
-    m_pCratesTreeItem = pRootItem->appendChild(tr("Crates"));
-    m_pCratesTreeItem->setIcon(QIcon(":/images/library/ic_library_crates.svg"));
-
-    // Create tree-items under "Crates".
-    constructCrateChildModel();
-
+    m_pCratesTreeItem = nullptr;
     m_pSidebarModel->setRootItem(std::move(pRootItem));
 
     // Be notified when the status of crates changes.
@@ -135,7 +130,7 @@ AutoDJFeature::~AutoDJFeature() {
 }
 
 QVariant AutoDJFeature::title() {
-    return tr("Кезек");
+    return tr("КЕЗЕК");
 }
 
 void AutoDJFeature::bindLibraryWidget(
@@ -214,6 +209,9 @@ void AutoDJFeature::paste() {
 
 // Called by SidebarModel
 void AutoDJFeature::deleteItem(const QModelIndex& index) {
+    if (!m_pCratesTreeItem) {
+        return;
+    }
     TreeItem* pSelectedItem = static_cast<TreeItem*>(index.internalPointer());
     if (!pSelectedItem || pSelectedItem == m_pCratesTreeItem) {
             return;
@@ -275,6 +273,9 @@ void AutoDJFeature::slotRemoveCrateFromAutoDj() {
 }
 
 void AutoDJFeature::slotCrateChanged(CrateId crateId) {
+    if (!m_pCratesTreeItem) {
+        return;
+    }
     Crate crate;
     if (m_pTrackCollection->crates().readCrateById(crateId, &crate) && crate.isAutoDjSource()) {
         // Crate exists and is already a source for AutoDJ
@@ -356,6 +357,9 @@ void AutoDJFeature::slotAddRandomTrack() {
 
 void AutoDJFeature::constructCrateChildModel() {
     m_crateList.clear();
+    if (!m_pCratesTreeItem) {
+        return;
+    }
     CrateSelectResult autoDjCrates(m_pTrackCollection->crates().selectAutoDjCrates(true));
     Crate crate;
     while (autoDjCrates.populateNext(&crate)) {
@@ -373,6 +377,9 @@ void AutoDJFeature::onRightClick(const QPoint& globalPos) {
 
 void AutoDJFeature::onRightClickChild(const QPoint& globalPos,
         const QModelIndex& index) {
+    if (!m_pCratesTreeItem) {
+        return;
+    }
     TreeItem* pClickedItem = static_cast<TreeItem*>(index.internalPointer());
     QMenu menu(m_pSidebarWidget);
     if (m_pCratesTreeItem == pClickedItem) {
