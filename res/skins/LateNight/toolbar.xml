@@ -44,54 +44,54 @@
           <ComboBox>
             <ObjectName>ToiStageComboBox</ObjectName>
             <TooltipId>toi_stage_selector</TooltipId>
-            <Size>180f,24f</Size>
+            <Size>210f,24f</Size>
             <State>
               <Number>0</Number>
-              <Text>1. Келген қонақтар</Text>
+              <Text>1. ҚОНАҚТАРДЫ КҮТУ</Text>
             </State>
             <State>
               <Number>1</Number>
-              <Text>2. Басталуы</Text>
+              <Text>2. ҚОНАҚТАРДЫ ҚАРСЫ АЛУ</Text>
             </State>
             <State>
               <Number>2</Number>
-              <Text>3. Беташар</Text>
+              <Text>3. ЖАР-ЖАР</Text>
             </State>
             <State>
               <Number>3</Number>
-              <Text>4. Баяу әндер</Text>
+              <Text>4. БЕТАШАР</Text>
             </State>
             <State>
               <Number>4</Number>
-              <Text>5. Би</Text>
+              <Text>5. АТА-АНА ТІЛЕГІ</Text>
             </State>
             <State>
               <Number>5</Number>
-              <Text>6. Қыздар</Text>
+              <Text>6. НАҒАШЫ ТІЛЕГІ</Text>
             </State>
             <State>
               <Number>6</Number>
-              <Text>7. Жігіттер</Text>
+              <Text>7. ОРТАДАҒЫ АС</Text>
             </State>
             <State>
               <Number>7</Number>
-              <Text>8. Үлкендер</Text>
+              <Text>8. ОЙЫН-САУЫҚ</Text>
             </State>
             <State>
               <Number>8</Number>
-              <Text>9. Қазіргі хиттер</Text>
+              <Text>9. КОНКУРСТАР</Text>
             </State>
             <State>
               <Number>9</Number>
-              <Text>10. Ұлттық әндер</Text>
+              <Text>10. БАТА</Text>
             </State>
             <State>
               <Number>10</Number>
-              <Text>11. Сұраныстар</Text>
+              <Text>11. ҚОШТАСУ</Text>
             </State>
             <State>
               <Number>11</Number>
-              <Text>12. Финал</Text>
+              <Text>12. АЯҚТАЛДЫ</Text>
             </State>
             <Connection>
               <ConfigKey>[ToiDj],stage</ConfigKey>
@@ -104,7 +104,7 @@
             <SetVariable name="TooltipId">new_event</SetVariable>
             <SetVariable name="ObjectName">ToiNewEventButton</SetVariable>
             <SetVariable name="Size">96f,20f</SetVariable>
-            <SetVariable name="state_0_text">ЖАҢА ШАРА</SetVariable>
+            <SetVariable name="state_0_text">ЖАҢА ТОЙ</SetVariable>
             <SetVariable name="ConfigKey">[ToiDj],new_event</SetVariable>
           </Template>
         </Children>

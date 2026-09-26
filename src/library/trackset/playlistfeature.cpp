@@ -2,6 +2,7 @@
 
 #include <QMenu>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QSqlTableModel>
 #include <QtDebug>
 
@@ -63,11 +64,11 @@ PlaylistFeature::PlaylistFeature(Library* pLibrary, UserSettingsPointer pConfig)
             this,
             &PlaylistFeature::slotDeleteAllUnlockedPlaylists);
 
+    // TOI DJ: Stage control (purely a UI label — does NOT switch playlists)
     m_pToiStageControl = std::make_unique<ControlObject>(ConfigKey("[ToiDj]", "stage"));
     m_pToiStageControl->set(0.0);
-    m_pToiStageProxy = std::make_unique<ControlProxy>(ConfigKey("[ToiDj]", "stage"), this);
-    m_pToiStageProxy->connectValueChanged(this, &PlaylistFeature::slotToiStageChanged);
 
+    // TOI DJ: New Event control
     m_pNewEventControl = std::make_unique<ControlObject>(ConfigKey("[ToiDj]", "new_event"));
     m_pNewEventControl->set(0.0);
     m_pNewEventProxy = std::make_unique<ControlProxy>(ConfigKey("[ToiDj]", "new_event"), this);
@@ -373,74 +374,49 @@ void PlaylistFeature::ensureDefaultWeddingPlaylists() {
     }
 }
 
-void PlaylistFeature::switchToWeddingStage(int stage) {
-    static const QStringList defaultPlaylists = {
-        QString::fromUtf8("КЕЛГЕН ҚОНАҚТАР"),
-        QString::fromUtf8("БАСТАЛУЫ"),
-        QString::fromUtf8("БЕТАШАР"),
-        QString::fromUtf8("БАЯУ ӘНДЕР"),
-        QString::fromUtf8("БИ"),
-        QString::fromUtf8("ҚЫЗДАР"),
-        QString::fromUtf8("ЖІГІТТЕР"),
-        QString::fromUtf8("ҮЛКЕНДЕР"),
-        QString::fromUtf8("ҚАЗІРГІ ХИТТЕР"),
-        QString::fromUtf8("ҰЛТТЫҚ ӘНДЕР"),
-        QString::fromUtf8("СҰРАНЫСТАР"),
-        QString::fromUtf8("ФИНАЛ")
-    };
-    if (stage < 0 || stage >= defaultPlaylists.size()) {
-        return;
-    }
-    const QString& name = defaultPlaylists.at(stage);
-    int playlistId = m_playlistDao.getPlaylistIdFromName(name);
-    if (playlistId == kInvalidPlaylistId) {
-        playlistId = m_playlistDao.createPlaylist(name);
-    }
-    if (playlistId != kInvalidPlaylistId) {
-        activatePlaylist(playlistId);
-        selectPlaylistInSidebar(playlistId, true);
-    }
-}
-
-void PlaylistFeature::slotToiStageChanged(double stageVal) {
-    switchToWeddingStage(static_cast<int>(stageVal));
-}
-
 void PlaylistFeature::slotNewEventRequested(double val) {
     if (val <= 0.0) {
         return;
     }
+    // Reset the control immediately to avoid re-triggering
     if (m_pNewEventControl) {
         m_pNewEventControl->set(0.0);
     }
 
-    QMessageBox::StandardButton reply = QMessageBox::question(
-            nullptr,
-            tr("Жаңа шара"),
-            tr("Жаңа шараны бастауды қалайсыз ба?\n\n"
-               "• Той кезеңі «1. Келген қонақтарға» ауысады\n"
-               "• Кезек (Queue) тазартылады\n"
-               "• Сұраныстар тізімі тазартылады\n"
-               "• Музыка кітапханасы мен ойнату тізімдері сақталады."),
-            QMessageBox::Yes | QMessageBox::No,
-            QMessageBox::No);
+    // Confirmation dialog per spec
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(QString::fromUtf8("Жаңа той"));
+    msgBox.setText(QString::fromUtf8("Жаңа тойды бастау керек пе?"));
+    msgBox.setInformativeText(QString::fromUtf8(
+            "• Кезек тазартылады\n"
+            "• Сұраныстар тізімі тазартылады\n"
+            "• Той кезеңі бірінші кезеңге ауысады\n\n"
+            "Музыка кітапханасы, ойнату тізімдері,\n"
+            "таңдаулылар мен тарих сақталады."));
+    QPushButton* pYesBtn = msgBox.addButton(
+            QString::fromUtf8("Иә, бастау"), QMessageBox::AcceptRole);
+    msgBox.addButton(
+            QString::fromUtf8("Бас тарту"), QMessageBox::RejectRole);
+    msgBox.setDefaultButton(pYesBtn);
+    msgBox.exec();
 
-    if (reply != QMessageBox::Yes) {
+    if (msgBox.clickedButton() != pYesBtn) {
         return;
     }
 
+    // Reset stage to first
     if (m_pToiStageControl) {
         m_pToiStageControl->set(0.0);
     }
 
+    // Clear AutoDJ Queue
     m_playlistDao.clearAutoDJQueue();
 
+    // Clear Requests playlist
     int reqId = m_playlistDao.getPlaylistIdFromName(QString::fromUtf8("СҰРАНЫСТАР"));
     if (reqId != kInvalidPlaylistId) {
         m_playlistDao.removeTracksFromPlaylist(reqId, 1);
     }
-
-    switchToWeddingStage(0);
 }
 
 /// Purpose: When inserting or removing playlists,

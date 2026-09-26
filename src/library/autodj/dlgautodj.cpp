@@ -495,45 +495,42 @@ void DlgAutoDJ::updateToiTrackStatus() {
         if (!pTrack) {
             return QString();
         }
-        QString info = pTrack->getInfo().trimmed();
-        if (!info.isEmpty()) {
-            return info;
+        // Prefer "Artist - Title" format
+        QString artist = pTrack->getArtist().trimmed();
+        QString title = pTrack->getTitle().trimmed();
+        if (!artist.isEmpty() && !title.isEmpty()) {
+            return artist + QStringLiteral(" - ") + title;
         }
-        QString title = pTrack->getTitleInfo().trimmed();
         if (!title.isEmpty()) {
             return title;
         }
+        // Fallback to filename safely
         return pTrack->getFileInfo().fileName();
     };
 
+    // CURRENT track
     TrackPointer pCurrent = PlayerInfo::instance().getCurrentPlayingTrack();
     if (pCurrent) {
         m_pCurrentTrackLabel->setText(
-                QStringLiteral("● ҚАЗІР ОЙНАП ЖАТЫР: %1").arg(formatTrack(pCurrent)));
+                QStringLiteral("ҚАЗІР:  %1").arg(formatTrack(pCurrent)));
     } else {
-        TrackPointer pDeck1 = PlayerInfo::instance().getTrackInfo(QStringLiteral("[Channel1]"));
-        TrackPointer pDeck2 = PlayerInfo::instance().getTrackInfo(QStringLiteral("[Channel2]"));
-        if (pDeck1 && !pDeck1->getLocation().isEmpty()) {
-            m_pCurrentTrackLabel->setText(
-                    QStringLiteral("● ДЕКТЕ (A): %1").arg(formatTrack(pDeck1)));
-        } else if (pDeck2 && !pDeck2->getLocation().isEmpty()) {
-            m_pCurrentTrackLabel->setText(
-                    QStringLiteral("● ДЕКТЕ (B): %1").arg(formatTrack(pDeck2)));
-        } else {
-            m_pCurrentTrackLabel->setText(QStringLiteral("○ ҚАЗІР ОЙНАП ЖАТЫР: — (Тоқтатылған)"));
-        }
+        m_pCurrentTrackLabel->setText(
+                QStringLiteral("ҚАЗІР:  —"));
     }
 
+    // NEXT track from queue
     if (m_pAutoDJTableModel && m_pAutoDJTableModel->rowCount() > 0) {
         QModelIndex firstIdx = m_pAutoDJTableModel->index(0, 0);
         TrackPointer pNext = m_pAutoDJTableModel->getTrack(firstIdx);
         if (pNext) {
             m_pNextTrackLabel->setText(
-                    QStringLiteral("▶ КЕЛЕСІ ӘН: %1").arg(formatTrack(pNext)));
+                    QStringLiteral("КЕЛЕСІ:  %1").arg(formatTrack(pNext)));
         } else {
-            m_pNextTrackLabel->setText(QStringLiteral("▶ КЕЛЕСІ ӘН: — (Кезек бос)"));
+            m_pNextTrackLabel->setText(
+                    QStringLiteral("КЕЛЕСІ:  Келесі ән жоқ"));
         }
     } else {
-        m_pNextTrackLabel->setText(QStringLiteral("▶ КЕЛЕСІ ӘН: — (Кезек бос)"));
+        m_pNextTrackLabel->setText(
+                QStringLiteral("КЕЛЕСІ:  Келесі ән жоқ"));
     }
 }

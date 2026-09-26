@@ -1250,45 +1250,43 @@ void WTrackTableView::moveSelectedTracks(QKeyEvent* event) {
 void WTrackTableView::keyPressEvent(QKeyEvent* event) {
     if (state() != QTableView::EditingState) {
         const auto mods = event->modifiers();
-        const bool noMod = (mods == Qt::NoModifier);
-        const bool shiftMod = (mods == Qt::ShiftModifier);
-        const bool ctrlMod = (mods == Qt::ControlModifier) || (mods == Qt::MetaModifier);
+        // Use Ctrl+Shift combos to avoid conflicts with Mixxx deck controls
+        // (A=beatjump, S=beatjump, Q=beatloop, F=cue on Channel1)
+        const bool ctrlShift = mods == (Qt::ControlModifier | Qt::ShiftModifier) ||
+                mods == (Qt::MetaModifier | Qt::ShiftModifier);
 
-        // A / Shift+Left -> Load to Deck A
-        if ((noMod && event->key() == Qt::Key_A) ||
-                (shiftMod && event->key() == Qt::Key_Left)) {
+        if (ctrlShift) {
             const QModelIndexList indices = getSelectedRows();
             if (!indices.isEmpty()) {
-                m_pTrackMenu->loadTrackModelIndices(indices);
-                m_pTrackMenu->slotToiLoadToDeckA();
-                return;
-            }
-        }
-        // S / Shift+Right -> Load to Deck B
-        else if ((noMod && event->key() == Qt::Key_S) ||
-                (shiftMod && event->key() == Qt::Key_Right)) {
-            const QModelIndexList indices = getSelectedRows();
-            if (!indices.isEmpty()) {
-                m_pTrackMenu->loadTrackModelIndices(indices);
-                m_pTrackMenu->slotToiLoadToDeckB();
-                return;
-            }
-        }
-        // Q -> Add to Queue
-        else if (noMod && event->key() == Qt::Key_Q) {
-            const QModelIndexList indices = getSelectedRows();
-            if (!indices.isEmpty()) {
-                m_pTrackMenu->loadTrackModelIndices(indices);
-                m_pTrackMenu->slotToiAddToQueue();
-                return;
-            }
-        }
-        // F or Ctrl+F -> Focus Search
-        else if ((noMod && event->key() == Qt::Key_F) ||
-                (ctrlMod && event->key() == Qt::Key_F)) {
-            if (m_pLibrary) {
-                m_pLibrary->slotSearchInCurrentView();
-                return;
+                switch (event->key()) {
+                // Ctrl+Shift+A -> Load to Deck A
+                case Qt::Key_A:
+                    m_pTrackMenu->loadTrackModelIndices(indices);
+                    m_pTrackMenu->slotToiLoadToDeckA();
+                    return;
+                // Ctrl+Shift+S -> Load to Deck B
+                case Qt::Key_S:
+                    m_pTrackMenu->loadTrackModelIndices(indices);
+                    m_pTrackMenu->slotToiLoadToDeckB();
+                    return;
+                // Ctrl+Shift+Q -> Add to Queue
+                case Qt::Key_Q:
+                    m_pTrackMenu->loadTrackModelIndices(indices);
+                    m_pTrackMenu->slotToiAddToQueue();
+                    return;
+                // Ctrl+Shift+W -> Add to Requests
+                case Qt::Key_W:
+                    m_pTrackMenu->loadTrackModelIndices(indices);
+                    m_pTrackMenu->slotToiAddToRequests();
+                    return;
+                // Ctrl+Shift+D -> Add to Favorites
+                case Qt::Key_D:
+                    m_pTrackMenu->loadTrackModelIndices(indices);
+                    m_pTrackMenu->slotToiAddToFavorites();
+                    return;
+                default:
+                    break;
+                }
             }
         }
     }

@@ -111,25 +111,23 @@ bool KeyboardEventFilter::eventFilter(QObject*, QEvent* e) {
             return false;
         }
 
-        // TOI DJ Wedding Workflow: Stage Switching Shortcuts (Alt+1..12 or Ctrl+1..12)
-        const auto mods = pKE->modifiers();
-        const bool hasAlt = mods.testFlag(Qt::AltModifier);
-        const bool hasCtrl = mods.testFlag(Qt::ControlModifier) || mods.testFlag(Qt::MetaModifier);
-        if (hasAlt || hasCtrl) {
+        // TOI DJ: Stage Switching Shortcuts (Alt+1..= only)
+        // Alt-only to avoid conflicts with Ctrl+1..6 ViewMenu shortcuts
+        if (pKE->modifiers() == Qt::AltModifier) {
             int stageIndex = -1;
             switch (pKE->key()) {
-            case Qt::Key_1: stageIndex = 0; break; // 1. Келген қонақтар
-            case Qt::Key_2: stageIndex = 1; break; // 2. Басталуы
-            case Qt::Key_3: stageIndex = 2; break; // 3. Беташар
-            case Qt::Key_4: stageIndex = 3; break; // 4. Баяу әндер
-            case Qt::Key_5: stageIndex = 4; break; // 5. Би
-            case Qt::Key_6: stageIndex = 5; break; // 6. Қыздар
-            case Qt::Key_7: stageIndex = 6; break; // 7. Жігіттер
-            case Qt::Key_8: stageIndex = 7; break; // 8. Үлкендер
-            case Qt::Key_9: stageIndex = 8; break; // 9. Қазіргі хиттер
-            case Qt::Key_0: stageIndex = 9; break; // 10. Ұлттық әндер
-            case Qt::Key_Minus: stageIndex = 10; break; // 11. Сұраныстар
-            case Qt::Key_Equal: stageIndex = 11; break; // 12. Финал
+            case Qt::Key_1: stageIndex = 0; break;  // ҚОНАҚТАРДЫ КҮТУ
+            case Qt::Key_2: stageIndex = 1; break;  // ҚОНАҚТАРДЫ ҚАРСЫ АЛУ
+            case Qt::Key_3: stageIndex = 2; break;  // ЖАР-ЖАР
+            case Qt::Key_4: stageIndex = 3; break;  // БЕТАШАР
+            case Qt::Key_5: stageIndex = 4; break;  // АТА-АНА ТІЛЕГІ
+            case Qt::Key_6: stageIndex = 5; break;  // НАҒАШЫ ТІЛЕГІ
+            case Qt::Key_7: stageIndex = 6; break;  // ОРТАДАҒЫ АС
+            case Qt::Key_8: stageIndex = 7; break;  // ОЙЫН-САУЫҚ
+            case Qt::Key_9: stageIndex = 8; break;  // КОНКУРСТАР
+            case Qt::Key_0: stageIndex = 9; break;  // БАТА
+            case Qt::Key_Minus: stageIndex = 10; break; // ҚОШТАСУ
+            case Qt::Key_Equal: stageIndex = 11; break; // АЯҚТАЛДЫ
             default: break;
             }
             if (stageIndex >= 0) {
@@ -137,6 +135,7 @@ bool KeyboardEventFilter::eventFilter(QObject*, QEvent* e) {
                 return true;
             }
         }
+
 
 #ifdef __APPLE__
         // On Mac OSX the nativeScanCode is empty (const 1) http://doc.qt.nokia.com/4.7/qkeyevent.html#nativeScanCode

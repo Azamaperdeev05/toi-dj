@@ -306,19 +306,24 @@ void WTrackMenu::createMenus() {
 }
 
 void WTrackMenu::createActions() {
-    m_pToiLoadToDeckAAct = make_parented<QAction>(tr("A ДЕККЕ ЖҮКТЕУ (Shift+Left / A)"), this);
+    m_pToiLoadToDeckAAct = make_parented<QAction>(tr("А ДЕККЕ ЖҮКТЕУ"), this);
+    m_pToiLoadToDeckAAct->setShortcut(QKeySequence(tr("Ctrl+Shift+A")));
     connect(m_pToiLoadToDeckAAct, &QAction::triggered, this, &WTrackMenu::slotToiLoadToDeckA);
 
-    m_pToiLoadToDeckBAct = make_parented<QAction>(tr("B ДЕККЕ ЖҮКТЕУ (Shift+Right / S)"), this);
+    m_pToiLoadToDeckBAct = make_parented<QAction>(tr("B ДЕККЕ ЖҮКТЕУ"), this);
+    m_pToiLoadToDeckBAct->setShortcut(QKeySequence(tr("Ctrl+Shift+S")));
     connect(m_pToiLoadToDeckBAct, &QAction::triggered, this, &WTrackMenu::slotToiLoadToDeckB);
 
-    m_pToiAddToQueueAct = make_parented<QAction>(tr("КЕЗЕККЕ ҚОСУ (Q)"), this);
+    m_pToiAddToQueueAct = make_parented<QAction>(tr("КЕЗЕККЕ ҚОСУ"), this);
+    m_pToiAddToQueueAct->setShortcut(QKeySequence(tr("Ctrl+Shift+Q")));
     connect(m_pToiAddToQueueAct, &QAction::triggered, this, &WTrackMenu::slotToiAddToQueue);
 
-    m_pToiAddToRequestsAct = make_parented<QAction>(tr("СҰРАНЫСТАРҒА ҚОСУ"), this);
+    m_pToiAddToRequestsAct = make_parented<QAction>(tr("СҰРАНЫСҚА ҚОСУ"), this);
+    m_pToiAddToRequestsAct->setShortcut(QKeySequence(tr("Ctrl+Shift+W")));
     connect(m_pToiAddToRequestsAct, &QAction::triggered, this, &WTrackMenu::slotToiAddToRequests);
 
-    m_pToiAddToFavoritesAct = make_parented<QAction>(tr("⭐ ТАҢДАУЛЫЛАРҒА ҚОСУ"), this);
+    m_pToiAddToFavoritesAct = make_parented<QAction>(tr("ТАҢДАУЛЫҒА ҚОСУ"), this);
+    m_pToiAddToFavoritesAct->setShortcut(QKeySequence(tr("Ctrl+Shift+D")));
     connect(m_pToiAddToFavoritesAct, &QAction::triggered, this, &WTrackMenu::slotToiAddToFavorites);
 
     m_pToiMarkAsPlayedAct = make_parented<QAction>(tr("ОЙНАЛДЫ ДЕП БЕЛГІЛЕУ"), this);
@@ -2928,6 +2933,12 @@ void WTrackMenu::slotToiAddToRequests() {
 }
 
 void WTrackMenu::slotToiAddToFavorites() {
+    const auto tracks = getTrackPointers();
+    for (const auto& pTrack : tracks) {
+        if (pTrack) {
+            pTrack->setRating(5);
+        }
+    }
     if (!m_pLibrary || !m_pLibrary->trackCollectionManager()) {
         return;
     }
