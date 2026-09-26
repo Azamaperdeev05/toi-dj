@@ -1,12 +1,16 @@
 #include "library/autodj/dlgautodj.h"
 
+#include <QFrame>
 #include <QKeyEvent>
+#include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QVBoxLayout>
 
 #include "controllers/keyboard/keyboardeventfilter.h"
 #include "library/library.h"
 #include "library/playlisttablemodel.h"
+#include "mixer/playerinfo.h"
 #include "moc_dlgautodj.cpp"
 #include "track/track.h"
 #include "util/assert.h"
@@ -68,17 +72,84 @@ DlgAutoDJ::DlgAutoDJ(WLibrary* parent,
             m_pTrackTableView,
             &WTrackTableView::setSelectedClick);
 
+    // TOI DJ: Prominent Current Track & Next Track Banner
+    m_pToiBannerWidget = new QFrame(this);
+    m_pToiBannerWidget->setObjectName("ToiQueueBanner");
+    m_pToiBannerWidget->setStyleSheet(
+            "#ToiQueueBanner {"
+            "  background-color: #1a1e28;"
+            "  border: 1px solid #2d3748;"
+            "  border-radius: 8px;"
+            "  margin: 4px 6px;"
+            "  padding: 8px 12px;"
+            "}");
+
+    QVBoxLayout* pBannerLayout = new QVBoxLayout(m_pToiBannerWidget);
+    pBannerLayout->setContentsMargins(6, 4, 6, 4);
+    pBannerLayout->setSpacing(4);
+
+    m_pCurrentTrackLabel = new QLabel(m_pToiBannerWidget);
+    m_pCurrentTrackLabel->setObjectName("ToiCurrentTrackLabel");
+    m_pCurrentTrackLabel->setStyleSheet(
+            "QLabel#ToiCurrentTrackLabel {"
+            "  color: #10B981;"
+            "  font-size: 13px;"
+            "  font-weight: bold;"
+            "}");
+
+    m_pNextTrackLabel = new QLabel(m_pToiBannerWidget);
+    m_pNextTrackLabel->setObjectName("ToiNextTrackLabel");
+    m_pNextTrackLabel->setStyleSheet(
+            "QLabel#ToiNextTrackLabel {"
+            "  color: #F59E0B;"
+            "  font-size: 13px;"
+            "  font-weight: bold;"
+            "}");
+
+    pBannerLayout->addWidget(m_pCurrentTrackLabel);
+    pBannerLayout->addWidget(m_pNextTrackLabel);
+
     QBoxLayout* box = qobject_cast<QBoxLayout*>(layout());
     VERIFY_OR_DEBUG_ASSERT(box) { //Assumes the form layout is a QVBox/QHBoxLayout!
     } else {
         box->removeWidget(m_pTrackTablePlaceholder);
         m_pTrackTablePlaceholder->hide();
-        box->insertWidget(1, m_pTrackTableView);
+        box->insertWidget(1, m_pToiBannerWidget);
+        box->insertWidget(2, m_pTrackTableView);
     }
 
     // We do _NOT_ take ownership of this from AutoDJProcessor.
     m_pAutoDJTableModel = m_pAutoDJProcessor->getTableModel();
     m_pTrackTableView->loadTrackModel(m_pAutoDJTableModel);
+
+    connect(m_pAutoDJTableModel,
+            &PlaylistTableModel::firstTrackChanged,
+            this,
+            &DlgAutoDJ::updateToiTrackStatus);
+    connect(m_pAutoDJTableModel,
+            &QAbstractItemModel::rowsInserted,
+            this,
+            &DlgAutoDJ::updateToiTrackStatus);
+    connect(m_pAutoDJTableModel,
+            &QAbstractItemModel::rowsRemoved,
+            this,
+            &DlgAutoDJ::updateToiTrackStatus);
+    connect(m_pAutoDJTableModel,
+            &QAbstractItemModel::modelReset,
+            this,
+            &DlgAutoDJ::updateToiTrackStatus);
+    connect(&PlayerInfo::instance(),
+            &PlayerInfo::currentPlayingTrackChanged,
+            this,
+            &DlgAutoDJ::updateToiTrackStatus);
+    connect(&PlayerInfo::instance(),
+            &PlayerInfo::trackChanged,
+            this,
+            &DlgAutoDJ::updateToiTrackStatus);
+    connect(&PlayerInfo::instance(),
+            &PlayerInfo::currentPlayingDeckChanged,
+            this,
+            &DlgAutoDJ::updateToiTrackStatus);
 
     // Do not set this because it disables auto-scrolling
     //m_pTrackTableView->setDragDropMode(QAbstractItemView::InternalMove);
@@ -233,6 +304,7 @@ DlgAutoDJ::DlgAutoDJ(WLibrary* parent,
     autoDJStateChanged(m_pAutoDJProcessor->getState());
 
     updateSelectionInfo();
+    updateToiTrackStatus();
 }
 
 DlgAutoDJ::~DlgAutoDJ() {
@@ -254,6 +326,7 @@ void DlgAutoDJ::setupActionButton(QPushButton* pButton,
 
 void DlgAutoDJ::onShow() {
     m_pAutoDJTableModel->select();
+    updateToiTrackStatus();
 }
 
 void DlgAutoDJ::onSearch(const QString& text) {
@@ -415,4 +488,52 @@ void DlgAutoDJ::saveCurrentViewState() {
 
 bool DlgAutoDJ::restoreCurrentViewState() {
     return m_pTrackTableView->restoreCurrentViewState();
+}
+
+void DlgAutoDJ::updateToiTrackStatus() {
+    auto formatTrack = [](const TrackPointer& pTrack) -> QString {
+        if (!pTrack) {
+            return QString();
+        }
+        QString info = pTrack->getInfo().trimmed();
+        if (!info.isEmpty()) {
+            return info;
+        }
+        QString title = pTrack->getTitleInfo().trimmed();
+        if (!title.isEmpty()) {
+            return title;
+        }
+        return pTrack->getFileInfo().fileName();
+    };
+
+    TrackPointer pCurrent = PlayerInfo::instance().getCurrentPlayingTrack();
+    if (pCurrent) {
+        m_pCurrentTrackLabel->setText(
+                QStringLiteral("● ҚАЗІР ОЙНАП ЖАТЫР: %1").arg(formatTrack(pCurrent)));
+    } else {
+        TrackPointer pDeck1 = PlayerInfo::instance().getTrackInfo(QStringLiteral("[Channel1]"));
+        TrackPointer pDeck2 = PlayerInfo::instance().getTrackInfo(QStringLiteral("[Channel2]"));
+        if (pDeck1 && !pDeck1->getLocation().isEmpty()) {
+            m_pCurrentTrackLabel->setText(
+                    QStringLiteral("● ДЕКТЕ (A): %1").arg(formatTrack(pDeck1)));
+        } else if (pDeck2 && !pDeck2->getLocation().isEmpty()) {
+            m_pCurrentTrackLabel->setText(
+                    QStringLiteral("● ДЕКТЕ (B): %1").arg(formatTrack(pDeck2)));
+        } else {
+            m_pCurrentTrackLabel->setText(QStringLiteral("○ ҚАЗІР ОЙНАП ЖАТЫР: — (Тоқтатылған)"));
+        }
+    }
+
+    if (m_pAutoDJTableModel && m_pAutoDJTableModel->rowCount() > 0) {
+        QModelIndex firstIdx = m_pAutoDJTableModel->index(0, 0);
+        TrackPointer pNext = m_pAutoDJTableModel->getTrack(firstIdx);
+        if (pNext) {
+            m_pNextTrackLabel->setText(
+                    QStringLiteral("▶ КЕЛЕСІ ӘН: %1").arg(formatTrack(pNext)));
+        } else {
+            m_pNextTrackLabel->setText(QStringLiteral("▶ КЕЛЕСІ ӘН: — (Кезек бос)"));
+        }
+    } else {
+        m_pNextTrackLabel->setText(QStringLiteral("▶ КЕЛЕСІ ӘН: — (Кезек бос)"));
+    }
 }

@@ -1103,6 +1103,68 @@ WLibrarySidebar {
   padding: 2px 8px;
 }
 
+#ToiStagePrefixLabel {
+  color: #E79F01;
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0 4px;
+}
+
+QComboBox#ToiStageComboBox,
+WComboBox#ToiStageComboBox {
+  background-color: #171A21;
+  border: 1px solid #373E4F;
+  border-radius: 4px;
+  color: #F3F2EC;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  min-width: 170px;
+}
+
+QComboBox#ToiStageComboBox:hover,
+WComboBox#ToiStageComboBox:hover {
+  background-color: #202532;
+  border-color: #E79F01;
+}
+
+QComboBox#ToiStageComboBox::drop-down,
+WComboBox#ToiStageComboBox::drop-down {
+  subcontrol-origin: padding;
+  subcontrol-position: top right;
+  width: 20px;
+  border-left-width: 1px;
+  border-left-color: #373E4F;
+  border-left-style: solid;
+}
+
+QComboBox#ToiStageComboBox QAbstractItemView,
+WComboBox#ToiStageComboBox QAbstractItemView {
+  background-color: #171A21;
+  border: 1px solid #373E4F;
+  selection-background-color: #004880;
+  selection-color: #FFFFFF;
+  color: #F3F2EC;
+}
+
+#ToolBar WPushButton#ToiNewEventButton {
+  background-color: #2D1515;
+  border: 1px solid #6E2626;
+  border-radius: 4px;
+  color: #F87171;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+}
+
+#ToolBar WPushButton#ToiNewEventButton:hover {
+  background-color: #4A1A1A;
+  border-color: #EF4444;
+  color: #FFFFFF;
+}
+
 #ToolBar WPushButton#GuiToggleButton {
   background-color: #171A21;
   border: 1px solid #262B36;

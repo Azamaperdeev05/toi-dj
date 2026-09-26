@@ -306,6 +306,24 @@ void WTrackMenu::createMenus() {
 }
 
 void WTrackMenu::createActions() {
+    m_pToiLoadToDeckAAct = make_parented<QAction>(tr("A ДЕККЕ ЖҮКТЕУ (Shift+Left / A)"), this);
+    connect(m_pToiLoadToDeckAAct, &QAction::triggered, this, &WTrackMenu::slotToiLoadToDeckA);
+
+    m_pToiLoadToDeckBAct = make_parented<QAction>(tr("B ДЕККЕ ЖҮКТЕУ (Shift+Right / S)"), this);
+    connect(m_pToiLoadToDeckBAct, &QAction::triggered, this, &WTrackMenu::slotToiLoadToDeckB);
+
+    m_pToiAddToQueueAct = make_parented<QAction>(tr("КЕЗЕККЕ ҚОСУ (Q)"), this);
+    connect(m_pToiAddToQueueAct, &QAction::triggered, this, &WTrackMenu::slotToiAddToQueue);
+
+    m_pToiAddToRequestsAct = make_parented<QAction>(tr("СҰРАНЫСТАРҒА ҚОСУ"), this);
+    connect(m_pToiAddToRequestsAct, &QAction::triggered, this, &WTrackMenu::slotToiAddToRequests);
+
+    m_pToiAddToFavoritesAct = make_parented<QAction>(tr("⭐ ТАҢДАУЛЫЛАРҒА ҚОСУ"), this);
+    connect(m_pToiAddToFavoritesAct, &QAction::triggered, this, &WTrackMenu::slotToiAddToFavorites);
+
+    m_pToiMarkAsPlayedAct = make_parented<QAction>(tr("ОЙНАЛДЫ ДЕП БЕЛГІЛЕУ"), this);
+    connect(m_pToiMarkAsPlayedAct, &QAction::triggered, this, &WTrackMenu::slotToiMarkAsPlayed);
+
     const auto hideRemoveKeySequence =
             // TODO(XXX): Qt6 replace enum | with QKeyCombination
             QKeySequence(static_cast<int>(kHideRemoveShortcutModifier) |
@@ -620,7 +638,26 @@ void WTrackMenu::createActions() {
 }
 
 void WTrackMenu::setupActions() {
+    if (m_pToiLoadToDeckAAct) {
+        addAction(m_pToiLoadToDeckAAct);
+    }
+    if (m_pToiLoadToDeckBAct) {
+        addAction(m_pToiLoadToDeckBAct);
+    }
+    if (m_pToiAddToQueueAct) {
+        addAction(m_pToiAddToQueueAct);
+    }
+    if (m_pToiAddToRequestsAct) {
+        addAction(m_pToiAddToRequestsAct);
+    }
+    if (m_pToiAddToFavoritesAct) {
+        addAction(m_pToiAddToFavoritesAct);
+    }
+    if (m_pToiMarkAsPlayedAct) {
+        addAction(m_pToiMarkAsPlayedAct);
+    }
     addSeparator();
+
     if (featureIsEnabled(Feature::SearchRelated)) {
         addMenu(m_pSearchRelatedMenu);
     }
@@ -1008,6 +1045,26 @@ void WTrackMenu::updateMenus() {
 
     // Gray out some stuff if multiple songs were selected.
     const bool singleTrackSelected = getTrackCount() == 1;
+    const bool anyTracksSelected = getTrackCount() >= 1;
+
+    if (m_pToiLoadToDeckAAct) {
+        m_pToiLoadToDeckAAct->setEnabled(singleTrackSelected);
+    }
+    if (m_pToiLoadToDeckBAct) {
+        m_pToiLoadToDeckBAct->setEnabled(singleTrackSelected);
+    }
+    if (m_pToiAddToQueueAct) {
+        m_pToiAddToQueueAct->setEnabled(anyTracksSelected);
+    }
+    if (m_pToiAddToRequestsAct) {
+        m_pToiAddToRequestsAct->setEnabled(anyTracksSelected);
+    }
+    if (m_pToiAddToFavoritesAct) {
+        m_pToiAddToFavoritesAct->setEnabled(anyTracksSelected);
+    }
+    if (m_pToiMarkAsPlayedAct) {
+        m_pToiMarkAsPlayedAct->setEnabled(anyTracksSelected);
+    }
 
     auto pTrack = getFirstTrackPointer();
     VERIFY_OR_DEBUG_ASSERT(pTrack) {
@@ -2842,6 +2899,55 @@ void WTrackMenu::slotAddToAutoDJTop() {
 
 void WTrackMenu::slotAddToAutoDJReplace() {
     addToAutoDJ(PlaylistDAO::AutoDJSendLoc::REPLACE);
+}
+
+void WTrackMenu::slotToiLoadToDeckA() {
+    loadSelectionToGroup(PlayerManager::groupForDeck(0));
+}
+
+void WTrackMenu::slotToiLoadToDeckB() {
+    loadSelectionToGroup(PlayerManager::groupForDeck(1));
+}
+
+void WTrackMenu::slotToiAddToQueue() {
+    slotAddToAutoDJBottom();
+}
+
+void WTrackMenu::slotToiAddToRequests() {
+    if (!m_pLibrary || !m_pLibrary->trackCollectionManager()) {
+        return;
+    }
+    PlaylistDAO& dao = m_pLibrary->trackCollectionManager()->internalCollection()->getPlaylistDAO();
+    int reqId = dao.getPlaylistIdFromName(QString::fromUtf8("СҰРАНЫСТАР"));
+    if (reqId == kInvalidPlaylistId) {
+        reqId = dao.createPlaylist(QString::fromUtf8("СҰРАНЫСТАР"));
+    }
+    if (reqId != kInvalidPlaylistId) {
+        addSelectionToPlaylist(reqId);
+    }
+}
+
+void WTrackMenu::slotToiAddToFavorites() {
+    if (!m_pLibrary || !m_pLibrary->trackCollectionManager()) {
+        return;
+    }
+    PlaylistDAO& dao = m_pLibrary->trackCollectionManager()->internalCollection()->getPlaylistDAO();
+    int favId = dao.getPlaylistIdFromName(QString::fromUtf8("⭐ ТАҢДАУЛЫЛАР"));
+    if (favId == kInvalidPlaylistId) {
+        favId = dao.createPlaylist(QString::fromUtf8("⭐ ТАҢДАУЛЫЛАР"));
+    }
+    if (favId != kInvalidPlaylistId) {
+        addSelectionToPlaylist(favId);
+    }
+}
+
+void WTrackMenu::slotToiMarkAsPlayed() {
+    const auto tracks = getTrackPointers();
+    for (const auto& pTrack : tracks) {
+        if (pTrack) {
+            pTrack->updatePlayedStatusKeepPlayCount(true);
+        }
+    }
 }
 
 void WTrackMenu::addToAutoDJ(PlaylistDAO::AutoDJSendLoc loc) {

@@ -27,6 +27,93 @@
 
       <WidgetGroup>
         <ObjectName>ToolbarSeparator</ObjectName>
+      </WidgetGroup>
+
+      <!-- TOI MODE: Wedding Stage Selector & New Event -->
+      <WidgetGroup>
+        <ObjectName>ToiStageSelectorBox</ObjectName>
+        <Layout>horizontal</Layout>
+        <SizePolicy>min,min</SizePolicy>
+        <Children>
+          <Label>
+            <ObjectName>ToiStagePrefixLabel</ObjectName>
+            <Size>110f,24f</Size>
+            <Alignment>center</Alignment>
+            <Text>ТОЙ РЕЖИМІ:</Text>
+          </Label>
+          <ComboBox>
+            <ObjectName>ToiStageComboBox</ObjectName>
+            <TooltipId>toi_stage_selector</TooltipId>
+            <Size>180f,24f</Size>
+            <State>
+              <Number>0</Number>
+              <Text>1. Келген қонақтар</Text>
+            </State>
+            <State>
+              <Number>1</Number>
+              <Text>2. Басталуы</Text>
+            </State>
+            <State>
+              <Number>2</Number>
+              <Text>3. Беташар</Text>
+            </State>
+            <State>
+              <Number>3</Number>
+              <Text>4. Баяу әндер</Text>
+            </State>
+            <State>
+              <Number>4</Number>
+              <Text>5. Би</Text>
+            </State>
+            <State>
+              <Number>5</Number>
+              <Text>6. Қыздар</Text>
+            </State>
+            <State>
+              <Number>6</Number>
+              <Text>7. Жігіттер</Text>
+            </State>
+            <State>
+              <Number>7</Number>
+              <Text>8. Үлкендер</Text>
+            </State>
+            <State>
+              <Number>8</Number>
+              <Text>9. Қазіргі хиттер</Text>
+            </State>
+            <State>
+              <Number>9</Number>
+              <Text>10. Ұлттық әндер</Text>
+            </State>
+            <State>
+              <Number>10</Number>
+              <Text>11. Сұраныстар</Text>
+            </State>
+            <State>
+              <Number>11</Number>
+              <Text>12. Финал</Text>
+            </State>
+            <Connection>
+              <ConfigKey>[ToiDj],stage</ConfigKey>
+            </Connection>
+          </ComboBox>
+
+          <WidgetGroup><Size>6f,min</Size></WidgetGroup>
+
+          <Template src="skins:LateNight/controls/button_1state.xml">
+            <SetVariable name="TooltipId">new_event</SetVariable>
+            <SetVariable name="ObjectName">ToiNewEventButton</SetVariable>
+            <SetVariable name="Size">96f,20f</SetVariable>
+            <SetVariable name="state_0_text">ЖАҢА ШАРА</SetVariable>
+            <SetVariable name="ConfigKey">[ToiDj],new_event</SetVariable>
+          </Template>
+        </Children>
+      </WidgetGroup>
+
+      <WidgetGroup>
+        <ObjectName>ToolbarSeparator</ObjectName>
+      </WidgetGroup>
+
       <WidgetGroup><!-- GUI toggles with regular library -->
         <ObjectName>ToolBarSection</ObjectName>
         <SizePolicy>min,min</SizePolicy>

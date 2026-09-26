@@ -28,6 +28,8 @@ class PlaylistFeature : public BasePlaylistFeature {
             QObject* pSource) override;
     bool dragMoveAcceptChild(const QModelIndex& index, const QList<QUrl>& urls) override;
 
+    void switchToWeddingStage(int stage);
+
   public slots:
     void onRightClick(const QPoint& globalPos) override;
     void onRightClickChild(const QPoint& globalPos, const QModelIndex& index) override;
@@ -40,6 +42,8 @@ class PlaylistFeature : public BasePlaylistFeature {
     void slotOrderTracksByCurrentPosition();
     void slotUnlockAllPlaylists();
     void slotDeleteAllUnlockedPlaylists();
+    void slotToiStageChanged(double stageVal);
+    void slotNewEventRequested(double val);
 
   protected:
     void decorateChild(TreeItem* pChild, int playlistId) override;
@@ -54,4 +58,9 @@ class PlaylistFeature : public BasePlaylistFeature {
     parented_ptr<QAction> m_pOrderByCurrentPosAction;
     parented_ptr<QAction> m_pUnlockPlaylistsAction;
     parented_ptr<QAction> m_pDeleteAllUnlockedPlaylistsAction;
+
+    std::unique_ptr<ControlObject> m_pToiStageControl;
+    std::unique_ptr<ControlProxy> m_pToiStageProxy;
+    std::unique_ptr<ControlObject> m_pNewEventControl;
+    std::unique_ptr<ControlProxy> m_pNewEventProxy;
 };

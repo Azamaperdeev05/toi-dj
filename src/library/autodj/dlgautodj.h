@@ -14,6 +14,8 @@ class WLibrary;
 class WTrackTableView;
 class Library;
 class KeyboardEventFilter;
+class QFrame;
+class QLabel;
 
 class DlgAutoDJ : public QWidget, public Ui::DlgAutoDJ, public LibraryView {
     Q_OBJECT
@@ -45,6 +47,7 @@ class DlgAutoDJ : public QWidget, public Ui::DlgAutoDJ, public LibraryView {
     void updateSelectionInfo();
     void slotTransitionModeChanged(int comboboxIndex);
     void slotRepeatPlaylistChanged(bool checked);
+    void updateToiTrackStatus();
 
   signals:
     void addRandomTrackButton(bool buttonChecked);
@@ -72,6 +75,10 @@ class DlgAutoDJ : public QWidget, public Ui::DlgAutoDJ, public LibraryView {
     const bool m_bShowButtonText;
 
     PlaylistTableModel* m_pAutoDJTableModel;
+
+    QFrame* m_pToiBannerWidget;
+    QLabel* m_pCurrentTrackLabel;
+    QLabel* m_pNextTrackLabel;
 
     QString m_enableBtnTooltip;
     QString m_disableBtnTooltip;

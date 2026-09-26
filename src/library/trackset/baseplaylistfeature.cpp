@@ -234,22 +234,22 @@ void BasePlaylistFeature::activateChild(const QModelIndex& index) {
 }
 
 void BasePlaylistFeature::activatePlaylist(int playlistId) {
-    // qDebug() << "BasePlaylistFeature::activatePlaylist()" << playlistId << index;
+    // qDebug() << "BasePlaylistFeature::activatePlaylist()" << playlistId;
     VERIFY_OR_DEBUG_ASSERT(playlistId != kInvalidPlaylistId) {
         return;
     }
-    QModelIndex index = indexFromPlaylistId(playlistId);
-    VERIFY_OR_DEBUG_ASSERT(index.isValid()) {
-        return;
-    }
-    m_lastClickedIndex = index;
-    m_lastRightClickedIndex = QModelIndex();
     emit saveModelState();
     m_pPlaylistTableModel->selectPlaylist(playlistId);
     emit showTrackModel(m_pPlaylistTableModel);
     emit enableCoverArtDisplay(true);
-    // Update selection
-    emit featureSelect(this, m_lastClickedIndex);
+
+    QModelIndex index = indexFromPlaylistId(playlistId);
+    if (index.isValid()) {
+        m_lastClickedIndex = index;
+        m_lastRightClickedIndex = QModelIndex();
+        // Update selection
+        emit featureSelect(this, m_lastClickedIndex);
+    }
 }
 
 void BasePlaylistFeature::renameItem(const QModelIndex& index) {

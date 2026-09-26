@@ -1,9 +1,12 @@
 #include "library/trackset/playlistfeature.h"
 
 #include <QMenu>
+#include <QMessageBox>
 #include <QSqlTableModel>
 #include <QtDebug>
 
+#include "control/controlobject.h"
+#include "control/controlproxy.h"
 #include "library/library.h"
 #include "library/parser.h"
 #include "library/playlisttablemodel.h"
@@ -59,6 +62,16 @@ PlaylistFeature::PlaylistFeature(Library* pLibrary, UserSettingsPointer pConfig)
             &QAction::triggered,
             this,
             &PlaylistFeature::slotDeleteAllUnlockedPlaylists);
+
+    m_pToiStageControl = std::make_unique<ControlObject>(ConfigKey("[ToiDj]", "stage"));
+    m_pToiStageControl->set(0.0);
+    m_pToiStageProxy = std::make_unique<ControlProxy>(ConfigKey("[ToiDj]", "stage"), this);
+    m_pToiStageProxy->connectValueChanged(this, &PlaylistFeature::slotToiStageChanged);
+
+    m_pNewEventControl = std::make_unique<ControlObject>(ConfigKey("[ToiDj]", "new_event"));
+    m_pNewEventControl->set(0.0);
+    m_pNewEventProxy = std::make_unique<ControlProxy>(ConfigKey("[ToiDj]", "new_event"), this);
+    m_pNewEventProxy->connectValueChanged(this, &PlaylistFeature::slotNewEventRequested);
 }
 
 QVariant PlaylistFeature::title() {
@@ -350,13 +363,84 @@ void PlaylistFeature::ensureDefaultWeddingPlaylists() {
         QString::fromUtf8("ҚАЗІРГІ ХИТТЕР"),
         QString::fromUtf8("ҰЛТТЫҚ ӘНДЕР"),
         QString::fromUtf8("СҰРАНЫСТАР"),
-        QString::fromUtf8("ФИНАЛ")
+        QString::fromUtf8("ФИНАЛ"),
+        QString::fromUtf8("⭐ ТАҢДАУЛЫЛАР")
     };
     for (const QString& name : defaultPlaylists) {
         if (m_playlistDao.getPlaylistIdFromName(name) < 0) {
             m_playlistDao.createPlaylist(name);
         }
     }
+}
+
+void PlaylistFeature::switchToWeddingStage(int stage) {
+    static const QStringList defaultPlaylists = {
+        QString::fromUtf8("КЕЛГЕН ҚОНАҚТАР"),
+        QString::fromUtf8("БАСТАЛУЫ"),
+        QString::fromUtf8("БЕТАШАР"),
+        QString::fromUtf8("БАЯУ ӘНДЕР"),
+        QString::fromUtf8("БИ"),
+        QString::fromUtf8("ҚЫЗДАР"),
+        QString::fromUtf8("ЖІГІТТЕР"),
+        QString::fromUtf8("ҮЛКЕНДЕР"),
+        QString::fromUtf8("ҚАЗІРГІ ХИТТЕР"),
+        QString::fromUtf8("ҰЛТТЫҚ ӘНДЕР"),
+        QString::fromUtf8("СҰРАНЫСТАР"),
+        QString::fromUtf8("ФИНАЛ")
+    };
+    if (stage < 0 || stage >= defaultPlaylists.size()) {
+        return;
+    }
+    const QString& name = defaultPlaylists.at(stage);
+    int playlistId = m_playlistDao.getPlaylistIdFromName(name);
+    if (playlistId == kInvalidPlaylistId) {
+        playlistId = m_playlistDao.createPlaylist(name);
+    }
+    if (playlistId != kInvalidPlaylistId) {
+        activatePlaylist(playlistId);
+        selectPlaylistInSidebar(playlistId, true);
+    }
+}
+
+void PlaylistFeature::slotToiStageChanged(double stageVal) {
+    switchToWeddingStage(static_cast<int>(stageVal));
+}
+
+void PlaylistFeature::slotNewEventRequested(double val) {
+    if (val <= 0.0) {
+        return;
+    }
+    if (m_pNewEventControl) {
+        m_pNewEventControl->set(0.0);
+    }
+
+    QMessageBox::StandardButton reply = QMessageBox::question(
+            nullptr,
+            tr("Жаңа шара"),
+            tr("Жаңа шараны бастауды қалайсыз ба?\n\n"
+               "• Той кезеңі «1. Келген қонақтарға» ауысады\n"
+               "• Кезек (Queue) тазартылады\n"
+               "• Сұраныстар тізімі тазартылады\n"
+               "• Музыка кітапханасы мен ойнату тізімдері сақталады."),
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::No);
+
+    if (reply != QMessageBox::Yes) {
+        return;
+    }
+
+    if (m_pToiStageControl) {
+        m_pToiStageControl->set(0.0);
+    }
+
+    m_playlistDao.clearAutoDJQueue();
+
+    int reqId = m_playlistDao.getPlaylistIdFromName(QString::fromUtf8("СҰРАНЫСТАР"));
+    if (reqId != kInvalidPlaylistId) {
+        m_playlistDao.removeTracksFromPlaylist(reqId, 1);
+    }
+
+    switchToWeddingStage(0);
 }
 
 /// Purpose: When inserting or removing playlists,

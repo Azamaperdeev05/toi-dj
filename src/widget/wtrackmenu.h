@@ -131,7 +131,17 @@ class WTrackMenu : public QMenu {
     void saveCurrentViewState();
     void restoreCurrentViewStateOrIndex();
 
+  public slots:
+    // TOI DJ Workflow
+    void slotToiLoadToDeckA();
+    void slotToiLoadToDeckB();
+    void slotToiAddToQueue();
+    void slotToiAddToRequests();
+    void slotToiAddToFavorites();
+    void slotToiMarkAsPlayed();
+
   private slots:
+
     // File
     void slotOpenInFileBrowser();
     void slotSelectInLibrary();
@@ -378,6 +388,13 @@ class WTrackMenu : public QMenu {
     parented_ptr<QAction> m_pClearAllMetadataAction;
     parented_ptr<QAction> m_pSortHotcuesByPositionAction{};
     parented_ptr<QAction> m_pSortHotcuesByPositionCompressAction{};
+
+    parented_ptr<QAction> m_pToiLoadToDeckAAct{};
+    parented_ptr<QAction> m_pToiLoadToDeckBAct{};
+    parented_ptr<QAction> m_pToiAddToQueueAct{};
+    parented_ptr<QAction> m_pToiAddToRequestsAct{};
+    parented_ptr<QAction> m_pToiAddToFavoritesAct{};
+    parented_ptr<QAction> m_pToiMarkAsPlayedAct{};
 
     const UserSettingsPointer m_pConfig;
     Library* const m_pLibrary;

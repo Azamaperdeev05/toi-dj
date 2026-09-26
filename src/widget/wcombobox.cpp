@@ -49,11 +49,17 @@ void WComboBox::onConnectedControlChanged(double dParameter, double dValue) {
     // Enums are not currently represented using parameter space so it doesn't
     // make sense to use the parameter here yet.
     int index = findData(static_cast<int>(dValue));
-    if (index != -1) {
+    if (index != -1 && index != currentIndex()) {
+        const QSignalBlocker blocker(this);
         setCurrentIndex(index);
     }
 }
 
 void WComboBox::slotCurrentIndexChanged(int index) {
-    setControlParameter(index);
+    QVariant data = itemData(index);
+    if (data.isValid()) {
+        setControlParameter(data.toDouble());
+    } else {
+        setControlParameter(index);
+    }
 }
