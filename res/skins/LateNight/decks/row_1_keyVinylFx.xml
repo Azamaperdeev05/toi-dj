@@ -7,21 +7,33 @@
     <Children>
 
       <Label>
-        <ObjectName>DeckHeaderLabel</ObjectName>
-        <Size>100f,26f</Size>
+        <ObjectName>DeckBadge<Variable name="DeckLetter"/></ObjectName>
+        <Size>76f,24f</Size>
         <Alignment>center</Alignment>
-        <Text>DECK <Variable name="DeckLetter"/></Text>
+        <Text>[ <Variable name="DeckLetter"/> ]</Text>
       </Label>
 
-      <WidgetGroup><Size>6f,0min</Size></WidgetGroup>
+      <WidgetGroup><Size>8f,0min</Size></WidgetGroup>
 
       <Label>
-        <ObjectName>DeckStatusLabel</ObjectName>
-        <Size>76f,22f</Size>
+        <ObjectName>DeckStatusPlaying</ObjectName>
+        <Size>76f,20f</Size>
         <Alignment>center</Alignment>
         <Text>PLAYING</Text>
         <Connection>
           <ConfigKey><Variable name="Group"/>,play</ConfigKey>
+          <BindProperty>visible</BindProperty>
+        </Connection>
+      </Label>
+
+      <Label>
+        <ObjectName>DeckStatusReady</ObjectName>
+        <Size>60f,20f</Size>
+        <Alignment>center</Alignment>
+        <Text>READY</Text>
+        <Connection>
+          <ConfigKey><Variable name="Group"/>,play</ConfigKey>
+          <Transform><Not/></Transform>
           <BindProperty>visible</BindProperty>
         </Connection>
       </Label>

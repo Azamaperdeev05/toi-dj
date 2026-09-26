@@ -118,7 +118,7 @@ SetlogFeature::~SetlogFeature() {
 }
 
 QVariant SetlogFeature::title() {
-    return tr("History");
+    return tr("Тарих");
 }
 
 void SetlogFeature::bindLibraryWidget(

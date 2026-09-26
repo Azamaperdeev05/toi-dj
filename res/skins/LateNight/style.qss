@@ -1070,50 +1070,360 @@ WLibrarySidebar {
 }
 
 /* ==================================================
-   TOI DJ Modern UI Styles
+   TOI DJ Phase 3B — Product Design System & Styles
    ================================================== */
-#ToiDjLogo {
-  color: #ffb300;
-  font-size: 16px;
-  font-weight: bold;
-  letter-spacing: 3px;
-  padding: 0 8px;
+
+/* --- 1. Product Identity & Top Bar --- */
+#ToiDjBrandBox {
+  qproperty-layoutSpacing: 8;
+  padding: 0 4px;
 }
 
-#DeckHeaderBar {
-  background-color: #18181e;
-  border: 1px solid #2d2d38;
+#ToiDjLogo {
+  color: #E79F01;
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 0 4px;
+}
+
+#ToiDjSubtitle {
+  color: #8E95A5;
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 0 4px;
+}
+
+#ToolBar {
+  background-color: #0F1115;
+  border-bottom: 1px solid #262B36;
+  padding: 2px 8px;
+}
+
+#ToolBar WPushButton#GuiToggleButton {
+  background-color: #171A21;
+  border: 1px solid #262B36;
   border-radius: 4px;
-  margin: 1px 0px;
+  color: #8E95A5;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+}
+
+#ToolBar WPushButton#GuiToggleButton:hover {
+  background-color: #202532;
+  border-color: #373E4F;
+  color: #F3F2EC;
+}
+
+#ToolBar WPushButton#GuiToggleButton[value="1"],
+#ToolBar WPushButton#GuiToggleButton:checked {
+  background-color: #004880;
+  border-color: #E79F01;
+  color: #FFFFFF;
+}
+
+#ClockWidget WTime {
+  color: #F3F2EC;
+  font-family: "Open Sans", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+/* --- 2. Decks (Deck A & Deck B Header Bars) --- */
+#DeckHeaderBar {
+  background-color: #171A21;
+  border: 1px solid #262B36;
+  border-radius: 6px;
+  margin: 1px 0px 3px 0px;
+  padding: 2px 6px;
 }
 
 #DeckHeaderBar[highlight="1"] {
-  background-color: #102616;
-  border: 1px solid #00e676;
+  background-color: #151A24;
+  border: 1px solid #E79F01;
 }
 
-#DeckHeaderLabel {
-  font-size: 15px;
-  font-weight: bold;
-  color: #f0f0f5;
+#DeckBadgeA {
+  font-size: 13px;
+  font-weight: 800;
+  color: #4A90E2;
+  background-color: rgba(0, 72, 128, 0.4);
+  border: 1px solid #004880;
+  border-radius: 4px;
+  padding: 1px 8px;
   letter-spacing: 1px;
 }
 
-#DeckStatusLabel {
-  font-size: 11px;
-  font-weight: bold;
-  color: #00e676;
-  background-color: rgba(0, 230, 118, 0.18);
-  border: 1px solid #00e676;
-  border-radius: 3px;
-  padding: 1px 6px;
+#DeckBadgeB {
+  font-size: 13px;
+  font-weight: 800;
+  color: #F3F2EC;
+  background-color: #202531;
+  border: 1px solid #373E4F;
+  border-radius: 4px;
+  padding: 1px 8px;
+  letter-spacing: 1px;
 }
 
-#CrossfaderLabelA,
-#CrossfaderLabelB {
+#DeckStatusPlaying {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0F1115;
+  background-color: #E79F01;
+  border: 1px solid #FFAF1A;
+  border-radius: 4px;
+  padding: 1px 8px;
+  letter-spacing: 1px;
+}
+
+#DeckStatusReady {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8E95A5;
+  background-color: #1E232F;
+  border: 1px solid #2B3344;
+  border-radius: 4px;
+  padding: 1px 8px;
+  letter-spacing: 1px;
+}
+
+/* --- 3. Track Information Hierarchy & Spacing --- */
+#Mixxx #TitleText {
+  color: #F3F2EC;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 1px 2px;
+}
+
+#Mixxx #ArtistText {
+  color: #8E95A5;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 1px 2px;
+}
+
+#Mixxx #PlayPositionText {
+  color: #F3F2EC;
+  font-family: "Open Sans", monospace;
   font-size: 16px;
-  font-weight: bold;
-  color: #00c6ff;
-  padding: 0 4px;
+  font-weight: 700;
+}
+
+#Mixxx #DurationText {
+  color: #8E95A5;
+  font-family: "Open Sans", monospace;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+#DeckBpmContainer {
+  qproperty-layoutSpacing: 2;
+  margin-left: 6px;
+}
+
+#Mixxx #DeckHeaderBpm {
+  color: #E79F01;
+  font-family: "Open Sans", monospace;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+#Mixxx #DeckHeaderBpmUnit {
+  color: #8E95A5;
+  font-size: 11px;
+  font-weight: 700;
+  padding-top: 2px;
+}
+
+/* --- 4. Transport Controls: Large Play / Pause & Cue --- */
+#Mixxx #PlayDeck {
+  background-color: #171D27;
+  border: 1px solid #2C374A;
+  border-radius: 6px;
+  margin: 1px;
+}
+
+#Mixxx #PlayDeck:hover {
+  background-color: #202938;
+  border-color: #3E4D68;
+}
+
+#Mixxx #PlayDeck:pressed {
+  background-color: #10151E;
+}
+
+#Mixxx #PlayDeck[displayValue="1"],
+#Mixxx WPushButton#PlayDeck[displayValue="1"] {
+  background-color: #E79F01;
+  border: 1px solid #FFAF1A;
+}
+
+#Mixxx #CueDeck {
+  background-color: #171D27;
+  border: 1px solid #2C374A;
+  border-radius: 6px;
+  margin: 1px;
+}
+
+#Mixxx #CueDeck:hover {
+  background-color: #2A1F24;
+  border-color: #D32F2F;
+}
+
+#Mixxx #CueDeck:pressed,
+#Mixxx #CueDeck[displayValue="1"] {
+  background-color: #D32F2F;
+  border-color: #FF5252;
+}
+
+/* --- 5. Central Mixer & Crossfader --- */
+#Mixxx #CrossfaderContainer {
+  background-color: #12151B;
+  border: 1px solid #262B36;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+#Mixxx #CrossfaderLabelA {
+  font-size: 15px;
+  font-weight: 800;
+  color: #4A90E2;
+}
+
+#Mixxx #CrossfaderLabelB {
+  font-size: 15px;
+  font-weight: 800;
+  color: #F3F2EC;
+}
+
+/* --- 6. Library, Search, Playlists & Queue --- */
+#Mixxx #SearchLineBox,
+#Mixxx WSearchLineEdit {
+  background-color: #171A21;
+  border: 1px solid #262B36;
+  border-radius: 6px;
+  color: #F3F2EC;
+  font-size: 13px;
+  padding: 3px 8px;
+}
+
+#Mixxx WSearchLineEdit:focus {
+  border: 1px solid #E79F01;
+}
+
+#Mixxx WLibrarySidebar {
+  background-color: #12151B;
+  border: none;
+  font-size: 13px;
+  color: #C0C5D0;
+}
+
+#Mixxx WLibrarySidebar::item {
+  padding: 5px 8px;
+  height: 28px;
+  border-radius: 4px;
+}
+
+#Mixxx WLibrarySidebar::item:hover {
+  background-color: #1A1F2C;
+  color: #FFFFFF;
+}
+
+#Mixxx WLibrarySidebar::item:selected {
+  background-color: #004880;
+  border-left: 3px solid #E79F01;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+#Mixxx WTrackTableView {
+  background-color: #0F1115;
+  alternate-background-color: #13161F;
+  border: none;
+  color: #F3F2EC;
+  gridline-color: #1C202B;
+  selection-background-color: #004880;
+  selection-color: #FFFFFF;
+  font-size: 13px;
+}
+
+#Mixxx WTrackTableView::item:selected {
+  background-color: #004880;
+  color: #FFFFFF;
+}
+
+#Mixxx WTrackTableViewHeader::section {
+  background-color: #171A21;
+  border: none;
+  border-bottom: 1px solid #262B36;
+  color: #8E95A5;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 4px;
+}
+
+/* Queue action buttons */
+#Mixxx #LibraryFeatureControls QPushButton,
+#Mixxx QPushButton#pushButtonAutoDJ,
+#Mixxx QPushButton#pushButtonFadeNow,
+#Mixxx QPushButton#pushButtonSkipNext,
+#Mixxx QPushButton#pushButtonShuffle,
+#Mixxx QPushButton#pushButtonAddRandomTrack {
+  background-color: #171D27;
+  border: 1px solid #2C374A;
+  border-radius: 4px;
+  color: #F3F2EC;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+}
+
+#Mixxx #LibraryFeatureControls QPushButton:hover,
+#Mixxx QPushButton#pushButtonAutoDJ:hover,
+#Mixxx QPushButton#pushButtonFadeNow:hover,
+#Mixxx QPushButton#pushButtonSkipNext:hover,
+#Mixxx QPushButton#pushButtonShuffle:hover,
+#Mixxx QPushButton#pushButtonAddRandomTrack:hover {
+  background-color: #202938;
+  border-color: #3E4D68;
+}
+
+#Mixxx QPushButton#pushButtonAutoDJ:checked {
+  background-color: #E79F01;
+  border-color: #FFAF1A;
+  color: #0F1115;
+}
+
+/* --- 7. Modern Container Surfaces & Neutral Stage Cleanliness --- */
+#Mixxx #Deck1,
+#Mixxx #Deck2,
+#Mixxx #MixerContainer {
+  background-color: #14171F;
+  border: 1px solid #222734;
+  border-radius: 6px;
+}
+
+#Mixxx #WaveformsContainer {
+  background-color: #0F1115;
+  border-top: 1px solid #222734;
+  border-bottom: 1px solid #222734;
+}
+
+/* Hide legacy QuickEffect selector dropdowns in 2-deck mixer */
+#Mixxx #QuickEffectSelectorLeft,
+#Mixxx #QuickEffectSelectorRight,
+#QuickEffectSelectorLeft,
+#QuickEffectSelectorRight {
+  max-height: 0px;
+  max-width: 0px;
+  min-height: 0px;
+  min-width: 0px;
+  border: none;
+  background: transparent;
 }
 

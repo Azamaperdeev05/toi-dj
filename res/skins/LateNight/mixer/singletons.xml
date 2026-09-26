@@ -9,11 +9,11 @@
     <Children>
       <WidgetGroup>
         <Layout>horizontal</Layout>
-        <Size>155f,40f</Size>
+        <Size>175f,40f</Size>
         <Children>
           <Label>
             <ObjectName>CrossfaderLabelA</ObjectName>
-            <Size>16f,40f</Size>
+            <Size>18f,40f</Size>
             <Alignment>center</Alignment>
             <Text>A</Text>
           </Label>
@@ -22,7 +22,7 @@
           around it when AutoDJ is enabled. Note that it doesn't
           work without the extra outer WidgetGroup -->
           <WidgetGroup>
-            <Size>115f,40f</Size>
+            <Size>135f,40f</Size>
             <ObjectName>CrossfaderContainer</ObjectName>
             <Connection>
               <ConfigKey>[AutoDJ],enabled</ConfigKey>
@@ -31,7 +31,7 @@
             <Children>
               <SliderComposed>
                 <TooltipId>crossfader</TooltipId>
-                <Size>115f,40f</Size>
+                <Size>135f,40f</Size>
                 <Handle scalemode="STRETCH_ASPECT">skins:LateNight/<Variable name="SliderScheme"/>/sliders/knob_crossfader.svg</Handle>
                 <Slider visible="false" scalemode="STRETCH_ASPECT">skins:LateNight/<Variable name="SliderScheme"/>/sliders/slider_crossfader.svg</Slider>
                 <Horizontal>true</Horizontal>

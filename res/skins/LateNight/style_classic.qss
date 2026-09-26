@@ -141,7 +141,7 @@ WSearchLineEdit,
   #MainControls, #HeadphoneControls,
   #FxParametersBg,
   #SamplerHotcues {
-    background-image: url(skins:LateNight/classic/style/background_tile.png);
+    background-image: none;
   }
 
 #FxParametersFocusBg {
@@ -1555,11 +1555,8 @@ WCueMenuPopup QPushButton {
 #SyncDeck[value="1"],
 #SyncLeader[value="2"],
 #SyncSampler[displayValue="1"],
-WPushButton#PlayDeck[displayValue="1"],
-WPushButton#PlayDeckMini[displayValue="1"],
 WPushButton#PlaySampler[displayValue="1"],
 WPushButton#PlayPreview[displayValue="1"],
-WPushButton#PlayIndicator[displayValue="1"],
 #LibraryPreviewButton:checked,
 #CueDeck[displayValue="1"],
 WPushButton#Reverse[pressed="true"],
@@ -1574,7 +1571,14 @@ WPushButton#Reverse[pressed="true"],
 #RecFeedback[displayValue="2"],
 QPushButton#pushButtonRecording:checked {
   background-color: #db0000;
-  }
+}
+
+/* TOI DJ Gold for Play active status */
+WPushButton#PlayDeck[displayValue="1"],
+WPushButton#PlayDeckMini[displayValue="1"],
+WPushButton#PlayIndicator[displayValue="1"] {
+  background-color: #E79F01;
+}
   /* Red border for Play buttons when previewing from
     Cue or Hotcue */
   WPushButton#PreviewIndicator[value="1"] {
@@ -2311,25 +2315,20 @@ WLibrarySidebar {
    > See src/library/coverartdelegate.cpp: "option.palette.highlightedText().color();" */
   selection-color: #fff;
   /* background of Color delegate in selected row */
-  selection-background-color: #5e4507;
+  selection-background-color: #004880;
 }
 WTrackTableView:focus,
 WLibrarySidebar:focus,
 WLibraryTextBrowser:focus {
-  border: 1px solid #d09300;
+  border: 1px solid #E79F01;
 }
 
 /* Selected rows in Tree and Tracks table */
 WLibrarySidebar::item:selected,
 WTrackTableView::item:selected,
 #LibraryBPMButton::item:selected,
-#LibraryPlayedCheckbox::item:selected {  /* disabled since it interferes with selection-color
-     which we use in DefaultDelegate and TableItemDelegate to
-     blend the highlight color with the played/missing color.
-   color: #fff;*/
-  /* This is not required for painting the background,
-     but it is for applying the focus outline. */
-  background-color: #5e4507;
+#LibraryPlayedCheckbox::item:selected {
+  background-color: #004880;
   }
   /* Highlight currentIndex which can be moved with Ctrl + arrow keys */
   WTrackTableView::item:!selected:focus {

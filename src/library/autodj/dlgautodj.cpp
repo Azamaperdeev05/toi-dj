@@ -88,10 +88,10 @@ DlgAutoDJ::DlgAutoDJ(WLibrary* parent,
             this,
             &DlgAutoDJ::toggleAutoDJButton);
 
-    setupActionButton(pushButtonFadeNow, &DlgAutoDJ::fadeNowButton, tr("Fade"));
-    setupActionButton(pushButtonSkipNext, &DlgAutoDJ::skipNextButton, tr("Skip"));
-    setupActionButton(pushButtonShuffle, &DlgAutoDJ::shufflePlaylistButton, tr("Shuffle"));
-    setupActionButton(pushButtonAddRandomTrack, &DlgAutoDJ::addRandomTrackButton, tr("Random"));
+    setupActionButton(pushButtonFadeNow, &DlgAutoDJ::fadeNowButton, tr("Келесі / Next"));
+    setupActionButton(pushButtonSkipNext, &DlgAutoDJ::skipNextButton, tr("Өткізу / Skip"));
+    setupActionButton(pushButtonShuffle, &DlgAutoDJ::shufflePlaylistButton, tr("Араластыру"));
+    setupActionButton(pushButtonAddRandomTrack, &DlgAutoDJ::addRandomTrackButton, tr("+ Ән қосу"));
 
     m_enableBtnTooltip = tr(
             "Start Queue playback\n"
@@ -324,7 +324,7 @@ void DlgAutoDJ::autoDJStateChanged(AutoDJProcessor::AutoDJState state) {
         pushButtonAutoDJ->setChecked(false);
         pushButtonAutoDJ->setToolTip(m_enableBtnTooltip);
         if (m_bShowButtonText) {
-            pushButtonAutoDJ->setText(tr("Play Queue"));
+            pushButtonAutoDJ->setText(tr("Кезек ойнату"));
         }
         pushButtonFadeNow->setEnabled(false);
         pushButtonSkipNext->setEnabled(false);
@@ -333,7 +333,7 @@ void DlgAutoDJ::autoDJStateChanged(AutoDJProcessor::AutoDJState state) {
         pushButtonAutoDJ->setChecked(true);
         pushButtonAutoDJ->setToolTip(m_disableBtnTooltip);
         if (m_bShowButtonText) {
-            pushButtonAutoDJ->setText(tr("Pause Queue"));
+            pushButtonAutoDJ->setText(tr("Кезек тоқтату"));
         }
 
         // If fading, you can't hit fade now.

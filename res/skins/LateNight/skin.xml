@@ -258,7 +258,7 @@
       <!-- Slider bar settings -->
       <SetVariable name="BarBgColor">#020202</SetVariable>
       <SetVariable name="BarColorVolume">#257b82</SetVariable>
-      <SetVariable name="BarColorCrossfader">#257b82</SetVariable>
+      <SetVariable name="BarColorCrossfader">#E79F01</SetVariable>
       <SetVariable name="BarColorPitch">#888</SetVariable>
       <SetVariable name="BarWidth">2</SetVariable>
       <SetVariable name="BarMarginVolume">8,8</SetVariable>
@@ -319,6 +319,7 @@
         Leaving it blank could cause users to accidentally click it
         without having a 'kill' indicator, so we 'remove' it. -->
       <SetVariable name="EqKillDotSize">0f,0f</SetVariable>
+      <SetVariable name="BarColorCrossfader">#E79F01</SetVariable>
 
       <!-- Waveform & Overview colors -->
       <SetVariable name="BgColorOverview_12">rgba(15, 15, 15, 20)</SetVariable>

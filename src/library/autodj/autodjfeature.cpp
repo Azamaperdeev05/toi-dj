@@ -135,7 +135,7 @@ AutoDJFeature::~AutoDJFeature() {
 }
 
 QVariant AutoDJFeature::title() {
-    return tr("Queue");
+    return tr("Кезек");
 }
 
 void AutoDJFeature::bindLibraryWidget(

@@ -62,7 +62,7 @@ PlaylistFeature::PlaylistFeature(Library* pLibrary, UserSettingsPointer pConfig)
 }
 
 QVariant PlaylistFeature::title() {
-    return tr("Playlists");
+    return tr("Ойнату тізімдері");
 }
 
 void PlaylistFeature::onRightClick(const QPoint& globalPos) {
@@ -339,18 +339,18 @@ void PlaylistFeature::slotDeleteAllUnlockedPlaylists() {
 
 void PlaylistFeature::ensureDefaultWeddingPlaylists() {
     static const QStringList defaultPlaylists = {
-        QString::fromUtf8("Келген қонақтар"),
-        QString::fromUtf8("Басталуы"),
-        QString::fromUtf8("Беташар"),
-        QString::fromUtf8("Баяу әндер"),
-        QString::fromUtf8("Би"),
-        QString::fromUtf8("Қыздар"),
-        QString::fromUtf8("Жігіттер"),
-        QString::fromUtf8("Үлкендер"),
-        QString::fromUtf8("Қазіргі хиттер"),
-        QString::fromUtf8("Ұлттық әндер"),
-        QString::fromUtf8("Сұраныстар"),
-        QString::fromUtf8("Финал")
+        QString::fromUtf8("КЕЛГЕН ҚОНАҚТАР"),
+        QString::fromUtf8("БАСТАЛУЫ"),
+        QString::fromUtf8("БЕТАШАР"),
+        QString::fromUtf8("БАЯУ ӘНДЕР"),
+        QString::fromUtf8("БИ"),
+        QString::fromUtf8("ҚЫЗДАР"),
+        QString::fromUtf8("ЖІГІТТЕР"),
+        QString::fromUtf8("ҮЛКЕНДЕР"),
+        QString::fromUtf8("ҚАЗІРГІ ХИТТЕР"),
+        QString::fromUtf8("ҰЛТТЫҚ ӘНДЕР"),
+        QString::fromUtf8("СҰРАНЫСТАР"),
+        QString::fromUtf8("ФИНАЛ")
     };
     for (const QString& name : defaultPlaylists) {
         if (m_playlistDao.getPlaylistIdFromName(name) < 0) {

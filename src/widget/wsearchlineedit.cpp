@@ -99,7 +99,7 @@ WSearchLineEdit::WSearchLineEdit(QWidget* pParent, UserSettingsPointer pConfig)
     setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon);
 
     //: Shown in the library search bar when it is empty.
-    lineEdit()->setPlaceholderText(tr("Іздеу / Search... 🔎"));
+    lineEdit()->setPlaceholderText(tr("Іздеу..."));
 
     m_completer->setModel(model());
     m_completer->setCompletionMode(QCompleter::CompletionMode::InlineCompletion);

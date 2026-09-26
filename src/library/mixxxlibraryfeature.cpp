@@ -173,7 +173,7 @@ void MixxxLibraryFeature::bindLibraryWidget(WLibrary* pLibraryWidget,
 }
 
 QVariant MixxxLibraryFeature::title() {
-    const QString title = tr("Music Library") + QStringLiteral(" (%1)").arg(m_trackCount);
+    const QString title = tr("Музыка кітапханасы") + QStringLiteral(" (%1)").arg(m_trackCount);
     return title;
 }
 

@@ -5,32 +5,28 @@
     <SizePolicy>e,min</SizePolicy>
     <Children>
 
-      <Label>
-        <ObjectName>ToiDjLogo</ObjectName>
-        <Size>100f,24f</Size>
-        <Alignment>center</Alignment>
-        <Text>TOI DJ</Text>
-      </Label>
+      <WidgetGroup>
+        <ObjectName>ToiDjBrandBox</ObjectName>
+        <Layout>horizontal</Layout>
+        <SizePolicy>min,min</SizePolicy>
+        <Children>
+          <Label>
+            <ObjectName>ToiDjLogo</ObjectName>
+            <Size>90f,24f</Size>
+            <Alignment>center</Alignment>
+            <Text>TOI DJ</Text>
+          </Label>
+          <Label>
+            <ObjectName>ToiDjSubtitle</ObjectName>
+            <Size>220f,24f</Size>
+            <Alignment>center</Alignment>
+            <Text>Тойға арналған DJ бағдарламасы</Text>
+          </Label>
+        </Children>
+      </WidgetGroup>
 
       <WidgetGroup>
         <ObjectName>ToolbarSeparator</ObjectName>
-        <Size>12f,9min</Size>
-      </WidgetGroup>
-
-      <Template src="skins:LateNight/controls/button_2state.xml">
-        <SetVariable name="TooltipId">maximize_library</SetVariable>
-        <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-        <SetVariable name="Size">80f,20f</SetVariable>
-        <SetVariable name="state_0_text">BIG LIBRARY</SetVariable>
-        <SetVariable name="state_1_text">BIG LIBRARY</SetVariable>
-        <SetVariable name="ConfigKey">[Skin],show_maximized_library</SetVariable>
-      </Template>
-
-      <WidgetGroup>
-        <ObjectName>ToolbarSeparator</ObjectName>
-        <Size>12f,9min</Size>
-      </WidgetGroup>
-
       <WidgetGroup><!-- GUI toggles with regular library -->
         <ObjectName>ToolBarSection</ObjectName>
         <SizePolicy>min,min</SizePolicy>
@@ -40,7 +36,7 @@
           <Template src="skins:LateNight/controls/button_2state.xml">
             <SetVariable name="TooltipId">show_waveforms</SetVariable>
             <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-            <SetVariable name="Size">80f,20f</SetVariable>
+            <SetVariable name="Size">84f,20f</SetVariable>
             <SetVariable name="state_0_text">WAVEFORMS</SetVariable>
             <SetVariable name="state_1_text">WAVEFORMS</SetVariable>
             <SetVariable name="ConfigKey">[Skin],show_waveforms</SetVariable>
@@ -49,10 +45,19 @@
           <Template src="skins:LateNight/controls/button_2state_persist.xml">
             <SetVariable name="TooltipId">show_mixer</SetVariable>
             <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-            <SetVariable name="Size">48f,20f</SetVariable>
+            <SetVariable name="Size">52f,20f</SetVariable>
             <SetVariable name="state_0_text">MIXER</SetVariable>
             <SetVariable name="state_1_text">MIXER</SetVariable>
             <SetVariable name="ConfigKey">[Skin],show_mixer</SetVariable>
+          </Template>
+
+          <Template src="skins:LateNight/controls/button_2state.xml">
+            <SetVariable name="TooltipId">maximize_library</SetVariable>
+            <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
+            <SetVariable name="Size">68f,20f</SetVariable>
+            <SetVariable name="state_0_text">LIBRARY</SetVariable>
+            <SetVariable name="state_1_text">LIBRARY</SetVariable>
+            <SetVariable name="ConfigKey">[Skin],show_maximized_library</SetVariable>
           </Template>
 
         </Children>
@@ -76,6 +81,15 @@
             <SetVariable name="state_0_text">DECKS</SetVariable>
             <SetVariable name="state_1_text">DECKS</SetVariable>
             <SetVariable name="ConfigKey">[LateNight],max_lib_show_decks</SetVariable>
+          </Template>
+
+          <Template src="skins:LateNight/controls/button_2state.xml">
+            <SetVariable name="TooltipId">maximize_library</SetVariable>
+            <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
+            <SetVariable name="Size">68f,20f</SetVariable>
+            <SetVariable name="state_0_text">LIBRARY</SetVariable>
+            <SetVariable name="state_1_text">LIBRARY</SetVariable>
+            <SetVariable name="ConfigKey">[Skin],show_maximized_library</SetVariable>
           </Template>
 
         </Children>
@@ -171,8 +185,8 @@
       <Template src="skins:LateNight/controls/button_1state.xml">
         <SetVariable name="TooltipId">preferences</SetVariable>
         <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
-        <SetVariable name="Size">85f,20f</SetVariable>
-        <SetVariable name="state_0_text">SETTINGS</SetVariable>
+        <SetVariable name="Size">92f,20f</SetVariable>
+        <SetVariable name="state_0_text">БАПТАУЛАР</SetVariable>
         <SetVariable name="ConfigKey">[App],show_preferences</SetVariable>
       </Template>
 

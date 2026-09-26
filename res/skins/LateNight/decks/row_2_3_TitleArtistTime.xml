@@ -111,6 +111,36 @@
                       <Variable name="ChanNum"/>
                     </Channel>
                   </TrackProperty>
+
+                  <WidgetGroup><Size>8f,0min</Size></WidgetGroup>
+
+                  <WidgetGroup>
+                    <ObjectName>DeckBpmContainer</ObjectName>
+                    <Layout>horizontal</Layout>
+                    <SizePolicy>min,min</SizePolicy>
+                    <Children>
+                      <Number>
+                        <ObjectName>DeckHeaderBpm</ObjectName>
+                        <TooltipId>visual_bpm</TooltipId>
+                        <Size>56f,22f</Size>
+                        <Alignment>right</Alignment>
+                        <NumberOfDigits>1</NumberOfDigits>
+                        <Connection>
+                          <ConfigKey><Variable name="Group"/>,visual_bpm</ConfigKey>
+                        </Connection>
+                      </Number>
+                      <Label>
+                        <ObjectName>DeckHeaderBpmUnit</ObjectName>
+                        <Size>30f,22f</Size>
+                        <Alignment>left</Alignment>
+                        <Text>BPM</Text>
+                      </Label>
+                    </Children>
+                    <Connection>
+                      <ConfigKey><Variable name="Group"/>,track_loaded</ConfigKey>
+                      <BindProperty>visible</BindProperty>
+                    </Connection>
+                  </WidgetGroup>
                 </Children>
               </WidgetGroup>
 
