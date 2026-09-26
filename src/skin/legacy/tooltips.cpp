@@ -1262,4 +1262,15 @@ void Tooltips::addStandardTooltips() {
     add("configure_input")
             << tr("Select and configure a hardware device for this input");
 
+    add("toi_stage_selector")
+            << tr("Той режимі")
+            << tr("Той кезеңін таңдау (Alt+1 ... Alt+=)");
+
+    add("new_event")
+            << tr("Жаңа той")
+            << tr("Жаңа тойды бастау (кезек пен сұраныстар тазартылады)");
+
+    add("preferences")
+            << tr("Баптаулар / Preferences")
+            << tr("Баптаулар терезесін ашу");
 }
