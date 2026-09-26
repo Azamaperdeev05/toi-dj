@@ -123,14 +123,8 @@ DlgPreferences::DlgPreferences(
             tr("Library"),
             "ic_preferences_library.svg");
 
-    QTreeWidgetItem* pControllerRootItem =
-            new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type);
-    m_pControllersDlg = new DlgPrefControllers(
-            this, m_pConfig, pControllerManager, pControllerRootItem);
-    addPageWidget(PreferencesPage(m_pControllersDlg,
-                          pControllerRootItem),
-            tr("Controllers"),
-            "ic_preferences_controllers.svg");
+    // TOI DJ: Controllers page hidden
+    m_pControllersDlg = nullptr;
 
 #ifdef __VINYLCONTROL__
     // It's important for this to be before the connect for wsound.
@@ -182,11 +176,12 @@ DlgPreferences::DlgPreferences(
                 "ic_preferences_waveforms.svg");
     }
 
-    addPageWidget(PreferencesPage(
-                          new DlgPrefColors(this, m_pConfig, pLibrary),
-                          new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
-            tr("Colors"),
-            "ic_preferences_colors.svg");
+    // TOI DJ: Colors page hidden
+    // addPageWidget(PreferencesPage(
+    //                       new DlgPrefColors(this, m_pConfig, pLibrary),
+    //                       new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
+    //         tr("Colors"),
+    //         "ic_preferences_colors.svg");
 
     addPageWidget(PreferencesPage(
                           new DlgPrefDeck(this, m_pConfig),
@@ -200,17 +195,18 @@ DlgPreferences::DlgPreferences(
             tr("Mixer"),
             "ic_preferences_crossfader.svg");
 
-    addPageWidget(PreferencesPage(
-                          new DlgPrefEffects(this, m_pConfig, pEffectsManager),
-                          new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
-            tr("Effects"),
-            "ic_preferences_effects.svg");
+    // TOI DJ: Advanced Effects and Auto DJ pages hidden
+    // addPageWidget(PreferencesPage(
+    //                       new DlgPrefEffects(this, m_pConfig, pEffectsManager),
+    //                       new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
+    //         tr("Effects"),
+    //         "ic_preferences_effects.svg");
 
-    addPageWidget(PreferencesPage(
-                          new DlgPrefAutoDJ(this, m_pConfig),
-                          new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
-            tr("Auto DJ"),
-            "ic_preferences_autodj.svg");
+    // addPageWidget(PreferencesPage(
+    //                       new DlgPrefAutoDJ(this, m_pConfig),
+    //                       new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
+    //         tr("Auto DJ"),
+    //         "ic_preferences_autodj.svg");
 
 #ifdef __BROADCAST__
     addPageWidget(PreferencesPage(
@@ -220,11 +216,12 @@ DlgPreferences::DlgPreferences(
             "ic_preferences_broadcast.svg");
 #endif // __BROADCAST__
 
-    addPageWidget(PreferencesPage(
-                          new DlgPrefRecord(this, m_pConfig),
-                          new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
-            tr("Recording"),
-            "ic_preferences_recording.svg");
+    // TOI DJ: Recording page hidden
+    // addPageWidget(PreferencesPage(
+    //                       new DlgPrefRecord(this, m_pConfig),
+    //                       new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
+    //         tr("Recording"),
+    //         "ic_preferences_recording.svg");
 
     addPageWidget(PreferencesPage(
                           new DlgPrefBeats(this, m_pConfig),
@@ -232,24 +229,19 @@ DlgPreferences::DlgPreferences(
             tr("Beat Detection"),
             "ic_preferences_bpmdetect.svg");
 
-    addPageWidget(PreferencesPage(
-                          new DlgPrefKey(this, m_pConfig),
-                          new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
-            tr("Key Detection"),
-            "ic_preferences_keydetect.svg");
+    // TOI DJ: Key detection page hidden
+    // addPageWidget(PreferencesPage(
+    //                       new DlgPrefKey(this, m_pConfig),
+    //                       new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
+    //         tr("Key Detection"),
+    //         "ic_preferences_keydetect.svg");
     addPageWidget(PreferencesPage(
                           new DlgPrefReplayGain(this, m_pConfig),
                           new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
             tr("Normalization"),
             "ic_preferences_replaygain.svg");
 
-#ifdef __MODPLUG__
-    addPageWidget(PreferencesPage(
-                          new DlgPrefModplug(this, m_pConfig),
-                          new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
-            tr("Modplug Decoder"),
-            "ic_preferences_modplug.svg");
-#endif // __MODPLUG__
+    // TOI DJ: Modplug decoder page hidden
 
     // Find accept and apply buttons
     const auto buttons = buttonBox->buttons();
@@ -302,7 +294,7 @@ void DlgPreferences::changePage(QTreeWidgetItem* pCurrent, QTreeWidgetItem* pPre
         pCurrent = pPrevious;
     }
 
-    if (m_pControllersDlg->handleTreeItemClick(pCurrent)) {
+    if (m_pControllersDlg && m_pControllersDlg->handleTreeItemClick(pCurrent)) {
         // Do nothing. m_controllersPage handled this click.
         return;
     }

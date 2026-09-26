@@ -198,6 +198,16 @@ DlgAutoDJ::DlgAutoDJ(WLibrary* parent,
     if (m_bShowButtonText) {
         pushButtonRepeatPlaylist->setText(tr("Repeat"));
     }
+
+    // TOI DJ: Hide automated DJ controls; Queue is manually controlled by the DJ
+    pushButtonAutoDJ->hide();
+    pushButtonFadeNow->hide();
+    pushButtonSkipNext->hide();
+    pushButtonAddRandomTrack->hide();
+    pushButtonRepeatPlaylist->hide();
+    spinBoxTransition->hide();
+    labelTransitionAppendix->hide();
+    fadeModeCombobox->hide();
     bool repeatPlaylist = m_pConfig->getValue<bool>(
             ConfigKey(kPreferenceGroupName, kRepeatPlaylistPreference));
     pushButtonRepeatPlaylist->setChecked(repeatPlaylist);

@@ -287,7 +287,8 @@ void WMainMenuBar::initialize() {
     pViewShowSkinSettings->setWhatsThis(buildWhatsThis(showSkinSettingsTitle, showSkinSettingsText));
     createVisibilityControl(pViewShowSkinSettings,
             ConfigKey(kSkinGroup, QStringLiteral("show_settings")));
-    pViewMenu->addAction(pViewShowSkinSettings);
+    // Hidden for TOI DJ:
+    // pViewMenu->addAction(pViewShowSkinSettings);
 
     // Microphone Section
     QString showMicrophoneTitle = tr("Show Microphone Section");
@@ -303,7 +304,8 @@ void WMainMenuBar::initialize() {
     pViewShowMicrophone->setWhatsThis(buildWhatsThis(showMicrophoneTitle, showMicrophoneText));
     createVisibilityControl(pViewShowMicrophone,
             ConfigKey(kSkinGroup, QStringLiteral("show_microphones")));
-    pViewMenu->addAction(pViewShowMicrophone);
+    // Hidden for TOI DJ:
+    // pViewMenu->addAction(pViewShowMicrophone);
 
 #ifdef __VINYLCONTROL__
     QString showVinylControlTitle = tr("Show Vinyl Control Section");
@@ -319,7 +321,8 @@ void WMainMenuBar::initialize() {
     pViewVinylControl->setWhatsThis(buildWhatsThis(showVinylControlTitle, showVinylControlText));
     createVisibilityControl(pViewVinylControl,
             ConfigKey(kSkinGroup, QStringLiteral("show_vinylcontrol")));
-    pViewMenu->addAction(pViewVinylControl);
+    // Hidden for TOI DJ:
+    // pViewMenu->addAction(pViewVinylControl);
 #endif
 
     QString showPreviewDeckTitle = tr("Show Preview Deck");
@@ -335,7 +338,8 @@ void WMainMenuBar::initialize() {
     pViewShowPreviewDeck->setWhatsThis(buildWhatsThis(showPreviewDeckTitle, showPreviewDeckText));
     createVisibilityControl(pViewShowPreviewDeck,
             ConfigKey(kSkinGroup, QStringLiteral("show_preview_decks")));
-    pViewMenu->addAction(pViewShowPreviewDeck);
+    // Hidden for TOI DJ:
+    // pViewMenu->addAction(pViewShowPreviewDeck);
 
 
     QString showCoverArtTitle = tr("Show Cover Art");
@@ -367,7 +371,8 @@ void WMainMenuBar::initialize() {
     m_pViewKeywheel->setStatusTip(keywheelText);
     m_pViewKeywheel->setWhatsThis(buildWhatsThis(keywheelTitle, keywheelText));
     connect(m_pViewKeywheel, &QAction::triggered, this, &WMainMenuBar::showKeywheel);
-    pViewMenu->addAction(m_pViewKeywheel);
+    // Hidden for TOI DJ:
+    // pViewMenu->addAction(m_pViewKeywheel);
 
     QString maximizeLibraryTitle = tr("Maximize Library");
     QString maximizeLibraryText = tr("Maximize the track library to take up all the available screen space.") +
@@ -386,8 +391,8 @@ void WMainMenuBar::initialize() {
 
     pViewMenu->addSeparator();
 
-    QString autoDJTitle = tr("Show Auto DJ");
-    QString autoDJText = tr("Switch to the Auto DJ view.");
+    QString autoDJTitle = tr("Show Queue");
+    QString autoDJText = tr("Switch to the Queue view.");
     auto* pViewAutoDJ = new QAction(autoDJTitle, this);
     m_pKeyboard->registerMenuBarActionSetShortcut(
             pViewAutoDJ,
@@ -490,7 +495,8 @@ void WMainMenuBar::initialize() {
             &WMainMenuBar::internalRecordingStateChange,
             pOptionsRecord,
             &QAction::setChecked);
-    pOptionsMenu->addAction(pOptionsRecord);
+    // Hidden for TOI DJ:
+    // pOptionsMenu->addAction(pOptionsRecord);
 
 #ifdef __BROADCAST__
     QString broadcastingTitle = tr("Enable Live &Broadcasting");
@@ -510,7 +516,8 @@ void WMainMenuBar::initialize() {
             &WMainMenuBar::internalBroadcastingStateChange,
             pOptionsBroadcasting,
             &QAction::setChecked);
-    pOptionsMenu->addAction(pOptionsBroadcasting);
+    // Hidden for TOI DJ:
+    // pOptionsMenu->addAction(pOptionsBroadcasting);
 #endif
 
     pOptionsMenu->addSeparator();
@@ -556,8 +563,8 @@ void WMainMenuBar::initialize() {
 
     addMenu(pOptionsMenu);
 
-    // DEVELOPER MENU
-    if (CmdlineArgs::Instance().getDeveloper()) {
+    // DEVELOPER MENU (Hidden for TOI DJ)
+    if (false && CmdlineArgs::Instance().getDeveloper()) {
         QMenu* pDeveloperMenu = new QMenu(tr("&Developer"), this);
 #ifndef __APPLE__
         connectMenuToSlotShowMenuBar(pDeveloperMenu);
@@ -968,11 +975,12 @@ void WMainMenuBar::createVisibilityControl(QAction* pAction,
 void WMainMenuBar::onNumberOfDecksChanged(int decks) {
     int deck = 0;
     for (QAction* pVinylControlEnabled : std::as_const(m_vinylControlEnabledActions)) {
-        pVinylControlEnabled->setVisible(deck++ < decks);
+        pVinylControlEnabled->setVisible(false);
     }
     deck = 0;
     for (QAction* pLoadToDeck : std::as_const(m_loadToDeckActions)) {
-        pLoadToDeck->setVisible(deck++ < decks);
+        // TOI DJ is strictly 2 decks
+        pLoadToDeck->setVisible(deck++ < std::min(decks, 2));
     }
 }
 

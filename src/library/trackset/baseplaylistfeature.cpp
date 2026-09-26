@@ -101,18 +101,18 @@ void BasePlaylistFeature::initActions() {
             this,
             &BasePlaylistFeature::slotTogglePlaylistLock);
 
-    m_pAddToAutoDJAction = make_parented<QAction>(tr("Add to Auto DJ Queue (bottom)"), this);
+    m_pAddToAutoDJAction = make_parented<QAction>(tr("Add to Queue (bottom)"), this);
     connect(m_pAddToAutoDJAction,
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotAddToAutoDJ);
-    m_pAddToAutoDJTopAction = make_parented<QAction>(tr("Add to Auto DJ Queue (top)"), this);
+    m_pAddToAutoDJTopAction = make_parented<QAction>(tr("Add to Queue (top)"), this);
     connect(m_pAddToAutoDJTopAction,
             &QAction::triggered,
             this,
             &BasePlaylistFeature::slotAddToAutoDJTop);
     m_pAddToAutoDJReplaceAction =
-            make_parented<QAction>(tr("Add to Auto DJ Queue (replace)"), this);
+            make_parented<QAction>(tr("Add to Queue (replace)"), this);
     connect(m_pAddToAutoDJReplaceAction,
             &QAction::triggered,
             this,

@@ -147,91 +147,17 @@ Library::Library(
             &BrowseFeature::slotLibraryScanFinished);
     addFeature(m_pBrowseFeature);
 
-    addFeature(new RecordingFeature(this, m_pConfig, pRecordingManager));
+    // RecordingFeature hidden for TOI DJ
+    // addFeature(new RecordingFeature(this, m_pConfig, pRecordingManager));
 
     addFeature(new SetlogFeature(this, UserSettingsPointer(m_pConfig)));
 
-    m_pAnalysisFeature = make_parented<AnalysisFeature>(this, m_pConfig);
-    connect(m_pPlaylistFeature,
-            &PlaylistFeature::analyzeTracks,
-            m_pAnalysisFeature,
-            &AnalysisFeature::analyzeTracks);
-    connect(m_pCrateFeature,
-            &CrateFeature::analyzeTracks,
-            m_pAnalysisFeature,
-            &AnalysisFeature::analyzeTracks);
-    connect(this,
-            &Library::analyzeTracks,
-            m_pAnalysisFeature,
-            &AnalysisFeature::analyzeTracks);
-    addFeature(m_pAnalysisFeature);
-    // Suspend a batch analysis while an ad-hoc analysis of
-    // loaded tracks is in progress and resume it afterwards.
-    connect(pPlayerManager,
-            &PlayerManager::trackAnalyzerProgress,
-            this,
-            &Library::onPlayerManagerTrackAnalyzerProgress);
-    connect(pPlayerManager,
-            &PlayerManager::trackAnalyzerIdle,
-            this,
-            &Library::onPlayerManagerTrackAnalyzerIdle);
-    connect(m_pAnalysisFeature,
-            &AnalysisFeature::trackProgress,
-            this,
-            &Library::onTrackAnalyzerProgress);
+    // Batch AnalysisFeature hidden for TOI DJ (tracks are analyzed on load)
+    // m_pAnalysisFeature = make_parented<AnalysisFeature>(this, m_pConfig);
+    // addFeature(m_pAnalysisFeature);
 
-    // iTunes and Rhythmbox should be last until we no longer have an obnoxious
-    // messagebox popup when you select them. (This forces you to reach for your
-    // mouse or keyboard if you're using MIDI control and you scroll through them...)
-    if (RhythmboxFeature::isSupported() &&
-            m_pConfig->getValue(
-                    ConfigKey(kConfigGroup, "ShowRhythmboxLibrary"), true)) {
-        addFeature(new RhythmboxFeature(this, m_pConfig));
-    }
-    if (m_pConfig->getValue(
-                ConfigKey(kConfigGroup, "ShowBansheeLibrary"), true)) {
-        BansheeFeature::prepareDbPath(m_pConfig);
-        if (BansheeFeature::isSupported()) {
-            addFeature(new BansheeFeature(this, m_pConfig));
-        }
-    }
-    if (ITunesFeature::isSupported() &&
-            m_pConfig->getValue(
-                    ConfigKey(kConfigGroup, "ShowITunesLibrary"), true)) {
-        addFeature(new ITunesFeature(this, m_pConfig));
-    }
-    if (TraktorFeature::isSupported() &&
-            m_pConfig->getValue(
-                    ConfigKey(kConfigGroup, "ShowTraktorLibrary"), true)) {
-        addFeature(new TraktorFeature(this, m_pConfig));
-    }
-
-    // TODO(XXX) Rekordbox feature added persistently as the only way to enable it to
-    // dynamically appear/disappear when correctly prepared removable devices
-    // are mounted/unmounted would be to have some form of timed thread to check
-    // periodically. Not ideal performance wise.
-    if (m_pConfig->getValue(
-                ConfigKey(kConfigGroup, "ShowRekordboxLibrary"), true)) {
-        addFeature(new RekordboxFeature(this, m_pConfig));
-    }
-
-    if (m_pConfig->getValue(
-                ConfigKey(kConfigGroup, "ShowSeratoLibrary"), true)) {
-        addFeature(new SeratoFeature(this, m_pConfig));
-    }
-
-    for (const auto& externalTrackCollection : m_pTrackCollectionManager->externalCollections()) {
-        auto* feature = externalTrackCollection->newLibraryFeature(this, m_pConfig);
-        if (feature) {
-            kLogger.info() << "Adding library feature for"
-                           << externalTrackCollection->name();
-            addFeature(feature);
-        } else {
-            kLogger.info() << "Library feature for"
-                           << externalTrackCollection->name()
-                           << "is not available";
-        }
-    }
+    // External DJ software libraries hidden for TOI DJ
+    // (iTunes, Banshee, Rhythmbox, Traktor, Rekordbox, Serato)
 
     // On startup we need to check if all of the user's library folders are
     // accessible to us. If the user is using a database from <1.12.0 with
@@ -605,7 +531,9 @@ void Library::slotLoadTrackToPlayer(
 
 void Library::slotRefreshLibraryModels() {
     m_pMixxxLibraryFeature->refreshLibraryModels();
-    m_pAnalysisFeature->refreshLibraryModels();
+    if (m_pAnalysisFeature) {
+        m_pAnalysisFeature->refreshLibraryModels();
+    }
 }
 
 void Library::slotCreatePlaylist() {

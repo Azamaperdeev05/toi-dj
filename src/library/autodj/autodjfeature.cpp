@@ -105,8 +105,8 @@ AutoDJFeature::AutoDJFeature(Library* pLibrary,
             this,
             &AutoDJFeature::slotDisableAutoDJ);
 
-    // Create context-menu item for clearing the auto-DJ queue
-    m_pClearQueueAction = make_parented<QAction>(tr("Clear Auto DJ Queue"), this);
+    // Create context-menu item for clearing the queue
+    m_pClearQueueAction = make_parented<QAction>(tr("Clear Queue"), this);
     const auto removeKeySequence =
             // TODO(XXX): Qt6 replace enum | with QKeyCombination
             QKeySequence(static_cast<int>(kHideRemoveShortcutModifier) |
@@ -135,7 +135,7 @@ AutoDJFeature::~AutoDJFeature() {
 }
 
 QVariant AutoDJFeature::title() {
-    return tr("Auto DJ");
+    return tr("Queue");
 }
 
 void AutoDJFeature::bindLibraryWidget(
@@ -367,11 +367,6 @@ void AutoDJFeature::constructCrateChildModel() {
 
 void AutoDJFeature::onRightClick(const QPoint& globalPos) {
     QMenu menu(m_pSidebarWidget);
-    if (m_pAutoDJProcessor->getState() == AutoDJProcessor::ADJ_DISABLED) {
-        menu.addAction(m_pEnableAutoDJAction.get());
-    } else {
-        menu.addAction(m_pDisableAutoDJAction.get());
-    }
     menu.addAction(m_pClearQueueAction.get());
     menu.exec(globalPos);
 }

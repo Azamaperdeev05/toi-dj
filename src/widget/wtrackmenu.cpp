@@ -312,13 +312,13 @@ void WTrackMenu::createActions() {
                     kHideRemoveShortcutKey);
 
     if (featureIsEnabled(Feature::AutoDJ)) {
-        m_pAutoDJBottomAct = make_parented<QAction>(tr("Add to Auto DJ Queue (bottom)"), this);
+        m_pAutoDJBottomAct = make_parented<QAction>(tr("Add to Queue (bottom)"), this);
         connect(m_pAutoDJBottomAct, &QAction::triggered, this, &WTrackMenu::slotAddToAutoDJBottom);
 
-        m_pAutoDJTopAct = make_parented<QAction>(tr("Add to Auto DJ Queue (top)"), this);
+        m_pAutoDJTopAct = make_parented<QAction>(tr("Add to Queue (top)"), this);
         connect(m_pAutoDJTopAct, &QAction::triggered, this, &WTrackMenu::slotAddToAutoDJTop);
 
-        m_pAutoDJReplaceAct = make_parented<QAction>(tr("Add to Auto DJ Queue (replace)"), this);
+        m_pAutoDJReplaceAct = make_parented<QAction>(tr("Add to Queue (replace)"), this);
         connect(m_pAutoDJReplaceAct, &QAction::triggered, this, &WTrackMenu::slotAddToAutoDJReplace);
     }
 
