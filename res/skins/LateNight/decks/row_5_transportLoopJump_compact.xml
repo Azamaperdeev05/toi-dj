@@ -162,15 +162,7 @@
       <WidgetGroup><SizePolicy>min,min</SizePolicy></WidgetGroup>
       <WidgetGroup><Size>1f,0min</Size></WidgetGroup>
 
-      <Template src="skins:LateNight/decks/vinyl_controls.xml"/>
 
-      <WidgetGroup>
-        <SizePolicy>me,min</SizePolicy>
-        <MinimumSize>2,</MinimumSize>
-        <MaximumSize>40,</MaximumSize>
-      </WidgetGroup>
-
-      <Template src="skins:LateNight/fx/assign_buttons.xml"/>
 
       <WidgetGroup>
         <SizePolicy>me,min</SizePolicy>

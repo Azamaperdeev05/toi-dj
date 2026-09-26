@@ -162,4 +162,6 @@ class MixxxMainWindow : public QMainWindow {
     mixxx::preferences::ScreenSaver m_inhibitScreensaver;
 
     QSet<ControlObject*> m_skinCreatedControls;
+
+    std::unique_ptr<ControlPushButton> m_pShowPreferencesControl;
 };

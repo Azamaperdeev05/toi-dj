@@ -1,30 +1,32 @@
 <Template>
   <WidgetGroup>
-    <ObjectName>DeckRow_1_KeyVinylFx</ObjectName>
+    <ObjectName>DeckHeaderBar</ObjectName>
     <Layout>horizontal</Layout>
     <SizePolicy>me,max</SizePolicy>
+    <Size>0me,28f</Size>
     <Children>
 
-      <Template src="skins:LateNight/fx/assign_buttons.xml"/>
+      <Label>
+        <ObjectName>DeckHeaderLabel</ObjectName>
+        <Size>100f,26f</Size>
+        <Alignment>center</Alignment>
+        <Text>DECK <Variable name="DeckLetter"/></Text>
+      </Label>
 
-      <WidgetGroup><Size>2f,0min</Size></WidgetGroup>
+      <WidgetGroup><Size>6f,0min</Size></WidgetGroup>
 
-      <WidgetGroup>
-        <ObjectName>ExpandingBottomBorder</ObjectName>
-        <SizePolicy>me,me</SizePolicy>
-        <MinimumSize>2,1</MinimumSize>
-        <Children/>
-      </WidgetGroup>
+      <Label>
+        <ObjectName>DeckStatusLabel</ObjectName>
+        <Size>76f,22f</Size>
+        <Alignment>center</Alignment>
+        <Text>PLAYING</Text>
+        <Connection>
+          <ConfigKey><Variable name="Group"/>,play</ConfigKey>
+          <BindProperty>visible</BindProperty>
+        </Connection>
+      </Label>
 
-      <Template src="skins:LateNight/decks/vinyl_controls.xml"/>
-
-      <WidgetGroup>
-        <ObjectName>ExpandingBottomBorder</ObjectName>
-        <SizePolicy>me,me</SizePolicy>
-        <MinimumSize>2,1</MinimumSize>
-      </WidgetGroup>
-
-      <WidgetGroup><Size>2f,0me</Size></WidgetGroup>
+      <WidgetGroup><Size>0me,0min</Size></WidgetGroup>
 
       <WidgetGroup>
         <SizePolicy>me,min</SizePolicy>
@@ -42,5 +44,9 @@
       </WidgetGroup>
 
     </Children>
-  </WidgetGroup><!-- DeckRow_1_KeyVinylFx -->
+    <Connection>
+      <ConfigKey><Variable name="Group"/>,play</ConfigKey>
+      <BindProperty>highlight</BindProperty>
+    </Connection>
+  </WidgetGroup><!-- DeckHeaderBar -->
 </Template>

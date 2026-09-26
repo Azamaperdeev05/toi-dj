@@ -94,30 +94,29 @@ DlgAutoDJ::DlgAutoDJ(WLibrary* parent,
     setupActionButton(pushButtonAddRandomTrack, &DlgAutoDJ::addRandomTrackButton, tr("Random"));
 
     m_enableBtnTooltip = tr(
-            "Enable Auto DJ\n"
+            "Start Queue playback\n"
             "\n"
             "Shortcut: Shift+F12");
     m_disableBtnTooltip = tr(
-            "Disable Auto DJ\n"
+            "Stop Queue playback\n"
             "\n"
             "Shortcut: Shift+F12");
     QString fadeBtnTooltip = tr(
-            "Trigger the transition to the next track\n"
+            "Trigger transition to the next track\n"
             "\n"
             "Shortcut: Shift+F11");
     QString skipBtnTooltip = tr(
-            "Skip the next track in the Auto DJ queue\n"
+            "Skip the next track in Queue\n"
             "\n"
             "Shortcut: Shift+F10");
     QString shuffleBtnTooltip = tr(
-            "Shuffle the content of the Auto DJ queue\n"
+            "Shuffle Queue\n"
             "\n"
             "Shortcut: Shift+F9");
     QString addRandomTrackBtnTooltip = tr(
-            "Adds a random track from track sources (crates) to the Auto DJ queue.\n"
-            "If no track sources are configured, the track is added from the library instead.");
+            "Adds a random track to the Queue.");
     QString repeatBtnTooltip = tr(
-            "Repeat the playlist");
+            "Repeat the Queue");
     QString spinBoxTransitionTooltip = tr(
             "Determines the duration of the transition");
     QString labelTransitionTooltip = tr(
@@ -325,7 +324,7 @@ void DlgAutoDJ::autoDJStateChanged(AutoDJProcessor::AutoDJState state) {
         pushButtonAutoDJ->setChecked(false);
         pushButtonAutoDJ->setToolTip(m_enableBtnTooltip);
         if (m_bShowButtonText) {
-            pushButtonAutoDJ->setText(tr("Enable"));
+            pushButtonAutoDJ->setText(tr("Play Queue"));
         }
         pushButtonFadeNow->setEnabled(false);
         pushButtonSkipNext->setEnabled(false);
@@ -334,7 +333,7 @@ void DlgAutoDJ::autoDJStateChanged(AutoDJProcessor::AutoDJState state) {
         pushButtonAutoDJ->setChecked(true);
         pushButtonAutoDJ->setToolTip(m_disableBtnTooltip);
         if (m_bShowButtonText) {
-            pushButtonAutoDJ->setText(tr("Disable"));
+            pushButtonAutoDJ->setText(tr("Pause Queue"));
         }
 
         // If fading, you can't hit fade now.

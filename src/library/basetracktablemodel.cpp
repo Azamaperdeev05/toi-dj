@@ -355,15 +355,22 @@ QList<int> BaseTrackTableModel::pasteTracks(const QModelIndex& insertionIndex) {
 
 bool BaseTrackTableModel::isColumnHiddenByDefault(
         int column) {
-    return column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_ALBUMARTIST) ||
+    return column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_ALBUM) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_ALBUMARTIST) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_BPM_LOCK) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_BITRATE) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_CHANNELS) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_COLOR) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_COMMENT) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_COMPOSER) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_DATETIMEADDED) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_FILETYPE) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_GENRE) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_GROUPING) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_KEY) ||
             column == fieldIndex(ColumnCache::COLUMN_TRACKLOCATIONSTABLE_LOCATION) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_PLAYED) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_RATING) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_REPLAYGAIN) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_SAMPLERATE) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_TIMESPLAYED) ||

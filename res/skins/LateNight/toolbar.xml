@@ -5,6 +5,18 @@
     <SizePolicy>e,min</SizePolicy>
     <Children>
 
+      <Label>
+        <ObjectName>ToiDjLogo</ObjectName>
+        <Size>100f,24f</Size>
+        <Alignment>center</Alignment>
+        <Text>TOI DJ</Text>
+      </Label>
+
+      <WidgetGroup>
+        <ObjectName>ToolbarSeparator</ObjectName>
+        <Size>12f,9min</Size>
+      </WidgetGroup>
+
       <Template src="skins:LateNight/controls/button_2state.xml">
         <SetVariable name="TooltipId">maximize_library</SetVariable>
         <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
@@ -156,10 +168,13 @@
 
       <WidgetGroup><Size>9f,min</Size></WidgetGroup>
 
-      <Label>
-        <ObjectName>ToolbarLogo</ObjectName>
-        <Size>74f,24f</Size>
-      </Label>
+      <Template src="skins:LateNight/controls/button_1state.xml">
+        <SetVariable name="TooltipId">preferences</SetVariable>
+        <SetVariable name="ObjectName">GuiToggleButton</SetVariable>
+        <SetVariable name="Size">85f,20f</SetVariable>
+        <SetVariable name="state_0_text">SETTINGS</SetVariable>
+        <SetVariable name="ConfigKey">[App],show_preferences</SetVariable>
+      </Template>
 
       <WidgetGroup><Size>2f,min</Size></WidgetGroup>
 

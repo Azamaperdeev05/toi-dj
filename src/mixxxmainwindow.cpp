@@ -35,6 +35,7 @@
 #include "broadcast/broadcastmanager.h"
 #endif
 #include "control/controlindicatortimer.h"
+#include "control/controlpushbutton.h"
 #include "library/library.h"
 #include "library/library_decl.h"
 #include "library/library_prefs.h"
@@ -838,6 +839,17 @@ void MixxxMainWindow::connectMenuBar() {
             this,
             &MixxxMainWindow::slotOptionsPreferences,
             Qt::UniqueConnection);
+
+    m_pShowPreferencesControl = std::make_unique<ControlPushButton>(
+            ConfigKey("[App]", "show_preferences"));
+    connect(m_pShowPreferencesControl.get(),
+            &ControlPushButton::valueChanged,
+            this,
+            [this](double v) {
+                if (v > 0) {
+                    slotOptionsPreferences();
+                }
+            });
     connect(m_pMenuBar,
             &WMainMenuBar::loadTrackToDeck,
             this,

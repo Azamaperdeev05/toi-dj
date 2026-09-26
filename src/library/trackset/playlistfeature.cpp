@@ -337,12 +337,36 @@ void PlaylistFeature::slotDeleteAllUnlockedPlaylists() {
     m_playlistDao.deleteUnlockedPlaylists(std::move(ids));
 }
 
+void PlaylistFeature::ensureDefaultWeddingPlaylists() {
+    static const QStringList defaultPlaylists = {
+        QString::fromUtf8("Келген қонақтар"),
+        QString::fromUtf8("Басталуы"),
+        QString::fromUtf8("Беташар"),
+        QString::fromUtf8("Баяу әндер"),
+        QString::fromUtf8("Би"),
+        QString::fromUtf8("Қыздар"),
+        QString::fromUtf8("Жігіттер"),
+        QString::fromUtf8("Үлкендер"),
+        QString::fromUtf8("Қазіргі хиттер"),
+        QString::fromUtf8("Ұлттық әндер"),
+        QString::fromUtf8("Сұраныстар"),
+        QString::fromUtf8("Финал")
+    };
+    for (const QString& name : defaultPlaylists) {
+        if (m_playlistDao.getPlaylistIdFromName(name) < 0) {
+            m_playlistDao.createPlaylist(name);
+        }
+    }
+}
+
 /// Purpose: When inserting or removing playlists,
 /// we require the sidebar model not to reset.
 /// This method queries the database and does dynamic insertion
 /// @param selectedId entry which should be selected
 QModelIndex PlaylistFeature::constructChildModel(int selectedId) {
     // qDebug() << "PlaylistFeature::constructChildModel() id:" << selectedId;
+    ensureDefaultWeddingPlaylists();
+
     std::vector<std::unique_ptr<TreeItem>> childrenToAdd;
     int selectedRow = -1;
 

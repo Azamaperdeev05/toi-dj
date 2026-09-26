@@ -46,15 +46,17 @@
       <!-- general -->
       <attribute persist="true" config_key="[Skin],show_4decks">0</attribute>
       <attribute persist="true" config_key="[Skin],show_hotcues">1</attribute>
-      <attribute persist="true" config_key="[Skin],show_8_hotcues">1</attribute>
-      <attribute persist="true" config_key="[Skin],show_intro_outro_cues">1</attribute>
+      <attribute persist="true" config_key="[Skin],show_8_hotcues">0</attribute>
+      <attribute persist="true" config_key="[Skin],show_intro_outro_cues">0</attribute>
       <attribute persist="true" config_key="[Skin],show_loop_controls">1</attribute>
-      <attribute persist="true" config_key="[Skin],show_beatjump_controls">1</attribute>
-      <attribute persist="true" config_key="[Skin],show_spinnies">1</attribute>
+      <attribute persist="true" config_key="[Skin],show_beatjump_controls">0</attribute>
+      <attribute persist="true" config_key="[Skin],show_spinnies">0</attribute>
       <attribute persist="true" config_key="[Skin],show_coverart">1</attribute>
       <attribute persist="true" config_key="[Skin],select_big_spinny_or_cover">0</attribute>
       <!-- ToDo: deck-independent vinyl controls? -->
       <attribute persist="true" config_key="[Skin],show_vinylcontrol">0</attribute>
+      <attribute persist="true" config_key="[Skin],show_beatgrid_controls">0</attribute>
+      <attribute persist="true" config_key="[Skin],show_stem_controls">0</attribute>
       <!-- Deck variant that is shown as soon as the mixer is hidden.
           See deck.xml and /helpers/skin_helper_deck_size.xml for documentation.
           0=mini 1=compact(default) 2=full deck -->
@@ -62,7 +64,6 @@
       <!-- Full deck -->
       <attribute persist="true" config_key="[Skin],show_rate_controls">1</attribute>
       <attribute persist="true" config_key="[Skin],show_rate_control_buttons">1</attribute>
-      <attribute persist="true" config_key="[Skin],show_beatgrid_controls">1</attribute>
       <!-- Compact deck -->
       <attribute persist="true" config_key="[Skin],show_rate_controls_compact">1</attribute>
       <attribute persist="true" config_key="[Skin],show_loop_controls_compact">1</attribute>
@@ -370,6 +371,7 @@
       <Children>
       <Template src="skins:LateNight/decks/deck.xml">
         <SetVariable name="ChanNum">1</SetVariable>
+        <SetVariable name="DeckLetter">A</SetVariable>
         <SetVariable name="DeckGroup">12</SetVariable>
         <SetVariable name="SignalColor"><Variable name="SignalColor_12"/></SetVariable>
         <SetVariable name="BgColor"><Variable name="BgColorOverview_12"/></SetVariable>
@@ -382,6 +384,7 @@
       <Children>
         <Template src="skins:LateNight/decks/deck.xml">
           <SetVariable name="ChanNum">2</SetVariable>
+          <SetVariable name="DeckLetter">B</SetVariable>
           <SetVariable name="DeckGroup">12</SetVariable>
           <SetVariable name="SignalColor"><Variable name="SignalColor_12"/></SetVariable>
           <SetVariable name="BgColor"><Variable name="BgColorOverview_12"/></SetVariable>
@@ -389,29 +392,6 @@
       </Children>
     </SingletonDefinition>
 
-    <SingletonDefinition>
-      <ObjectName>Deck3_Src</ObjectName>
-      <Children>
-      <Template src="skins:LateNight/decks/deck.xml">
-        <SetVariable name="ChanNum">3</SetVariable>
-        <SetVariable name="DeckGroup">34</SetVariable>
-        <SetVariable name="SignalColor"><Variable name="SignalColor_34"/></SetVariable>
-        <SetVariable name="BgColor"><Variable name="BgColorOverview_34"/></SetVariable>
-      </Template>
-      </Children>
-    </SingletonDefinition>
-
-    <SingletonDefinition>
-      <ObjectName>Deck4_Src</ObjectName>
-      <Children>
-      <Template src="skins:LateNight/decks/deck.xml">
-        <SetVariable name="ChanNum">4</SetVariable>
-        <SetVariable name="DeckGroup">34</SetVariable>
-        <SetVariable name="SignalColor"><Variable name="SignalColor_34"/></SetVariable>
-        <SetVariable name="BgColor"><Variable name="BgColorOverview_34"/></SetVariable>
-      </Template>
-      </Children>
-    </SingletonDefinition>
 
     <Template src="skins:LateNight/mixer/singletons.xml"/>
 
@@ -422,12 +402,7 @@
       </Children>
     </SingletonDefinition>
 
-    <SingletonDefinition>
-      <ObjectName>SamplerSettingsSingleton</ObjectName>
-      <Children>
-        <Template src="skins:LateNight/helpers/skin_settings_samplers.xml"/>
-      </Children>
-    </SingletonDefinition>
+
 
     <WidgetGroup>
       <ObjectName>SkinContainer</ObjectName>
@@ -495,13 +470,9 @@
                           </Children>
                         </WidgetGroup>
 
-                        <Template src="skins:LateNight/fx_rack.xml"/>
-                        <Template src="skins:LateNight/samplers_rack.xml"/>
-                        <Template src="skins:LateNight/mic_aux_rack.xml"/>
-
-                        <SingletonContainer>
-                          <ObjectName>LibrarySingleton</ObjectName>
-                        </SingletonContainer>
+                         <SingletonContainer>
+                           <ObjectName>LibrarySingleton</ObjectName>
+                         </SingletonContainer>
                       </Children>
                     </WidgetGroup>
 

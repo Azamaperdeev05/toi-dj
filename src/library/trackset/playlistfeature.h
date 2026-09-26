@@ -47,6 +47,7 @@ class PlaylistFeature : public BasePlaylistFeature {
     QModelIndex constructChildModel(int selectedId);
 
   private:
+    void ensureDefaultWeddingPlaylists();
     QString getRootViewHtml() const override;
 
     parented_ptr<QAction> m_pShufflePlaylistAction;

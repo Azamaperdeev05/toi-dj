@@ -8,8 +8,16 @@
     <ObjectName>CrossfaderSingleton</ObjectName>
     <Children>
       <WidgetGroup>
-        <Size>115f,40f</Size>
+        <Layout>horizontal</Layout>
+        <Size>155f,40f</Size>
         <Children>
+          <Label>
+            <ObjectName>CrossfaderLabelA</ObjectName>
+            <Size>16f,40f</Size>
+            <Alignment>center</Alignment>
+            <Text>A</Text>
+          </Label>
+
           <!-- WidgetGroup around slider to draw a style border
           around it when AutoDJ is enabled. Note that it doesn't
           work without the extra outer WidgetGroup -->
@@ -40,6 +48,13 @@
               </SliderComposed>
             </Children>
           </WidgetGroup>
+
+          <Label>
+            <ObjectName>CrossfaderLabelB</ObjectName>
+            <Size>16f,40f</Size>
+            <Alignment>center</Alignment>
+            <Text>B</Text>
+          </Label>
         </Children>
       </WidgetGroup>
     </Children>
@@ -73,33 +88,7 @@
     </Children>
   </SingletonDefinition>
 
-  <SingletonDefinition>
-    <ObjectName>VuMeterChannel3</ObjectName>
-    <Children>
-      <WidgetGroup>
-        <Layout>horizontal</Layout>
-        <Children>
-          <Template src="skins:LateNight/mixer/vumeter_single.xml">
-            <SetVariable name="Group">[Channel3]</SetVariable>
-          </Template>
-        </Children>
-      </WidgetGroup>
-    </Children>
-  </SingletonDefinition>
 
-  <SingletonDefinition>
-    <ObjectName>VuMeterChannel4</ObjectName>
-    <Children>
-      <WidgetGroup>
-        <Layout>horizontal</Layout>
-        <Children>
-          <Template src="skins:LateNight/mixer/vumeter_single.xml">
-            <SetVariable name="Group">[Channel4]</SetVariable>
-          </Template>
-        </Children>
-      </WidgetGroup>
-    </Children>
-  </SingletonDefinition>
 
   <SingletonDefinition>
     <ObjectName>VuMeterMain_Dark</ObjectName>

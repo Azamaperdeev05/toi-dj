@@ -1068,3 +1068,52 @@ WLibrarySidebar {
 #Border58 {
   border: 1px solid #585858;
 }
+
+/* ==================================================
+   TOI DJ Modern UI Styles
+   ================================================== */
+#ToiDjLogo {
+  color: #ffb300;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  padding: 0 8px;
+}
+
+#DeckHeaderBar {
+  background-color: #18181e;
+  border: 1px solid #2d2d38;
+  border-radius: 4px;
+  margin: 1px 0px;
+}
+
+#DeckHeaderBar[highlight="1"] {
+  background-color: #102616;
+  border: 1px solid #00e676;
+}
+
+#DeckHeaderLabel {
+  font-size: 15px;
+  font-weight: bold;
+  color: #f0f0f5;
+  letter-spacing: 1px;
+}
+
+#DeckStatusLabel {
+  font-size: 11px;
+  font-weight: bold;
+  color: #00e676;
+  background-color: rgba(0, 230, 118, 0.18);
+  border: 1px solid #00e676;
+  border-radius: 3px;
+  padding: 1px 6px;
+}
+
+#CrossfaderLabelA,
+#CrossfaderLabelB {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00c6ff;
+  padding: 0 4px;
+}
+
