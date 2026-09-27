@@ -1,0 +1,114 @@
+name: Build & Release TOI DJ (Multi-Platform)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    name: Build macOS (Apple Silicon & Intel)
+    runs-on: macos-14
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Dependencies
+        run: |
+          brew install cmake ninja pkg-config qt@6 libsndfile flac libvorbis opus taglib protobuf ffmpeg rubberband chromaprint portaudio portmidi libusb libshout vamp-plugin-sdk lilv suil soundtouch
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DOPTIMIZE=portable \
+            -DQT6=ON
+
+      - name: Build TOI DJ
+        run: |
+          cmake --build build --target mixxx -j$(sysctl -n hw.ncpu)
+
+      - name: Package macOS DMG
+        run: |
+          python3 tools/package_macos.py || true
+
+      - name: Upload macOS Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: TOI-DJ-macOS
+          path: dist/TOI-DJ-*.dmg
+
+  build-linux:
+    name: Build Linux (Ubuntu)
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Linux Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build build-essential \
+            libqt6svg6-dev qt6-base-dev qt6-tools-dev libsndfile1-dev \
+            libflac-dev libvorbis-dev libogg-dev libopus-dev libtag1-dev \
+            libprotobuf-dev protobuf-compiler libchromaprint-dev \
+            librubberband-dev libportaudio2 portaudio19-dev libportmidi-dev \
+            libusb-1.0-0-dev libshout3-dev liblilv-dev libsoundtouch-dev
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DOPTIMIZE=portable \
+            -DQT6=ON
+
+      - name: Build Linux Binary
+        run: |
+          cmake --build build --target mixxx -j$(nproc)
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TOI-DJ-Linux
+          path: build/mixxx
+
+  build-windows:
+    name: Build Windows (x64)
+    runs-on: windows-2022
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup MSVC & Ninja
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install vcpkg dependencies
+        run: |
+          vcpkg install qtbase[core,gui,widgets,network,concurrent,opengl] taglib libsndfile portaudio rubberband --triplet x64-windows
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G Ninja `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+            -DVCPKG_TARGET_TRIPLET=x64-windows
+
+      - name: Build Windows Executable
+        run: |
+          cmake --build build --target mixxx --config Release
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TOI-DJ-Windows
+          path: build/mixxx.exe

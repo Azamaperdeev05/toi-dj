@@ -110,9 +110,9 @@ def main():
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.0</string>
+    <string>1.1.0</string>
     <key>CFBundleVersion</key>
-    <string>1.0.0</string>
+    <string>1.1.0</string>
     <key>NSHumanReadableCopyright</key>
     <string>Copyright © 2026 TOI DJ Team</string>
     <key>NSMicrophoneUsageDescription</key>
@@ -149,7 +149,7 @@ def main():
         apps_link.unlink()
     apps_link.symlink_to("/Applications")
 
-    dmg_path = dist_dir / "TOI-DJ-macOS-arm64.dmg"
+    dmg_path = dist_dir / "TOI-DJ-1.1.0-macOS-arm64.dmg"
     print(f"8. Building DMG: {dmg_path.name}...")
     run_cmd([
         "hdiutil", "create",
@@ -161,7 +161,7 @@ def main():
     ])
     shutil.rmtree(dmg_staging)
 
-    zip_path = dist_dir / "TOI-DJ-macOS-arm64.zip"
+    zip_path = dist_dir / "TOI-DJ-1.1.0-macOS-arm64.zip"
     print(f"9. Building ZIP: {zip_path.name}...")
     run_cmd(f'cd "{dist_dir}" && zip -r -y "{zip_path.name}" "TOI DJ.app"', cwd=str(repo_root))
 

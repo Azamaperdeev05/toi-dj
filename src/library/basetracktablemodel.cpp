@@ -393,7 +393,12 @@ bool BaseTrackTableModel::isColumnHiddenByDefault(
             column == fieldIndex(ColumnCache::COLUMN_TRACKLOCATIONSTABLE_DIRECTORY) ||
             column == fieldIndex(ColumnCache::COLUMN_TRACKLOCATIONSTABLE_FSDELETED) ||
             column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_MIXXXDELETED) ||
-            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_HEADERPARSED);
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_HEADERPARSED) ||
+            // TOI DJ: hide columns not useful for wedding DJs
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_RATING) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_GENRE) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_KEY) ||
+            column == fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_BPM);
 }
 
 QAbstractItemDelegate* BaseTrackTableModel::delegateForColumn(

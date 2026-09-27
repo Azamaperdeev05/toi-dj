@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOI DJ — Тойға арналған мінсіз диджейлік бағдарлама</title>
+  <meta name="description" content="Қазақ тойлары мен іс-шараларына арналған алғашқы мамандандырылған заманауи ашық диджей бағдарламасы. 12 той кезеңі, дайын отбивкалар және жедел басқару.">
+  <meta property="og:title" content="TOI DJ — Тойға арналған мінсіз диджейлік бағдарлама">
+  <meta property="og:description" content="Батадан қоштасуға дейін 12 кезеңді бір түймемен басқарыңыз. 5.3 мс ultra-low latency, жедел Spacebar паузасы және таза интерфейс.">
+  <meta property="og:image" content="images/toi-dj-full.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="images/toi-dj-sidebar.png">
+  
+  <!-- Apple-inspired Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #000000;
+      --bg-elevated: #0a0a0c;
+      --bg-surface: rgba(255, 255, 255, 0.04);
+      --bg-surface-hover: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.1);
+      --border-focus: rgba(255, 255, 255, 0.25);
+      --text: #f5f5f7;
+      --text-muted: #86868b;
+      --text-dim: #6e6e73;
+      --accent: #2997ff;
+      --accent-gradient: linear-gradient(135deg, #0071e3 0%, #47a3ff 50%, #9bc5ff 100%);
+      --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffae00 100%);
+      --purple-gradient: linear-gradient(135deg, #bf5af2 0%, #5e5ce6 100%);
+      --green-gradient: linear-gradient(135deg, #30d158 0%, #28cd41 100%);
+      --glass: rgba(18, 18, 22, 0.72);
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+      selection-background-color: var(--accent);
+      selection-color: #fff;
+    }
+
+    /* Apple-Style Navigation */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 16px 24px;
+    }
+
+    .nav {
+      width: 100%;
+      max-width: 1040px;
+      height: 52px;
+      background: var(--glass);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      color: #ffd700;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      background: #ffffff;
+      color: #000000;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-nav:hover {
+      background: #f0f0f5;
+      transform: scale(1.02);
+    }
+
+    .btn-nav-outline {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-nav-outline:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--border-focus);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 160px 24px 80px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 113, 227, 0.25) 0%, rgba(191, 90, 242, 0.12) 50%, rgba(0,0,0,0) 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 500;
+      color: #9bc5ff;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    .pill-tag span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #30d158;
+      box-shadow: 0 0 10px #30d158;
+    }
+
+    .hero-title {
+      font-size: clamp(44px, 7vw, 84px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 24px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 50%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: clamp(18px, 2.2vw, 22px);
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .btn-primary {
+      background: #ffffff;
+      color: #000000;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 15px 32px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-primary:hover {
+      background: #f5f5f7;
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 16px;
+      font-weight: 500;
+      padding: 15px 28px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: var(--border-focus);
+      transform: translateY(-2px);
+    }
+
+    .platform-chips {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    .platform-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Device Mockup Showcase */
+    .mockup-container {
+      margin-top: 50px;
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #08080a;
+      box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.9), 0 0 60px rgba(41, 151, 255, 0.1);
+    }
+
+    .mockup-window-bar {
+      height: 38px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 8px;
+    }
+
+    .window-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .dot-close { background: #ff5f56; }
+    .dot-min { background: #ffbd2e; }
+    .dot-max { background: #27c93f; }
+
+    .window-title {
+      flex: 1;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .mockup-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Bento Grid Section */
+    .section {
+      padding: 100px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 60px;
+    }
+
+    .section-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4.5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .section-desc {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .bento-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bento-card:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--border-focus);
+      transform: translateY(-4px);
+    }
+
+    .col-8 { grid-column: span 8; }
+    .col-4 { grid-column: span 4; }
+    .col-6 { grid-column: span 6; }
+    .col-12 { grid-column: span 12; }
+
+    @media (max-width: 900px) {
+      .col-8, .col-4, .col-6 { grid-column: span 12; }
+    }
+
+    .bento-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .bento-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    .bento-text {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    /* Interactive 12 Stages Showcase */
+    .stages-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .stage-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stage-btn:hover, .stage-btn.active {
+      background: rgba(41, 151, 255, 0.15);
+      border-color: #2997ff;
+      color: #9bc5ff;
+    }
+
+    .stage-key {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    /* Spacebar Interactive Widget */
+    .spacebar-demo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-top: 15px;
+    }
+
+    .space-key-visual {
+      width: 240px;
+      height: 48px;
+      background: linear-gradient(180deg, #2a2a30 0%, #1a1a20 100%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      box-shadow: 0 6px 0 #0f0f14, 0 10px 20px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 13px;
+      color: #ffffff;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.1s ease;
+    }
+
+    .space-key-visual:active, .space-key-visual.pressed {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #0f0f14, 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .space-status {
+      margin-top: 18px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #30d158;
+      font-weight: 600;
+    }
+
+    .space-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #30d158;
+      box-shadow: 0 0 10px #30d158;
+    }
+
+    /* Otbivka Showcase */
+    .otbivka-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .otbivka-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+    }
+
+    .otbivka-play-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .otbivka-play-btn:hover {
+      background: #2997ff;
+      transform: scale(1.1);
+    }
+
+    /* Platforms Matrix */
+    .platform-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    .platform-card:hover {
+      border-color: var(--border-focus);
+      background: var(--bg-surface-hover);
+      transform: translateY(-4px);
+    }
+
+    .platform-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .platform-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .platform-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+
+    .platform-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .platform-btn.primary {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+    }
+
+    .platform-btn.primary:hover {
+      background: #f0f0f5;
+    }
+
+    .platform-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--border-focus);
+    }
+
+    /* Shortcuts Table */
+    .shortcuts-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+
+    .shortcuts-table th, .shortcuts-table td {
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .shortcuts-table th {
+      color: var(--text-dim);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+
+    .kbd-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: #9bc5ff;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 24px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      color: var(--text-dim);
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding-top: 24px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 120px 20px 60px; }
+      .bento-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <div class="nav-wrapper">
+    <nav class="nav">
+      <a href="#" class="nav-brand">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="10 8 16 12 10 16 10 8"></polygon>
+        </svg>
+        TOI DJ
+        <span class="brand-badge">v1.1.0</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#features">Мүмкіндіктер</a></li>
+        <li><a href="#stages">12 Кезең</a></li>
+        <li><a href="#shortcuts">Ыстық Пернелер</a></li>
+        <li><a href="#platforms">Құрылғылар</a></li>
+        <li><a href="#download">Жүктеу</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://github.com/Azamaperdeev05/toi-dj" target="_blank" class="btn-nav-outline">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="#download" class="btn-nav">
+          Жүктеу
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    
+    <div class="pill-tag">
+      <span class="dot"></span>
+      TOI DJ v1.1.0 • Қазақ тойына арналған мамандандырылған бағдарлама
+    </div>
+
+    <h1 class="hero-title">
+      TOI DJ.<br/>
+      <span class="gradient-text">Тойға арналған мінсіз софт.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Батадан қоштасуға дейінгі 12 кезеңді бір түймемен басқарыңыз. 
+      Жедел Spacebar паузасы, дайын 80+ сахналық отбивкалар және кристалды таза интерфейс.
+    </p>
+
+    <div class="hero-cta">
+      <a href="https://github.com/Azamaperdeev05/toi-dj/releases/download/v1.1.0/TOI-DJ-1.1.0-macOS-arm64.dmg" class="btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.36c.64-.78 1.08-1.86.96-2.95-1 .04-2.14.67-2.8 1.44-.58.67-1.1 1.77-.96 2.84 1.12.09 2.16-.55 2.8-1.33z"/>
+        </svg>
+        macOS үшін жүктеу (DMG)
+      </a>
+
+      <a href="https://github.com/Azamaperdeev05/toi-dj" target="_blank" class="btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        GitHub Репозиторийі
+      </a>
+    </div>
+
+    <div class="platform-chips">
+      <span class="platform-chip">🍏 macOS Apple Silicon (M1/M2/M3/M4)</span>
+      <span class="platform-chip">⚡ 5.3 мс CoreAudio Latency</span>
+      <span class="platform-chip">🇰🇿 Қазақша / Орысша интерфейс</span>
+      <span class="platform-chip">🪟 Windows & Linux дайын</span>
+    </div>
+
+    <!-- Mockup Preview -->
+    <div class="mockup-container">
+      <div class="mockup-window-bar">
+        <div class="window-dot dot-close"></div>
+        <div class="window-dot dot-min"></div>
+        <div class="window-dot dot-max"></div>
+        <div class="window-title">TOI DJ 1.1.0 — LateNight Той Интерфейсі</div>
+      </div>
+      <img src="images/toi-dj-full.png" alt="TOI DJ Бағдарламасының интерфейсі" class="mockup-image" loading="lazy">
+    </div>
+  </section>
+
+  <!-- Bento Grid Features -->
+  <section class="section" id="features">
+    <div class="section-header">
+      <div class="section-eyebrow">Инновациялар</div>
+      <h2 class="section-title">Той диджейінің жұмысына арналған барлық құрал.</h2>
+      <p class="section-desc">Күрделі диджейлік бағдарламалардың шатастыратын батырмалары жоқ. Барлығы той динамикасына сәйкестендірілген.</p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- 12 Stages (Wide Card) -->
+      <div class="bento-card col-8" id="stages">
+        <span class="bento-badge" style="color: #ffd700; border-color: rgba(255, 215, 0, 0.3);">Басты Мүмкіндік</span>
+        <h3 class="bento-title">12 Той Кезеңі (Stage Switching)</h3>
+        <p class="bento-text">
+          Той бір кезеңнен екінші кезеңге өткенде, диджей саспайды. 
+          <code class="kbd-badge">Alt + 1</code>-ден <code class="kbd-badge">Alt + =</code>-ке дейін кез келген кезеңді таңдаңыз — сол кезеңнің реттелген плейлисті автоматты түрде ашылады.
+        </p>
+
+        <div class="stages-preview" id="stagesContainer">
+          <!-- Dynamically populated via JS for interactive clicking -->
+        </div>
+      </div>
+
+      <!-- Spacebar Pause (Col 4) -->
+      <div class="bento-card col-4">
+        <span class="bento-badge" style="color: #30d158; border-color: rgba(48, 209, 88, 0.3);">Ыңғайлылық</span>
+        <h3 class="bento-title">Spacebar Пауза</h3>
+        <p class="bento-text">
+          Тамада микрофонды алғанда немесе сөз бастағанда — Пробелді (Space) бір рет басыңыз. 
+          Қайсы дек ойнап тұрса, сол дек бірден тоқтайды. Қайта бассаңыз — сол жерден жалғасады.
+        </p>
+
+        <div class="spacebar-demo">
+          <div class="space-key-visual" id="spaceKeyBtn">
+            SPACE (Пробел)
+          </div>
+          <div class="space-status" id="spaceStatus">
+            <span class="space-status-dot"></span>
+            <span id="spaceStatusText">ДЕК 1 ОЙНАП ТҰР</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 80+ Otbivka & Tush (Col 4) -->
+      <div class="bento-card col-4">
+        <span class="bento-badge" style="color: #bf5af2; border-color: rgba(191, 90, 242, 0.3);">Сахналық Фонотека</span>
+        <h3 class="bento-title">80+ Тұштар мен Отбивкалар</h3>
+        <p class="bento-text">
+          Қонақ шыққанда, қайтқанда, шапалақ ұрғанда қойылатын таза сахналық отбивкалар. 
+          Артық жаңажылдық және ұзын әндерден тазартылған.
+        </p>
+        
+        <div class="otbivka-list">
+          <div class="otbivka-item">
+            <span>🎺 Фанфар супер шығу</span>
+            <span class="stage-key">15 сек</span>
+          </div>
+          <div class="otbivka-item">
+            <span>👏 Шымкент шапалақ туш</span>
+            <span class="stage-key">24 сек</span>
+          </div>
+          <div class="otbivka-item">
+            <span>🍖 Ет келгенде туш</span>
+            <span class="stage-key">44 сек</span>
+          </div>
+          <div class="otbivka-item">
+            <span>😂 Күлкі және приколдар</span>
+            <span class="stage-key">12 сек</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clean UI (Col 4) -->
+      <div class="bento-card col-4">
+        <span class="bento-badge">Тазалық</span>
+        <h3 class="bento-title">Кристалды Таза Интерфейс</h3>
+        <p class="bento-text">
+          Рейтинг, Жанр, Тональ, BPM сияқты тойға қажетсіз бағандар алынып тасталған. 
+          Тек орындаушы, ән атауы және ұзақтығы ғана қалып, көзді шаршатпайды.
+        </p>
+        <img src="images/toi-dj-sidebar.png" alt="Clean Sidebar" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); margin-top: 10px;">
+      </div>
+
+      <!-- Apple Silicon & Low Latency (Col 4) -->
+      <div class="bento-card col-4">
+        <span class="bento-badge" style="color: #ff9f0a; border-color: rgba(255, 159, 10, 0.3);">Apple Silicon</span>
+        <h3 class="bento-title">5.3 мс CoreAudio Latency</h3>
+        <p class="bento-text">
+          M1, M2, M3, M4 чиптеріне арнайы компиляцияланған. 
+          CoreAudio драйвері арқылы дыбыс бір секундқа да кідірмейді, қатып қалмайды.
+        </p>
+        <div style="font-size: 42px; font-weight: 800; color: #ff9f0a; margin-top: 20px;">
+          5.3 <span style="font-size: 20px; font-weight: 500; color: var(--text-muted);">мс кідіріс</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shortcuts Section -->
+  <section class="section" id="shortcuts">
+    <div class="section-header">
+      <div class="section-eyebrow">Жедел Басқару</div>
+      <h2 class="section-title">Тышқансыз, тек пернетақтамен.</h2>
+      <p class="section-desc">Тойда уақыт тығыз. Басты операциялар үшін пернетақта комбинациялары дайындалған.</p>
+    </div>
+
+    <div class="bento-card col-12" style="padding: 20px 30px;">
+      <table class="shortcuts-table">
+        <thead>
+          <tr>
+            <th>Перне</th>
+            <th>Әрекет</th>
+            <th>Сипаттамасы</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="kbd-badge">Space (Пробел)</span></td>
+            <td><strong>Play / Pause</strong></td>
+            <td>Ойнап тұрған декті лезде тоқтату немесе қайта жалғастыру</td>
+          </tr>
+          <tr>
+            <td><span class="kbd-badge">Alt + 1 .. =</span></td>
+            <td><strong>Той Кезеңдері</strong></td>
+            <td>Бата, Беташар, Кіру, Жар-Жар сияқты 12 кезеңге жедел өту</td>
+          </tr>
+          <tr>
+            <td><span class="kbd-badge">Ctrl + Shift + A</span></td>
+            <td><strong>Deck A-ға жүктеу</strong></td>
+            <td>Таңдалған тректі бірден сол жақтағы Deck 1-ге жүктейді</td>
+          </tr>
+          <tr>
+            <td><span class="kbd-badge">Ctrl + Shift + S</span></td>
+            <td><strong>Deck B-ге жүктеу</strong></td>
+            <td>Таңдалған тректі оң жақтағы Deck 2-ге жүктейді</td>
+          </tr>
+          <tr>
+            <td><span class="kbd-badge">Ctrl + Shift + Q</span></td>
+            <td><strong>Очередьке қосу</strong></td>
+            <td>Әнді кезекке (Queue) қосады</td>
+          </tr>
+          <tr>
+            <td><span class="kbd-badge">Ctrl + Shift + W</span></td>
+            <td><strong>Сұраныстарға салу</strong></td>
+            <td>Қонақтар сұраған әндерді бөлек сұраныс тізіміне жібереді</td>
+          </tr>
+          <tr>
+            <td><span class="kbd-badge">Ctrl + Shift + D</span></td>
+            <td><strong>Таңдаулыларға қосу</strong></td>
+            <td>Хит тректерді сүйіктілер тізіміне сақтайды</td>
+          </tr>
+          <tr>
+            <td><span class="kbd-badge">D / L</span></td>
+            <td><strong>Дек 1 / Дек 2 Play</strong></td>
+            <td>Әр декті жеке-жеке ойнату/пауза жасау</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Platforms Section -->
+  <section class="section" id="platforms">
+    <div class="section-header">
+      <div class="section-eyebrow">Құрылғылар мен Платформалар</div>
+      <h2 class="section-title">Кез келген ноутбукта қолжетімді.</h2>
+      <p class="section-desc">TOI DJ барлық негізгі операциялық жүйелерді қолдайды.</p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- macOS -->
+      <div class="platform-card col-4">
+        <div>
+          <div class="platform-icon">🍏</div>
+          <h3 class="platform-title">macOS</h3>
+          <p class="platform-desc">
+            Apple Silicon (M1/M2/M3/M4) және Intel процессорлары. 
+            DMG орнатушы мен ZIP мұрағат түрінде дайын.
+          </p>
+        </div>
+        <a href="https://github.com/Azamaperdeev05/toi-dj/releases/download/v1.1.0/TOI-DJ-1.1.0-macOS-arm64.dmg" class="platform-btn primary">
+          DMG Жүктеу (124 МБ)
+        </a>
+      </div>
+
+      <!-- Windows -->
+      <div class="platform-card col-4">
+        <div>
+          <div class="platform-icon">🪟</div>
+          <h3 class="platform-title">Windows 10 / 11</h3>
+          <p class="platform-desc">
+            64-биттік Windows жүйелері үшін. 
+            GitHub Actions арқылы автоматты түрде жиналатын релиздер мен бастапқы код.
+          </p>
+        </div>
+        <a href="https://github.com/Azamaperdeev05/toi-dj/releases" class="platform-btn">
+          Релиздер бөліміне өту
+        </a>
+      </div>
+
+      <!-- Linux -->
+      <div class="platform-card col-4">
+        <div>
+          <div class="platform-icon">🐧</div>
+          <h3 class="platform-title">Linux</h3>
+          <p class="platform-desc">
+            Ubuntu, Debian, Fedora, Arch Linux. 
+            Орнатусыз іске қосылатын AppImage және CMake арқылы құрастыру.
+          </p>
+        </div>
+        <a href="https://github.com/Azamaperdeev05/toi-dj#linux-%D2%9B%D2%B1%D1%80%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%83" class="platform-btn">
+          Нұсқаулықты оқу
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section class="section" id="download" style="text-align: center;">
+    <div class="hero-glow"></div>
+    <div class="section-header">
+      <div class="section-eyebrow">Жүктеп Алу</div>
+      <h2 class="section-title">Бүгіннен бастап тойыңызды жаңа деңгейге шығарыңыз.</h2>
+      <p class="section-desc">Толық тегін және ашық бастапқы кодты жоба.</p>
+    </div>
+
+    <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+      <a href="https://github.com/Azamaperdeev05/toi-dj/releases/download/v1.1.0/TOI-DJ-1.1.0-macOS-arm64.dmg" class="btn-primary" style="padding: 18px 40px; font-size: 18px;">
+        🍏 macOS үшін жүктеу (v1.1.0 DMG)
+      </a>
+      <a href="https://github.com/Azamaperdeev05/toi-dj/releases/download/v1.1.0/TOI-DJ-1.1.0-macOS-arm64.zip" class="btn-secondary" style="padding: 18px 30px; font-size: 18px;">
+        📦 ZIP Мұрағат (100 МБ)
+      </a>
+    </div>
+
+    <div style="margin-top: 30px; font-size: 14px; color: var(--text-dim);">
+      Бірінші рет ашқан кезде: <code class="kbd-badge">Control + Басу → Open (Ашу)</code> батырмасын басыңыз.
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div style="font-weight: 700; font-size: 16px; color: #fff;">
+        TOI DJ — Қазақстанның Той Индустриясына арналған
+      </div>
+      <ul class="footer-links">
+        <li><a href="#features">Мүмкіндіктер</a></li>
+        <li><a href="#stages">12 Кезең</a></li>
+        <li><a href="#shortcuts">Пернелер</a></li>
+        <li><a href="https://github.com/Azamaperdeev05/toi-dj" target="_blank">GitHub</a></li>
+        <li><a href="https://github.com/Azamaperdeev05/toi-dj/releases" target="_blank">Релиздер</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        Автор: <strong>Azamat Perdeev</strong> • Лицензиясы: GNU General Public License v2.0 (GPLv2).
+      </div>
+      <div>
+        Mixxx ашық бастапқы платформасы негізінде жасалған.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 12 Stages Data
+    const stages = [
+      { num: 1, name: "ҚОНАҚТАРДЫ КҮТУ", key: "Alt+1", desc: "Фондық жұмсақ әуендер" },
+      { num: 2, name: "ҚАРСЫ АЛУ", key: "Alt+2", desc: "Салтанатты кіру марштары" },
+      { num: 3, name: "ЖАР-ЖАР", key: "Alt+3", desc: "Дәстүрлі жар-жар нұсқалары" },
+      { num: 4, name: "БЕТАШАР", key: "Alt+4", desc: "Беташар домбыра әуендері" },
+      { num: 5, name: "АТА-АНА ТІЛЕГІ", key: "Alt+5", desc: "Әсерлі лирикалық фондар" },
+      { num: 6, name: "НАҒАШЫ ТІЛЕГІ", key: "Alt+6", desc: "Құрметті туыстар шығуы" },
+      { num: 7, name: "ОРТАДАҒЫ АС", key: "Alt+7", desc: "Ет тарту туштары" },
+      { num: 8, name: "ОЙЫН-САУЫҚ", key: "Alt+8", desc: "Сергіту және жарыстар" },
+      { num: 9, name: "КОНКУРСТАР", key: "Alt+9", desc: "Қызықты интерактивтер" },
+      { num: 10, name: "БАТА", key: "Alt+0", desc: "Ақ бата беру сәттері" },
+      { num: 11, name: "ҚОШТАСУ", key: "Alt+-", desc: "Қоштасу вальсі" },
+      { num: 12, name: "АЯҚТАЛДЫ", key: "Alt+=", desc: "Тойдың жабылу әуендері" }
+    ];
+
+    const stagesContainer = document.getElementById('stagesContainer');
+    stages.forEach((st, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'stage-btn' + (idx === 0 ? ' active' : '');
+      btn.innerHTML = `
+        <span>${st.num}. ${st.name}</span>
+        <span class="stage-key">${st.key}</span>
+      `;
+      btn.onclick = () => {
+        document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      };
+      stagesContainer.appendChild(btn);
+    });
+
+    // Spacebar Interactive Demo
+    const spaceKeyBtn = document.getElementById('spaceKeyBtn');
+    const spaceStatusText = document.getElementById('spaceStatusText');
+    const spaceStatusDot = document.querySelector('.space-status-dot');
+    let isPlaying = true;
+
+    function togglePlayback() {
+      isPlaying = !isPlaying;
+      spaceKeyBtn.classList.add('pressed');
+      setTimeout(() => spaceKeyBtn.classList.remove('pressed'), 120);
+
+      if (isPlaying) {
+        spaceStatusText.textContent = "ДЕК 1 ОЙНАП ТҰР (PLAY)";
+        spaceStatusText.style.color = "#30d158";
+        spaceStatusDot.style.background = "#30d158";
+        spaceStatusDot.style.boxShadow = "0 0 10px #30d158";
+      } else {
+        spaceStatusText.textContent = "ТОҚТАТЫЛДЫ (PAUSE)";
+        spaceStatusText.style.color = "#ff9f0a";
+        spaceStatusDot.style.background = "#ff9f0a";
+        spaceStatusDot.style.boxShadow = "0 0 10px #ff9f0a";
+      }
+    }
+
+    spaceKeyBtn.onclick = togglePlayback;
+
+    // Listen to physical spacebar if not focused on input
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        togglePlayback();
+      }
+    });
+  </script>
+</body>
+</html>

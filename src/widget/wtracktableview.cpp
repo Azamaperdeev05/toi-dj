@@ -1249,6 +1249,46 @@ void WTrackTableView::moveSelectedTracks(QKeyEvent* event) {
 
 void WTrackTableView::keyPressEvent(QKeyEvent* event) {
     if (state() != QTableView::EditingState) {
+        // TOI DJ: Spacebar Global Play/Pause ("қайсы ойнап тұр сол стоп")
+        if (event->key() == Qt::Key_Space &&
+                (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
+            if (!event->isAutoRepeat()) {
+                const QStringList deckGroups = {
+                    QStringLiteral("[Channel1]"),
+                    QStringLiteral("[Channel2]"),
+                    QStringLiteral("[Channel3]"),
+                    QStringLiteral("[Channel4]"),
+                    QStringLiteral("[PreviewDeck1]")
+                };
+
+                static QString s_lastActiveDeck = QStringLiteral("[Channel1]");
+                bool anyPlaying = false;
+
+                for (const auto& group : deckGroups) {
+                    if (ControlObject::get(ConfigKey(group, QStringLiteral("play"))) > 0.0) {
+                        anyPlaying = true;
+                        s_lastActiveDeck = group;
+                        ControlObject::set(ConfigKey(group, QStringLiteral("play")), 0.0);
+                    }
+                }
+
+                if (!anyPlaying) {
+                    QString targetDeck = s_lastActiveDeck;
+                    if (ControlObject::get(ConfigKey(targetDeck, QStringLiteral("track_loaded"))) <= 0.0) {
+                        for (const auto& group : deckGroups) {
+                            if (ControlObject::get(ConfigKey(group, QStringLiteral("track_loaded"))) > 0.0) {
+                                targetDeck = group;
+                                break;
+                            }
+                        }
+                    }
+                    ControlObject::set(ConfigKey(targetDeck, QStringLiteral("play")), 1.0);
+                    s_lastActiveDeck = targetDeck;
+                }
+            }
+            return;
+        }
+
         const auto mods = event->modifiers();
         // Use Ctrl+Shift combos to avoid conflicts with Mixxx deck controls
         // (A=beatjump, S=beatjump, Q=beatloop, F=cue on Channel1)

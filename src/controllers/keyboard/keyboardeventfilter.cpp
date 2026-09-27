@@ -60,6 +60,43 @@ bool isEditableTextInput(QObject* object) {
 
     return false;
 }
+
+void toiTogglePlayPause() {
+    const QStringList deckGroups = {
+        QStringLiteral("[Channel1]"),
+        QStringLiteral("[Channel2]"),
+        QStringLiteral("[Channel3]"),
+        QStringLiteral("[Channel4]"),
+        QStringLiteral("[PreviewDeck1]")
+    };
+
+    static QString s_lastActiveDeck = QStringLiteral("[Channel1]");
+    bool anyPlaying = false;
+
+    // Stop whichever deck is currently playing
+    for (const auto& group : deckGroups) {
+        if (ControlObject::get(ConfigKey(group, QStringLiteral("play"))) > 0.0) {
+            anyPlaying = true;
+            s_lastActiveDeck = group;
+            ControlObject::set(ConfigKey(group, QStringLiteral("play")), 0.0);
+        }
+    }
+
+    // If no deck was playing, resume the last active deck or the first deck with a track loaded
+    if (!anyPlaying) {
+        QString targetDeck = s_lastActiveDeck;
+        if (ControlObject::get(ConfigKey(targetDeck, QStringLiteral("track_loaded"))) <= 0.0) {
+            for (const auto& group : deckGroups) {
+                if (ControlObject::get(ConfigKey(group, QStringLiteral("track_loaded"))) > 0.0) {
+                    targetDeck = group;
+                    break;
+                }
+            }
+        }
+        ControlObject::set(ConfigKey(targetDeck, QStringLiteral("play")), 1.0);
+        s_lastActiveDeck = targetDeck;
+    }
+}
 } // anonymous namespace
 
 KeyboardEventFilter::KeyboardEventFilter(UserSettingsPointer pConfig,
@@ -109,6 +146,16 @@ bool KeyboardEventFilter::eventFilter(QObject*, QEvent* e) {
 
         if (isEditableTextInput(QGuiApplication::focusObject())) {
             return false;
+        }
+
+        // TOI DJ: Global Spacebar Play/Pause ("қайсы ойнап тұр сол стоп")
+        if (pKE->key() == Qt::Key_Space &&
+                (pKE->modifiers() == Qt::NoModifier || pKE->modifiers() == Qt::KeypadModifier)) {
+            if (pKE->isAutoRepeat()) {
+                return true;
+            }
+            toiTogglePlayPause();
+            return true;
         }
 
         // TOI DJ: Stage Switching Shortcuts (Alt+1..= only)
@@ -203,6 +250,11 @@ bool KeyboardEventFilter::eventFilter(QObject*, QEvent* e) {
         }
     } else if (e->type() == QEvent::KeyRelease) {
         QKeyEvent* pKE = static_cast<QKeyEvent*>(e);
+
+        if (pKE->key() == Qt::Key_Space &&
+                (pKE->modifiers() == Qt::NoModifier || pKE->modifiers() == Qt::KeypadModifier)) {
+            return true;
+        }
 
 #ifndef __APPLE__
         // QAction hotkeys are consumed by the object that created them, e.g.
