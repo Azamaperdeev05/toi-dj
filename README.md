@@ -21,7 +21,8 @@
 ## 🌐 Ресми Таныстыру Сайты (Official Apple-Style Website)
 
 Бағдарламаның мүмкіндіктерін интерактивті режимде көру үшін ресми сайтқа өтіңіз:  
-👉 **[https://azamaperdeev05.github.io/toi-dj/](https://azamaperdeev05.github.io/toi-dj/)**
+👉 **[https://azamaperdeev05.github.io/toi-dj/](https://azamaperdeev05.github.io/toi-dj/)**  
+*(Сайттың жеке репозиторийі: [Azamaperdeev05/toi-dj-site](https://github.com/Azamaperdeev05/toi-dj-site))*
 
 ---
 
