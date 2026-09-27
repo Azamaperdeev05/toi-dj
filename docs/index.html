@@ -503,6 +503,16 @@
       margin-top: 15px;
     }
 
+    .space-waveform {
+      width: 100%;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 16px;
+      display: block;
+    }
+
     .space-key-visual {
       width: 240px;
       height: 48px;
@@ -864,12 +874,16 @@
         </p>
 
         <div class="spacebar-demo">
+          <canvas id="spaceWaveCanvas" class="space-waveform" width="300" height="44"></canvas>
           <div class="space-key-visual" id="spaceKeyBtn">
-            SPACE (Пробел)
+            SPACE (Пробел басыңыз)
           </div>
           <div class="space-status" id="spaceStatus">
             <span class="space-status-dot"></span>
-            <span id="spaceStatusText">ДЕК 1 ОЙНАП ТҰР</span>
+            <span id="spaceStatusText">ДЕК 1 ОЙНАП ТҰР (PLAY)</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 10px;">
+            🎧 Басып көріңіз — тікелей дыбыс пен визуалды толқын қосылады
           </div>
         </div>
       </div>
@@ -886,19 +900,39 @@
         <div class="otbivka-list">
           <div class="otbivka-item">
             <span>🎺 Фанфар супер шығу</span>
-            <span class="stage-key">15 сек</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="stage-key">15 сек</span>
+              <button class="otbivka-play-btn" data-sound="fanfare" title="Дыбысын тыңдау">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
           </div>
           <div class="otbivka-item">
             <span>👏 Шымкент шапалақ туш</span>
-            <span class="stage-key">24 сек</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="stage-key">24 сек</span>
+              <button class="otbivka-play-btn" data-sound="applause" title="Дыбысын тыңдау">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
           </div>
           <div class="otbivka-item">
             <span>🍖 Ет келгенде туш</span>
-            <span class="stage-key">44 сек</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="stage-key">44 сек</span>
+              <button class="otbivka-play-btn" data-sound="tush" title="Дыбысын тыңдау">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
           </div>
           <div class="otbivka-item">
             <span>😂 Күлкі және приколдар</span>
-            <span class="stage-key">12 сек</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="stage-key">12 сек</span>
+              <button class="otbivka-play-btn" data-sound="laugh" title="Дыбысын тыңдау">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1128,11 +1162,104 @@
       stagesContainer.appendChild(btn);
     });
 
+    // Web Audio API Synthesizer Engine
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Groove Generator (DJ Beat)
+    let grooveTimer = null;
+    let grooveStep = 0;
+
+    function playKick(ctx, time) {
+      try {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.frequency.setValueAtTime(140, time);
+        osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.28);
+        gain.gain.setValueAtTime(0.7, time);
+        gain.gain.exponentialRampToValueAtTime(0.001, time + 0.28);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(time);
+        osc.stop(time + 0.28);
+      } catch(e) {}
+    }
+
+    function playHiHat(ctx, time) {
+      try {
+        const bufferSize = Math.floor(ctx.sampleRate * 0.04);
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'highpass';
+        filter.frequency.value = 6000;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.18, time);
+        gain.gain.exponentialRampToValueAtTime(0.001, time + 0.04);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start(time);
+      } catch(e) {}
+    }
+
+    function playSynthBass(ctx, time, freq) {
+      try {
+        const osc = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, time);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(650, time);
+        filter.frequency.exponentialRampToValueAtTime(150, time + 0.2);
+        gain.gain.setValueAtTime(0.2, time);
+        gain.gain.exponentialRampToValueAtTime(0.001, time + 0.2);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(time);
+        osc.stop(time + 0.2);
+      } catch(e) {}
+    }
+
+    const bassNotes = [110, 110, 130.81, 146.83, 110, 110, 164.81, 146.83];
+
+    function startGroove() {
+      const ctx = getAudioContext();
+      if (grooveTimer) clearInterval(grooveTimer);
+      grooveTimer = setInterval(() => {
+        const now = ctx.currentTime;
+        if (grooveStep % 2 === 0) playKick(ctx, now);
+        if (grooveStep % 2 === 1) playHiHat(ctx, now);
+        playSynthBass(ctx, now, bassNotes[grooveStep % bassNotes.length]);
+        grooveStep = (grooveStep + 1) % 16;
+      }, 125);
+    }
+
+    function stopGroove() {
+      if (grooveTimer) {
+        clearInterval(grooveTimer);
+        grooveTimer = null;
+      }
+    }
+
     // Spacebar Interactive Demo
     const spaceKeyBtn = document.getElementById('spaceKeyBtn');
     const spaceStatusText = document.getElementById('spaceStatusText');
     const spaceStatusDot = document.querySelector('.space-status-dot');
-    let isPlaying = true;
+    let isPlaying = false;
 
     function togglePlayback() {
       isPlaying = !isPlaying;
@@ -1140,11 +1267,13 @@
       setTimeout(() => spaceKeyBtn.classList.remove('pressed'), 120);
 
       if (isPlaying) {
-        spaceStatusText.textContent = "ДЕК 1 ОЙНАП ТҰР (PLAY)";
+        startGroove();
+        spaceStatusText.textContent = "ДЕК 1 ОЙНАП ТҰР (PLAY) 🔊";
         spaceStatusText.style.color = "#30d158";
         spaceStatusDot.style.background = "#30d158";
         spaceStatusDot.style.boxShadow = "0 0 10px #30d158";
       } else {
+        stopGroove();
         spaceStatusText.textContent = "ТОҚТАТЫЛДЫ (PAUSE)";
         spaceStatusText.style.color = "#ff9f0a";
         spaceStatusDot.style.background = "#ff9f0a";
@@ -1160,6 +1289,117 @@
         e.preventDefault();
         togglePlayback();
       }
+    });
+
+    // Waveform Animation Canvas
+    const waveCanvas = document.getElementById('spaceWaveCanvas');
+    if (waveCanvas) {
+      const wCtx = waveCanvas.getContext('2d');
+      let wavePhase = 0;
+      function drawWave() {
+        requestAnimationFrame(drawWave);
+        wCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+        const midY = waveCanvas.height / 2;
+        wCtx.beginPath();
+        wCtx.moveTo(0, midY);
+        for (let x = 0; x < waveCanvas.width; x += 3) {
+          const amp = isPlaying ? Math.sin(x * 0.08 + wavePhase) * 14 * Math.sin(wavePhase * 0.4) : 1;
+          const y = midY + amp;
+          wCtx.lineTo(x, y);
+        }
+        wCtx.strokeStyle = isPlaying ? '#30d158' : 'rgba(255, 255, 255, 0.2)';
+        wCtx.lineWidth = 2;
+        wCtx.stroke();
+        if (isPlaying) wavePhase += 0.18;
+      }
+      drawWave();
+    }
+
+    // Soundboard Synthesizer for Otbivka items
+    function playSoundboard(sound) {
+      const ctx = getAudioContext();
+      const now = ctx.currentTime;
+      
+      if (sound === 'fanfare') {
+        const notes = [
+          { f: 523.25, t: 0, d: 0.12 },
+          { f: 523.25, t: 0.14, d: 0.12 },
+          { f: 523.25, t: 0.28, d: 0.12 },
+          { f: 659.25, t: 0.42, d: 0.18 },
+          { f: 783.99, t: 0.62, d: 0.22 },
+          { f: 1046.50, t: 0.86, d: 0.65 }
+        ];
+        notes.forEach(n => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(n.f, now + n.t);
+          gain.gain.setValueAtTime(0, now + n.t);
+          gain.gain.linearRampToValueAtTime(0.3, now + n.t + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + n.t + n.d);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + n.t);
+          osc.stop(now + n.t + n.d);
+        });
+      } else if (sound === 'applause') {
+        for (let i = 0; i < 20; i++) {
+          const burstTime = now + (i * 0.06) + (Math.random() * 0.03);
+          const bufferSize = Math.floor(ctx.sampleRate * 0.08);
+          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let j = 0; j < bufferSize; j++) data[j] = (Math.random() * 2 - 1) * Math.exp(-j / (ctx.sampleRate * 0.02));
+          const src = ctx.createBufferSource();
+          src.buffer = buffer;
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.value = 1200 + Math.random() * 800;
+          const gain = ctx.createGain();
+          gain.gain.value = 0.25;
+          src.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+          src.start(burstTime);
+        }
+      } else if (sound === 'tush') {
+        [293.66, 369.99, 440.00, 587.33, 880.00].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, now);
+          gain.gain.setValueAtTime(0.25 / (idx + 1), now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 1.2);
+        });
+        playKick(ctx, now);
+        playKick(ctx, now + 0.15);
+        playKick(ctx, now + 0.3);
+      } else if (sound === 'laugh') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(250, now + 0.4);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
+    }
+
+    document.querySelectorAll('.otbivka-play-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const sound = btn.getAttribute('data-sound');
+        playSoundboard(sound);
+        btn.style.transform = 'scale(0.9)';
+        setTimeout(() => btn.style.transform = '', 150);
+      });
     });
   </script>
 </body>
