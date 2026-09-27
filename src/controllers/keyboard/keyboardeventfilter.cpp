@@ -60,8 +60,9 @@ bool isEditableTextInput(QObject* object) {
 
     return false;
 }
+} // anonymous namespace
 
-void toiTogglePlayPause() {
+void KeyboardEventFilter::toiTogglePlayPause() {
     const QStringList deckGroups = {
         QStringLiteral("[Channel1]"),
         QStringLiteral("[Channel2]"),
@@ -82,9 +83,11 @@ void toiTogglePlayPause() {
         }
     }
 
-    // If no deck was playing, resume the last active deck or the first deck with a track loaded
+    // If no deck was playing, resume playback
     if (!anyPlaying) {
         QString targetDeck = s_lastActiveDeck;
+
+        // If target deck has no track loaded, find the first deck with a loaded track
         if (ControlObject::get(ConfigKey(targetDeck, QStringLiteral("track_loaded"))) <= 0.0) {
             for (const auto& group : deckGroups) {
                 if (ControlObject::get(ConfigKey(group, QStringLiteral("track_loaded"))) > 0.0) {
@@ -92,12 +95,37 @@ void toiTogglePlayPause() {
                     break;
                 }
             }
+        } else {
+            // Target deck has a track, but check if it's already finished at the end
+            double pos = ControlObject::get(ConfigKey(targetDeck, QStringLiteral("playposition")));
+            if (pos >= 0.999) {
+                // Look for another deck that is loaded and not finished
+                QString alternateDeck;
+                for (const auto& group : deckGroups) {
+                    if (group != targetDeck &&
+                            ControlObject::get(ConfigKey(group, QStringLiteral("track_loaded"))) > 0.0) {
+                        double altPos = ControlObject::get(ConfigKey(group, QStringLiteral("playposition")));
+                        if (altPos < 0.999) {
+                            alternateDeck = group;
+                            break;
+                        }
+                    }
+                }
+                if (!alternateDeck.isEmpty()) {
+                    targetDeck = alternateDeck;
+                } else {
+                    // Rewind target deck to start so Space can play it from the beginning
+                    ControlObject::set(ConfigKey(targetDeck, QStringLiteral("playposition")), 0.0);
+                }
+            }
         }
-        ControlObject::set(ConfigKey(targetDeck, QStringLiteral("play")), 1.0);
-        s_lastActiveDeck = targetDeck;
+
+        if (ControlObject::get(ConfigKey(targetDeck, QStringLiteral("track_loaded"))) > 0.0) {
+            ControlObject::set(ConfigKey(targetDeck, QStringLiteral("play")), 1.0);
+            s_lastActiveDeck = targetDeck;
+        }
     }
 }
-} // anonymous namespace
 
 KeyboardEventFilter::KeyboardEventFilter(UserSettingsPointer pConfig,
         const QLocale& locale,

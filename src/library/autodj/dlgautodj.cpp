@@ -491,6 +491,10 @@ bool DlgAutoDJ::restoreCurrentViewState() {
 }
 
 void DlgAutoDJ::updateToiTrackStatus() {
+    if (!m_pCurrentTrackLabel || !m_pNextTrackLabel) {
+        return;
+    }
+
     auto formatTrack = [](const TrackPointer& pTrack) -> QString {
         if (!pTrack) {
             return QString();

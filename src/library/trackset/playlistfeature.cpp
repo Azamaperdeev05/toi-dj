@@ -352,6 +352,12 @@ void PlaylistFeature::slotDeleteAllUnlockedPlaylists() {
 }
 
 void PlaylistFeature::ensureDefaultWeddingPlaylists() {
+    static bool s_ensured = false;
+    if (s_ensured) {
+        return;
+    }
+    s_ensured = true;
+
     static const QStringList defaultPlaylists = {
         QString::fromUtf8("⭐ ТАҢДАУЛЫЛАР"),
         QString::fromUtf8("👤 СҰРАНЫСТАР"),

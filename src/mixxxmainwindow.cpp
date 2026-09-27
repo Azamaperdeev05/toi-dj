@@ -847,7 +847,10 @@ void MixxxMainWindow::connectMenuBar() {
             this,
             [this](double v) {
                 if (v > 0) {
-                    slotOptionsPreferences();
+                    QMetaObject::invokeMethod(
+                            this,
+                            &MixxxMainWindow::slotOptionsPreferences,
+                            Qt::QueuedConnection);
                 }
             });
     connect(m_pMenuBar,

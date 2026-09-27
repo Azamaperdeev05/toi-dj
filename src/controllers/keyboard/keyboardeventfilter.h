@@ -39,6 +39,9 @@ class KeyboardEventFilter : public QObject {
     // Returns a valid QString with modifier keys from a QKeyEvent
     static QKeySequence getKeySeq(QKeyEvent* e);
 
+    // TOI DJ: Global Spacebar play/pause handler
+    static void toiTogglePlayPause();
+
     bool isEnabled() {
         return m_enabled;
     }

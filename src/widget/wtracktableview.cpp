@@ -8,6 +8,7 @@
 #include <QUrl>
 
 #include "control/controlobject.h"
+#include "controllers/keyboard/keyboardeventfilter.h"
 #include "library/dao/trackschema.h"
 #include "library/library.h"
 #include "library/library_prefs.h"
@@ -1253,38 +1254,7 @@ void WTrackTableView::keyPressEvent(QKeyEvent* event) {
         if (event->key() == Qt::Key_Space &&
                 (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
             if (!event->isAutoRepeat()) {
-                const QStringList deckGroups = {
-                    QStringLiteral("[Channel1]"),
-                    QStringLiteral("[Channel2]"),
-                    QStringLiteral("[Channel3]"),
-                    QStringLiteral("[Channel4]"),
-                    QStringLiteral("[PreviewDeck1]")
-                };
-
-                static QString s_lastActiveDeck = QStringLiteral("[Channel1]");
-                bool anyPlaying = false;
-
-                for (const auto& group : deckGroups) {
-                    if (ControlObject::get(ConfigKey(group, QStringLiteral("play"))) > 0.0) {
-                        anyPlaying = true;
-                        s_lastActiveDeck = group;
-                        ControlObject::set(ConfigKey(group, QStringLiteral("play")), 0.0);
-                    }
-                }
-
-                if (!anyPlaying) {
-                    QString targetDeck = s_lastActiveDeck;
-                    if (ControlObject::get(ConfigKey(targetDeck, QStringLiteral("track_loaded"))) <= 0.0) {
-                        for (const auto& group : deckGroups) {
-                            if (ControlObject::get(ConfigKey(group, QStringLiteral("track_loaded"))) > 0.0) {
-                                targetDeck = group;
-                                break;
-                            }
-                        }
-                    }
-                    ControlObject::set(ConfigKey(targetDeck, QStringLiteral("play")), 1.0);
-                    s_lastActiveDeck = targetDeck;
-                }
+                KeyboardEventFilter::toiTogglePlayPause();
             }
             return;
         }
